@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 
+import rootReducer from "./rootReducer"
+
 export default configureStore({
-  reducer: {
-    counter: 1,
-  },
+  reducer: rootReducer,
 })
