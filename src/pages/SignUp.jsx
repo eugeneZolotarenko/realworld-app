@@ -1,6 +1,29 @@
-import React from "react"
+import React, { useState } from "react"
+
+import userAPI from "../lib/api/user"
 
 function SignUp() {
+  const [userName, setUserName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  function registerUser(e) {
+    e.preventDefault()
+    console.log(userName)
+  }
+
+  function handleUserName(e) {
+    setUserName(e.target.value)
+  }
+
+  function handleEmail(e) {
+    setEmail(e.target.value)
+  }
+
+  function handlePassword(e) {
+    setPassword(e.target.value)
+  }
+
   return (
     <div className='auth-page'>
       <div className='container page'>
@@ -15,12 +38,13 @@ function SignUp() {
               <li>That email is already taken</li>
             </ul>
 
-            <form>
+            <form onSubmit={registerUser}>
               <fieldset className='form-group'>
                 <input
                   className='form-control form-control-lg'
                   type='text'
                   placeholder='Your Name'
+                  onChange={handleUserName}
                 />
               </fieldset>
               <fieldset className='form-group'>
@@ -28,6 +52,7 @@ function SignUp() {
                   className='form-control form-control-lg'
                   type='text'
                   placeholder='Email'
+                  onChange={handleEmail}
                 />
               </fieldset>
               <fieldset className='form-group'>
@@ -35,9 +60,12 @@ function SignUp() {
                   className='form-control form-control-lg'
                   type='password'
                   placeholder='Password'
+                  onChange={handlePassword}
                 />
               </fieldset>
-              <button className='btn btn-lg btn-primary pull-xs-right'>
+              <button
+                type='submit'
+                className='btn btn-lg btn-primary pull-xs-right'>
                 Sign up
               </button>
             </form>
