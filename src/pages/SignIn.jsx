@@ -1,6 +1,30 @@
-import React from "react"
+import React, { useState } from "react"
+
+import userAPI from "../lib/api/user"
 
 function SignIn() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const handleLoginUser = async (e) => {
+    e.preventDefault()
+    try {
+      const { user, status } = await userAPI.login(email, password)
+      console.log(user)
+      console.log(status)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  function handleEmail(e) {
+    setEmail(e.target.value)
+  }
+
+  function handlePassword(e) {
+    setPassword(e.target.value)
+  }
+
   return (
     <div className='auth-page'>
       <div className='container page'>
@@ -15,19 +39,13 @@ function SignIn() {
               <li>That email is already taken</li>
             </ul>
 
-            <form>
-              <fieldset className='form-group'>
-                <input
-                  className='form-control form-control-lg'
-                  type='text'
-                  placeholder='Your Name'
-                />
-              </fieldset>
+            <form onSubmit={handleLoginUser}>
               <fieldset className='form-group'>
                 <input
                   className='form-control form-control-lg'
                   type='text'
                   placeholder='Email'
+                  onChange={handleEmail}
                 />
               </fieldset>
               <fieldset className='form-group'>
@@ -35,10 +53,13 @@ function SignIn() {
                   className='form-control form-control-lg'
                   type='password'
                   placeholder='Password'
+                  onChange={handlePassword}
                 />
               </fieldset>
-              <button className='btn btn-lg btn-primary pull-xs-right'>
-                Sign up
+              <button
+                type='submit'
+                className='btn btn-lg btn-primary pull-xs-right'>
+                Sign in
               </button>
             </form>
           </div>
