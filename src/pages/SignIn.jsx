@@ -1,8 +1,12 @@
 import React, { useState } from "react"
+import { connect } from "react-redux"
 
 import userAPI from "../lib/api/user"
+import { setCurrentUser } from "../redux/slices/userSlice"
 
-function SignIn() {
+const mapDispatch = { setCurrentUser }
+
+function SignIn({ setCurrentUser }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -12,6 +16,7 @@ function SignIn() {
       const { user, status } = await userAPI.login(email, password)
       console.log(user)
       console.log(status)
+      setCurrentUser(user)
     } catch (error) {
       console.error(error)
     }
@@ -69,4 +74,4 @@ function SignIn() {
   )
 }
 
-export default SignIn
+export default connect(null, mapDispatch)(SignIn)
