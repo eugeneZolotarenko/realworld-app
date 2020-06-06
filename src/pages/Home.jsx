@@ -1,6 +1,11 @@
 import React from "react"
+import { connect } from "react-redux"
 
-function Home() {
+const mapState = (state) => state
+
+function Home(mapState) {
+  console.log(mapState.user)
+
   return (
     <div className='home-page'>
       <div className='banner'>
@@ -114,4 +119,4 @@ function Home() {
   )
 }
 
-export default Home
+export default connect(mapState)(Home)

@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
 
+import history from "../lib/utils/history"
 import userAPI from "../lib/api/user"
 import { setCurrentUser } from "../redux/slices/userSlice"
 
@@ -14,9 +15,12 @@ function SignIn({ setCurrentUser }) {
     e.preventDefault()
     try {
       const { user, status } = await userAPI.login(email, password)
-      console.log(user)
-      console.log(status)
-      setCurrentUser(user)
+      if (status !== 200) {
+        console.log("errror")
+      } else {
+        setCurrentUser(user)
+        history.push("/")
+      }
     } catch (error) {
       console.error(error)
     }
