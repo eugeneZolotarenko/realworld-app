@@ -28,6 +28,7 @@ const userAPI = {
       const data = await response.json()
       const { status } = response
       const { user } = data
+      console.log(user)
       return { status, user }
     } catch (e) {
       return e

@@ -5,8 +5,7 @@ const userSlice = createSlice({
   initialState: [],
   reducers: {
     setCurrentUser(state, action) {
-      const { id } = action.payload
-      state.push({ id })
+      state.push(action.payload)
     },
   },
 })
