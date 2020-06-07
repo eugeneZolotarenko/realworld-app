@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 
 import ArticlesList from "../components/Home/ArticlesList"
+import Pagination from "../components/Pagination"
 
 const mapState = (state) => state
 
@@ -36,6 +37,7 @@ function Home({ user }) {
             </div>
 
             <ArticlesList />
+            <Pagination />
           </div>
 
           <div className='col-md-3'>

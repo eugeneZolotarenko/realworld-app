@@ -2,55 +2,34 @@ import React, { useEffect } from "react"
 import { connect } from "react-redux"
 
 import articlesAPI from "../../lib/api/articles"
-import { setArticles } from "../../redux/slices/articlesSlice"
+import { setArticlesData } from "../../redux/slices/articlesSlice"
+import ArticlePreview from "./ArticlePreview"
 
-const mapDispatch = { setArticles }
+const mapDispatch = { setArticlesData }
 const mapState = (state) => state
 
-function ArticlesList({ setArticles, articles }) {
+function ArticlesList({ setArticlesData, articlesData }) {
   useEffect(() => {
     async function getAllArticles() {
-      const allArticles = await articlesAPI.getAll()
-      setArticles(allArticles)
+      const allArticles = await articlesAPI.getAll(articlesData.page)
+      setArticlesData(allArticles)
     }
     getAllArticles()
-  }, [setArticles])
+  }, [setArticlesData, articlesData.page])
 
-  articles && articles.length && console.log(articles)
-
-  if (!articles) {
+  if (!articlesData) {
     return <p>Loading...</p>
   }
-  if (!articles.length) {
+  if (!articlesData.articles.length) {
     return <p>Loading...</p>
   }
+
+  console.log(articlesData)
 
   return (
     <>
-      {articles[0].map((article) => {
-        return (
-          <div className='article-preview'>
-            <div className='article-meta'>
-              <a href='profile.html'>
-                <img src='http://i.imgur.com/Qr71crq.jpg' />
-              </a>
-              <div className='info'>
-                <a href='' className='author'>
-                  Eric Simons
-                </a>
-                <span className='date'>January 20th</span>
-              </div>
-              <button className='btn btn-outline-primary btn-sm pull-xs-right'>
-                <i className='ion-heart'></i> 29
-              </button>
-            </div>
-            <a href='' className='preview-link'>
-              <h1>How to build webapps that scale</h1>
-              <p>This is the description for the post.</p>
-              <span>Read more...</span>
-            </a>
-          </div>
-        )
+      {articlesData.articles.map((article, i) => {
+        return <ArticlePreview article={article} key={i} />
       })}
     </>
   )

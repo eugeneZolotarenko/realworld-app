@@ -5,5 +5,5 @@ import articlesReducer from "./slices/articlesSlice"
 
 export default combineReducers({
   user: userReducer,
-  articles: articlesReducer,
+  articlesData: articlesReducer,
 })
