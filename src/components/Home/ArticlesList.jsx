@@ -24,8 +24,6 @@ function ArticlesList({ setArticlesData, articlesData }) {
     return <p>Loading...</p>
   }
 
-  console.log(articlesData)
-
   return (
     <>
       {articlesData.articles.map((article, i) => {

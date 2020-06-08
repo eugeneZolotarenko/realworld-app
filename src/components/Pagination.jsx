@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef, useEffect } from "react"
 import { connect } from "react-redux"
 
 import { setArticlesPage } from "../redux/slices/articlesSlice"
@@ -13,61 +13,98 @@ function Pagination({ setArticlesPage, articlesData }) {
     { length: count / ARTICLES_ON_ONE_PAGE },
     (v, i) => i + 1
   )
+  const from = useRef(0)
+  const to = useRef(10)
+
+  useEffect(() => {
+    function calculatePagination() {
+      if (page > from.current + 2 && to.current > 10) {
+        // setFrom(from - 1)
+        // setTo(to - 1)
+        from.current = from.current - 1
+        to.current = to.current - 1
+      } else if (page > to.current - 3) {
+        // setFrom(from + 1)
+        // setTo(to + 1)
+        to.current = to.current + 1
+        from.current = from.current + 1
+      }
+      // return { from, to }
+    }
+    calculatePagination()
+    // from.current = from.current + 1
+  }, [page])
+
+  // console.log(calculatePagination())
 
   return (
     <nav>
       <ul className='pagination'>
         <li className='page-item'>
-          <a className='page-link'>&lt;&lt;</a>
+          <button
+            onClick={() => setArticlesPage(1)}
+            style={{ display: page !== 1 ? "block" : "none" }}
+            className='page-link'>
+            &lt;&lt;
+          </button>
+          <button
+            onClick={() => setArticlesPage(page - 1)}
+            style={{ display: page !== 1 ? "block" : "none" }}
+            className='page-link'>
+            &lt;
+          </button>
         </li>
-        {pages.map((eachPage) => {
-          return (
-            <li
-              key={eachPage}
-              className={eachPage === page ? "page-item active" : "page-item"}>
-              <a
-                onClick={() => setArticlesPage(eachPage)}
-                className='page-link'>
-                {eachPage}
-              </a>
-            </li>
-          )
-        })}
-        {/* <li className='page-item active'>
-          <a className='page-link'>1</a>
+
+        {pages.length <= 10 &&
+          pages.map((eachPage) => {
+            return (
+              <li
+                key={eachPage}
+                className={
+                  eachPage === page ? "page-item active" : "page-item"
+                }>
+                <button
+                  onClick={() => setArticlesPage(eachPage)}
+                  className='page-link'>
+                  {eachPage}
+                </button>
+              </li>
+            )
+          })}
+
+        {pages.length > 10 &&
+          [...pages].slice(0, 10).map((eachPage) => {
+            return (
+              <li
+                key={eachPage}
+                className={
+                  eachPage === page ? "page-item active" : "page-item"
+                }>
+                <button
+                  onClick={() => setArticlesPage(eachPage)}
+                  className='page-link'>
+                  {eachPage}
+                </button>
+              </li>
+            )
+          })}
+
+        <li className='page-item'>
+          <button
+            onClick={() => setArticlesPage(page + 1)}
+            style={{ display: page !== pages.length ? "block" : "none" }}
+            className='page-link'>
+            &gt;
+          </button>
         </li>
         <li className='page-item'>
-          <a className='page-link'>2</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>3</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>4</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>5</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>6</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>7</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>8</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>9</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>10</a>
-        </li> */}
-        <li className='page-item'>
-          <a className='page-link'>&gt;</a>
-        </li>
-        <li className='page-item'>
-          <a className='page-link'>&gt;&gt;</a>
+          <button
+            onClick={() => setArticlesPage(pages.length)}
+            style={{ display: page !== pages.length ? "block" : "none" }}
+            className='page-link'>
+            &gt;&gt;
+          </button>
+          <button className='page-link'>{from.current}</button>
         </li>
       </ul>
     </nav>
