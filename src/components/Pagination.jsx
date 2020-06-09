@@ -18,37 +18,68 @@ function Pagination({ setArticlesPage, articlesData }) {
 
   useEffect(() => {
     function calculatePagination() {
-      if (page > from.current + 2 && to.current > 10) {
-        // setFrom(from - 1)
-        // setTo(to - 1)
-        from.current = from.current - 1
-        to.current = to.current - 1
-      } else if (page > to.current - 3) {
-        // setFrom(from + 1)
-        // setTo(to + 1)
-        to.current = to.current + 1
-        from.current = from.current + 1
+      if (page < pages.length - 5) {
+        if (page > to.current - 3) {
+          to.current = to.current + 1
+          from.current = from.current + 1
+        }
+        if (page > to.current - 2) {
+          to.current = to.current + 2
+          from.current = from.current + 2
+        }
+        if (page > to.current - 1) {
+          to.current = to.current + 3
+          from.current = from.current + 3
+        }
       }
-      // return { from, to }
+      if (page === 2) {
+        from.current = 0
+        to.current = 10
+      }
+      if (page > 4) {
+        if (page < from.current + 1) {
+          to.current = to.current - 1
+          from.current = from.current - 1
+        }
+        if (page < from.current + 2) {
+          console.log("there")
+          to.current = to.current - 2
+          from.current = from.current - 2
+        }
+        if (page < from.current + 3) {
+          to.current = to.current - 3
+          from.current = from.current - 3
+        }
+      }
     }
     calculatePagination()
-    // from.current = from.current + 1
   }, [page])
 
-  // console.log(calculatePagination())
+  console.log(from.current)
 
   return (
     <nav>
       <ul className='pagination'>
         <li className='page-item'>
           <button
-            onClick={() => setArticlesPage(1)}
+            onClick={() => {
+              setArticlesPage(1)
+              from.current = 0
+              to.current = 10
+            }}
             style={{ display: page !== 1 ? "block" : "none" }}
             className='page-link'>
             &lt;&lt;
           </button>
           <button
-            onClick={() => setArticlesPage(page - 1)}
+            onClick={() => {
+              setArticlesPage(page - 1)
+              if (from.current !== 0 && to.current !== pages.length) {
+                console.log(from.current)
+                from.current = from.current - 1
+                to.current = to.current - 1
+              }
+            }}
             style={{ display: page !== 1 ? "block" : "none" }}
             className='page-link'>
             &lt;
@@ -73,7 +104,7 @@ function Pagination({ setArticlesPage, articlesData }) {
           })}
 
         {pages.length > 10 &&
-          [...pages].slice(0, 10).map((eachPage) => {
+          [...pages].slice(from.current, to.current).map((eachPage) => {
             return (
               <li
                 key={eachPage}
@@ -81,7 +112,10 @@ function Pagination({ setArticlesPage, articlesData }) {
                   eachPage === page ? "page-item active" : "page-item"
                 }>
                 <button
-                  onClick={() => setArticlesPage(eachPage)}
+                  onClick={() => {
+                    setArticlesPage(eachPage)
+                    console.log(eachPage)
+                  }}
                   className='page-link'>
                   {eachPage}
                 </button>
@@ -91,7 +125,11 @@ function Pagination({ setArticlesPage, articlesData }) {
 
         <li className='page-item'>
           <button
-            onClick={() => setArticlesPage(page + 1)}
+            onClick={() => {
+              setArticlesPage(page + 1)
+              from.current = from.current + 1
+              to.current = to.current + 1
+            }}
             style={{ display: page !== pages.length ? "block" : "none" }}
             className='page-link'>
             &gt;
@@ -99,7 +137,11 @@ function Pagination({ setArticlesPage, articlesData }) {
         </li>
         <li className='page-item'>
           <button
-            onClick={() => setArticlesPage(pages.length)}
+            onClick={() => {
+              setArticlesPage(pages.length)
+              from.current = pages.length - 10
+              to.current = pages.length
+            }}
             style={{ display: page !== pages.length ? "block" : "none" }}
             className='page-link'>
             &gt;&gt;
