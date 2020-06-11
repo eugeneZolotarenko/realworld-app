@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react"
 import { connect } from "react-redux"
 
 import { setArticlesPage } from "../redux/slices/articlesSlice"
+import { calculatePagination } from "../lib/utils/calculatePagination"
 import { ARTICLES_ON_ONE_PAGE } from "../lib/utils/constants"
 
 const mapDispatch = { setArticlesPage }
@@ -17,45 +18,8 @@ function Pagination({ setArticlesPage, articlesData }) {
   const to = useRef(10)
 
   useEffect(() => {
-    function calculatePagination() {
-      if (page < pages.length - 5) {
-        if (page > to.current - 3) {
-          to.current = to.current + 1
-          from.current = from.current + 1
-        }
-        if (page > to.current - 2) {
-          to.current = to.current + 2
-          from.current = from.current + 2
-        }
-        if (page > to.current - 1) {
-          to.current = to.current + 3
-          from.current = from.current + 3
-        }
-      }
-      if (page === 2) {
-        from.current = 0
-        to.current = 10
-      }
-      if (page > 4) {
-        if (page < from.current + 1) {
-          to.current = to.current - 1
-          from.current = from.current - 1
-        }
-        if (page < from.current + 2) {
-          console.log("there")
-          to.current = to.current - 2
-          from.current = from.current - 2
-        }
-        if (page < from.current + 3) {
-          to.current = to.current - 3
-          from.current = from.current - 3
-        }
-      }
-    }
-    calculatePagination()
+    calculatePagination({ page, pages, to, from })
   }, [page])
-
-  console.log(from.current)
 
   return (
     <nav>
@@ -64,18 +28,23 @@ function Pagination({ setArticlesPage, articlesData }) {
           <button
             onClick={() => {
               setArticlesPage(1)
-              from.current = 0
-              to.current = 10
+              if (pages.length > 10) {
+                from.current = 0
+                to.current = 10
+              }
             }}
             style={{ display: page !== 1 ? "block" : "none" }}
             className='page-link'>
-            &lt;&lt;
+            &lt;&lt; 1
           </button>
           <button
             onClick={() => {
               setArticlesPage(page - 1)
-              if (from.current !== 0 && to.current !== pages.length) {
-                console.log(from.current)
+              if (
+                from.current !== 0 &&
+                to.current !== pages.length &&
+                pages.length > 10
+              ) {
                 from.current = from.current - 1
                 to.current = to.current - 1
               }
@@ -114,7 +83,6 @@ function Pagination({ setArticlesPage, articlesData }) {
                 <button
                   onClick={() => {
                     setArticlesPage(eachPage)
-                    console.log(eachPage)
                   }}
                   className='page-link'>
                   {eachPage}
@@ -127,8 +95,10 @@ function Pagination({ setArticlesPage, articlesData }) {
           <button
             onClick={() => {
               setArticlesPage(page + 1)
-              from.current = from.current + 1
-              to.current = to.current + 1
+              if (pages.length > 10) {
+                from.current = from.current + 1
+                to.current = to.current + 1
+              }
             }}
             style={{ display: page !== pages.length ? "block" : "none" }}
             className='page-link'>
@@ -139,14 +109,15 @@ function Pagination({ setArticlesPage, articlesData }) {
           <button
             onClick={() => {
               setArticlesPage(pages.length)
-              from.current = pages.length - 10
-              to.current = pages.length
+              if (pages.length > 10) {
+                from.current = pages.length - 10
+                to.current = pages.length
+              }
             }}
             style={{ display: page !== pages.length ? "block" : "none" }}
             className='page-link'>
-            &gt;&gt;
+            {pages.length} &gt;&gt;
           </button>
-          <button className='page-link'>{from.current}</button>
         </li>
       </ul>
     </nav>

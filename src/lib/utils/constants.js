@@ -1,2 +1,2 @@
 export const API_URL = "https://conduit.productionready.io/api"
-export const ARTICLES_ON_ONE_PAGE = 6
+export const ARTICLES_ON_ONE_PAGE = 10
