@@ -10,12 +10,23 @@ const mapState = (state) => state
 
 function ArticlesList({ setArticlesData, articlesData }) {
   useEffect(() => {
-    async function getAllArticles() {
-      const allArticles = await articlesAPI.getAll(articlesData.page)
-      setArticlesData(allArticles)
+    if (articlesData.tag) {
+      async function getArticlesByTag() {
+        const ByTagArticles = await articlesAPI.filterByTag(
+          articlesData.page,
+          articlesData.tag
+        )
+        setArticlesData(ByTagArticles)
+      }
+      getArticlesByTag()
+    } else {
+      async function getAllArticles() {
+        const allArticles = await articlesAPI.getAll(articlesData.page)
+        setArticlesData(allArticles)
+      }
+      getAllArticles()
     }
-    getAllArticles()
-  }, [setArticlesData, articlesData.page])
+  }, [setArticlesData, articlesData.page, articlesData.tag])
 
   if (!articlesData) {
     return <p>Loading...</p>

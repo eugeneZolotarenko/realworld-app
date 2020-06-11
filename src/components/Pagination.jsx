@@ -19,7 +19,8 @@ function Pagination({ setArticlesPage, articlesData }) {
 
   useEffect(() => {
     calculatePagination({ page, pages, to, from })
-  }, [page])
+    console.log({ page, pages })
+  }, [page, pages])
 
   return (
     <nav>

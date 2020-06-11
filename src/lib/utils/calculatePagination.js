@@ -27,15 +27,11 @@ export function calculatePagination({ page, pages, to, from }) {
       from.current = from.current - 1
     }
   }
-  if (
-    page === pages.length - 4 ||
-    page === pages.length - 3 ||
-    page === pages.length - 2
-  ) {
+  if (page >= pages.length - 4) {
     from.current = pages.length - 10
     to.current = pages.length
   }
-  if (page === 2 || page === 3 || page === 4) {
+  if (page <= 4) {
     from.current = 0
     to.current = 10
   }

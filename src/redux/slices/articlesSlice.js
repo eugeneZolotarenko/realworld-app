@@ -6,6 +6,7 @@ const articlesSlice = createSlice({
     articles: [],
     count: 0,
     page: 1,
+    tag: "",
   },
   reducers: {
     setArticlesData(state, action) {
@@ -14,12 +15,18 @@ const articlesSlice = createSlice({
       state.count = action.payload.articlesCount
     },
     setArticlesPage(state, action) {
-      console.log(action)
       state.page = action.payload
+    },
+    setArticlesTag(state, action) {
+      state.tag = action.payload
     },
   },
 })
 
-export const { setArticlesData, setArticlesPage } = articlesSlice.actions
+export const {
+  setArticlesData,
+  setArticlesPage,
+  setArticlesTag,
+} = articlesSlice.actions
 
 export default articlesSlice.reducer
