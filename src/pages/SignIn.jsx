@@ -18,8 +18,8 @@ function SignIn({ setCurrentUser }) {
       if (status !== 200) {
         console.log("errror")
       } else {
-        setCurrentUser(user)
         history.push("/")
+        setCurrentUser(user)
       }
     } catch (error) {
       console.error(error)

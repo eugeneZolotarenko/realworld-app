@@ -8,7 +8,7 @@ import ArticlePreview from "./ArticlePreview"
 const mapDispatch = { setArticlesData }
 const mapState = (state) => state
 
-function ArticlesList({ setArticlesData, articlesData }) {
+function ArticlesList({ setArticlesData, articlesData, user }) {
   useEffect(() => {
     if (articlesData.tag) {
       async function getArticlesByTag() {
@@ -19,6 +19,15 @@ function ArticlesList({ setArticlesData, articlesData }) {
         setArticlesData(ByTagArticles)
       }
       getArticlesByTag()
+    } else if (articlesData.feed && user.token) {
+      async function getArticlesFeeds() {
+        const feedArticles = await articlesAPI.getFeeds(
+          articlesData.page,
+          user.token
+        )
+        setArticlesData(feedArticles)
+      }
+      getArticlesFeeds()
     } else {
       async function getAllArticles() {
         const allArticles = await articlesAPI.getAll(articlesData.page)
@@ -26,7 +35,13 @@ function ArticlesList({ setArticlesData, articlesData }) {
       }
       getAllArticles()
     }
-  }, [setArticlesData, articlesData.page, articlesData.tag])
+  }, [
+    setArticlesData,
+    articlesData.page,
+    articlesData.tag,
+    articlesData.feed,
+    user.token,
+  ])
 
   if (!articlesData) {
     return <p>Loading...</p>

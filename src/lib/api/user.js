@@ -34,6 +34,19 @@ const userAPI = {
       return e
     }
   },
+  currentUser: async (token) => {
+    try {
+      const response = await fetch(`/user`, {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${encodeURIComponent(token)}`,
+        },
+      })
+      return response
+    } catch (e) {
+      return e
+    }
+  },
 }
 
 export default userAPI

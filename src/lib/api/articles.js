@@ -40,6 +40,26 @@ const articlesAPI = {
       return e
     }
   },
+  getFeeds: async (page, token) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/articles/feed?limit=${ARTICLES_ON_ONE_PAGE}&offset=${
+          page === 1 ? 0 : ARTICLES_ON_ONE_PAGE * (page - 1)
+        }`,
+        {
+          method: "GET",
+          headers: {
+            authorization: `Token ${encodeURIComponent(token)}`,
+          },
+        }
+      )
+      console.log(response)
+      const data = await response.json()
+      return data
+    } catch (e) {
+      return e
+    }
+  },
   getTags: async () => {
     try {
       const response = await fetch(`${API_URL}/tags`, {

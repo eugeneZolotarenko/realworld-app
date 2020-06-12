@@ -7,6 +7,7 @@ const articlesSlice = createSlice({
     count: 0,
     page: 1,
     tag: "",
+    feed: false,
   },
   reducers: {
     setArticlesData(state, action) {
@@ -20,6 +21,9 @@ const articlesSlice = createSlice({
     setArticlesTag(state, action) {
       state.tag = action.payload
     },
+    setArticlesFeed(state, action) {
+      state.feed = action.payload
+    },
   },
 })
 
@@ -27,6 +31,7 @@ export const {
   setArticlesData,
   setArticlesPage,
   setArticlesTag,
+  setArticlesFeed,
 } = articlesSlice.actions
 
 export default articlesSlice.reducer

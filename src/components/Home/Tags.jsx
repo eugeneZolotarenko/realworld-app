@@ -5,12 +5,13 @@ import articlesAPI from "../../lib/api/articles"
 import {
   setArticlesTag,
   setArticlesPage,
+  setArticlesFeed,
 } from "../../redux/slices/articlesSlice"
 
-const mapDispatch = { setArticlesTag, setArticlesPage }
+const mapDispatch = { setArticlesTag, setArticlesPage, setArticlesFeed }
 const mapState = (state) => state
 
-function Tags({ setArticlesTag, setArticlesPage }) {
+function Tags({ setArticlesTag, setArticlesPage, setArticlesFeed }) {
   const [tagsList, setTagsList] = useState()
 
   useEffect(() => {
@@ -32,6 +33,7 @@ function Tags({ setArticlesTag, setArticlesPage }) {
             onClick={() => {
               setArticlesPage(1)
               setArticlesTag(tag)
+              setArticlesFeed(false)
             }}
             key={i}
             className='tag-pill tag-default'>

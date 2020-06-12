@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import { setArticlesPage } from "../redux/slices/articlesSlice"
 import { calculatePagination } from "../lib/utils/calculatePagination"
 import { ARTICLES_ON_ONE_PAGE } from "../lib/utils/constants"
+import { ITEMS_IN_PAGINATION } from "../lib/utils/constants"
 
 const mapDispatch = { setArticlesPage }
 const mapState = (state) => state
@@ -15,11 +16,10 @@ function Pagination({ setArticlesPage, articlesData }) {
     (v, i) => i + 1
   )
   const from = useRef(0)
-  const to = useRef(10)
+  const to = useRef(ITEMS_IN_PAGINATION)
 
   useEffect(() => {
     calculatePagination({ page, pages, to, from })
-    console.log({ page, pages })
   }, [page, pages])
 
   return (
@@ -29,9 +29,9 @@ function Pagination({ setArticlesPage, articlesData }) {
           <button
             onClick={() => {
               setArticlesPage(1)
-              if (pages.length > 10) {
+              if (pages.length > ITEMS_IN_PAGINATION) {
                 from.current = 0
-                to.current = 10
+                to.current = ITEMS_IN_PAGINATION
               }
             }}
             style={{ display: page !== 1 ? "block" : "none" }}
@@ -41,11 +41,7 @@ function Pagination({ setArticlesPage, articlesData }) {
           <button
             onClick={() => {
               setArticlesPage(page - 1)
-              if (
-                from.current !== 0 &&
-                to.current !== pages.length &&
-                pages.length > 10
-              ) {
+              if (from.current !== 0 && pages.length > ITEMS_IN_PAGINATION) {
                 from.current = from.current - 1
                 to.current = to.current - 1
               }
@@ -56,7 +52,7 @@ function Pagination({ setArticlesPage, articlesData }) {
           </button>
         </li>
 
-        {pages.length <= 10 &&
+        {pages.length <= ITEMS_IN_PAGINATION &&
           pages.map((eachPage) => {
             return (
               <li
@@ -73,7 +69,7 @@ function Pagination({ setArticlesPage, articlesData }) {
             )
           })}
 
-        {pages.length > 10 &&
+        {pages.length > ITEMS_IN_PAGINATION &&
           [...pages].slice(from.current, to.current).map((eachPage) => {
             return (
               <li
@@ -82,9 +78,7 @@ function Pagination({ setArticlesPage, articlesData }) {
                   eachPage === page ? "page-item active" : "page-item"
                 }>
                 <button
-                  onClick={() => {
-                    setArticlesPage(eachPage)
-                  }}
+                  onClick={() => setArticlesPage(eachPage)}
                   className='page-link'>
                   {eachPage}
                 </button>
@@ -96,7 +90,7 @@ function Pagination({ setArticlesPage, articlesData }) {
           <button
             onClick={() => {
               setArticlesPage(page + 1)
-              if (pages.length > 10) {
+              if (pages.length > ITEMS_IN_PAGINATION) {
                 from.current = from.current + 1
                 to.current = to.current + 1
               }
@@ -110,8 +104,8 @@ function Pagination({ setArticlesPage, articlesData }) {
           <button
             onClick={() => {
               setArticlesPage(pages.length)
-              if (pages.length > 10) {
-                from.current = pages.length - 10
+              if (pages.length > ITEMS_IN_PAGINATION) {
+                from.current = pages.length - ITEMS_IN_PAGINATION
                 to.current = pages.length
               }
             }}

@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Route, Switch } from "react-router-dom"
+import { connect } from "react-redux"
 
 import Home from "./pages/Home"
 import SignIn from "./pages/SignIn"
@@ -13,7 +14,24 @@ import ProfileFavorites from "./pages/ProfileFavorites"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 
-function App() {
+import userAPI from "./lib/api/user"
+
+const mapState = (state) => state
+
+function App({ user }) {
+  useEffect(() => {
+    if (user.token) {
+      async function Auth() {
+        try {
+          await userAPI.currentUser(user.token)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+      Auth()
+    }
+  }, [user])
+
   return (
     <div className='App'>
       <Header />
@@ -32,4 +50,4 @@ function App() {
   )
 }
 
-export default App
+export default connect(mapState)(App)
