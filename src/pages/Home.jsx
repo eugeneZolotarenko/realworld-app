@@ -1,16 +1,11 @@
 import React from "react"
-import { connect } from "react-redux"
 
 import ArticlesList from "../components/Home/ArticlesList"
 import Pagination from "../components/Pagination"
 import Tags from "../components/Home/Tags"
 import Tabs from "../components/Home/Tabs"
 
-const mapState = (state) => state
-
-function Home({ user }) {
-  // console.log(user)
-
+function Home() {
   return (
     <div className='home-page'>
       <div className='banner'>
@@ -40,4 +35,4 @@ function Home({ user }) {
   )
 }
 
-export default connect(mapState)(Home)
+export default Home

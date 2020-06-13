@@ -43,10 +43,7 @@ function ArticlesList({ setArticlesData, articlesData, user }) {
     user.token,
   ])
 
-  if (!articlesData) {
-    return <p>Loading...</p>
-  }
-  if (!articlesData.articles.length) {
+  if (!articlesData || !articlesData.articles.length) {
     return <p>Loading...</p>
   }
 
