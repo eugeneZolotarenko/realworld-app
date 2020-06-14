@@ -16,6 +16,7 @@ const articlesSlice = createSlice({
   reducers: {
     setArticlesData(state, action) {
       state.isLoading = false
+      state.isError = false
       state.articles = action.payload.articles
       state.count = action.payload.articlesCount
     },

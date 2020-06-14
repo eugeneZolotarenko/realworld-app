@@ -1,9 +1,7 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 
-import history from "lib/utils/history"
-import userAPI from "lib/api/user"
-import { setCurrentUser } from "redux/slices/userSlice"
+import { registerUser } from "redux/slices/userSlice"
 
 function SignUp() {
   const [userName, setUserName] = useState("")
@@ -14,17 +12,7 @@ function SignUp() {
 
   async function handleRegisterUser(e) {
     e.preventDefault()
-    try {
-      const { user, status } = await userAPI.register(userName, email, password)
-      if (status !== 200) {
-        console.log("errror")
-      } else {
-        history.push("/")
-        dispatch(setCurrentUser(user))
-      }
-    } catch (error) {
-      console.error(error)
-    }
+    dispatch(registerUser({ userName, email, password }))
   }
 
   function handleUserName(e) {
