@@ -1,8 +1,11 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import articlesAPI from "lib/api/articles"
-import { setArticlesData } from "redux/slices/articlesSlice"
+import {
+  getAllArticles,
+  getArticlesByTag,
+  getArticlesFeeds,
+} from "redux/slices/articlesSlice"
 import ArticlePreview from "./ArticlePreview"
 import Pagination from "components/Pagination"
 
@@ -12,29 +15,11 @@ function ArticlesList() {
 
   useEffect(() => {
     if (articlesData.tag) {
-      async function getArticlesByTag() {
-        const byTagArticles = await articlesAPI.filterByTag(
-          articlesData.page,
-          articlesData.tag
-        )
-        dispatch(setArticlesData(byTagArticles))
-      }
-      getArticlesByTag()
+      dispatch(getArticlesByTag(articlesData.page, articlesData.tag))
     } else if (articlesData.feed && user.token) {
-      async function getArticlesFeeds() {
-        const feedArticles = await articlesAPI.getFeeds(
-          articlesData.page,
-          user.token
-        )
-        dispatch(setArticlesData(feedArticles))
-      }
-      getArticlesFeeds()
+      dispatch(getArticlesFeeds(articlesData.page, user.token))
     } else {
-      async function getAllArticles() {
-        const allArticles = await articlesAPI.getAll(articlesData.page)
-        dispatch(setArticlesData(allArticles))
-      }
-      getAllArticles()
+      dispatch(getAllArticles(articlesData.page))
     }
   }, [
     dispatch,
@@ -44,8 +29,17 @@ function ArticlesList() {
     user.token,
   ])
 
-  if (!articlesData || !articlesData.articles.length) {
-    return <p>Loading...</p>
+  if (articlesData.isError) {
+    return <p>Error!</p>
+  }
+
+  if (articlesData.isLoading) {
+    return (
+      <>
+        <p>Loading...</p>
+        <Pagination page={articlesData.page} count={articlesData.count} />
+      </>
+    )
   }
 
   return (

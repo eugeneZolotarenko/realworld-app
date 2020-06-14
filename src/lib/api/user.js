@@ -10,8 +10,7 @@ const userAPI = {
         },
         body: JSON.stringify({ user: { username, email, password } }),
       })
-      const data = await response.json()
-      return data
+      return await response.json()
     } catch (e) {
       return e
     }
@@ -26,10 +25,10 @@ const userAPI = {
         body: JSON.stringify({ user: { email, password } }),
       })
       const data = await response.json()
-      const { status } = response
-      const { user } = data
-      console.log(user)
-      return { status, user }
+      return {
+        status: response.status,
+        user: data.user,
+      }
     } catch (e) {
       return e
     }

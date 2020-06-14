@@ -14,8 +14,7 @@ const articlesAPI = {
           },
         }
       )
-      const data = await response.json()
-      return data
+      return await response.json()
     } catch (e) {
       return e
     }
@@ -33,8 +32,7 @@ const articlesAPI = {
           },
         }
       )
-      const data = await response.json()
-      return data
+      return await response.json()
     } catch (e) {
       return e
     }
@@ -52,9 +50,7 @@ const articlesAPI = {
           },
         }
       )
-      console.log(response)
-      const data = await response.json()
-      return data
+      return await response.json()
     } catch (e) {
       return e
     }
@@ -67,8 +63,7 @@ const articlesAPI = {
           "Content-Type": "application/json",
         },
       })
-      const data = await response.json()
-      return data
+      return await response.json()
     } catch (e) {
       return e
     }
