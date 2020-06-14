@@ -1,9 +1,9 @@
 import React from "react"
 
-import ArticlesList from "../components/Home/ArticlesList"
-import Pagination from "../components/Pagination"
-import Tags from "../components/Home/Tags"
-import Tabs from "../components/Home/Tabs"
+import ArticlesList from "components/Home/ArticlesList"
+import Pagination from "components/Pagination"
+import Tags from "components/Home/Tags"
+import Tabs from "components/Home/Tabs"
 
 function Home() {
   return (

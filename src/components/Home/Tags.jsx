@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 
-import articlesAPI from "../../lib/api/articles"
+import articlesAPI from "lib/api/articles"
 import {
   setArticlesTag,
   setArticlesPage,
   setArticlesFeed,
-} from "../../redux/slices/articlesSlice"
+} from "redux/slices/articlesSlice"
 
 const mapDispatch = { setArticlesTag, setArticlesPage, setArticlesFeed }
 const mapState = (state) => state

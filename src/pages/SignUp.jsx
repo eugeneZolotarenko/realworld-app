@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 
-import history from "../lib/utils/history"
-import userAPI from "../lib/api/user"
-import { setCurrentUser } from "../redux/slices/userSlice"
+import history from "lib/utils/history"
+import userAPI from "lib/api/user"
+import { setCurrentUser } from "redux/slices/userSlice"
 
 function SignUp() {
   const [userName, setUserName] = useState("")

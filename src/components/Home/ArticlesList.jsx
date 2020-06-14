@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import { connect } from "react-redux"
 
-import articlesAPI from "../../lib/api/articles"
-import { setArticlesData } from "../../redux/slices/articlesSlice"
+import articlesAPI from "lib/api/articles"
+import { setArticlesData } from "redux/slices/articlesSlice"
 import ArticlePreview from "./ArticlePreview"
 
 const mapDispatch = { setArticlesData }

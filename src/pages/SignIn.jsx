@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
 
-import history from "../lib/utils/history"
-import userAPI from "../lib/api/user"
-import { setCurrentUser } from "../redux/slices/userSlice"
+import history from "lib/utils/history"
+import userAPI from "lib/api/user"
+import { setCurrentUser } from "redux/slices/userSlice"
 
 const mapDispatch = { setCurrentUser }
 

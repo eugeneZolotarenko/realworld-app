@@ -1,5 +1,5 @@
-import { API_URL } from "../utils/constants"
-import { ARTICLES_ON_ONE_PAGE } from "../utils/constants"
+import { API_URL } from "lib/utils/constants"
+import { ARTICLES_ON_ONE_PAGE } from "lib/utils/constants"
 
 const articlesAPI = {
   getAll: async (page) => {

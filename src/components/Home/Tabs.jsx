@@ -5,7 +5,7 @@ import {
   setArticlesTag,
   setArticlesPage,
   setArticlesFeed,
-} from "../../redux/slices/articlesSlice"
+} from "redux/slices/articlesSlice"
 
 const mapDispatch = { setArticlesTag, setArticlesPage, setArticlesFeed }
 const mapState = (state) => state

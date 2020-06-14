@@ -1,4 +1,4 @@
-import { API_URL } from "../utils/constants"
+import { API_URL } from "lib/utils/constants"
 
 const userAPI = {
   register: async (username, email, password) => {

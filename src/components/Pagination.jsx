@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react"
 import { connect } from "react-redux"
 
-import { setArticlesPage } from "../redux/slices/articlesSlice"
-import { calculatePagination } from "../lib/utils/calculatePagination"
-import { ARTICLES_ON_ONE_PAGE } from "../lib/utils/constants"
-import { ITEMS_IN_PAGINATION } from "../lib/utils/constants"
+import { setArticlesPage } from "redux/slices/articlesSlice"
+import { calculatePagination } from "lib/utils/calculatePagination"
+import { ARTICLES_ON_ONE_PAGE } from "lib/utils/constants"
+import { ITEMS_IN_PAGINATION } from "lib/utils/constants"
 
 const mapDispatch = { setArticlesPage }
 const mapState = (state) => state
