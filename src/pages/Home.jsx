@@ -1,7 +1,6 @@
 import React from "react"
 
 import ArticlesList from "components/Home/ArticlesList"
-import Pagination from "components/Pagination"
 import Tags from "components/Home/Tags"
 import Tabs from "components/Home/Tabs"
 
@@ -20,7 +19,6 @@ function Home() {
           <div className='col-md-9'>
             <Tabs />
             <ArticlesList />
-            <Pagination />
           </div>
 
           <div className='col-md-3'>

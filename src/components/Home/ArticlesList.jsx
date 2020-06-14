@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import articlesAPI from "lib/api/articles"
 import { setArticlesData } from "redux/slices/articlesSlice"
 import ArticlePreview from "./ArticlePreview"
+import Pagination from "components/Pagination"
 
 function ArticlesList() {
   const dispatch = useDispatch()
@@ -52,6 +53,7 @@ function ArticlesList() {
       {articlesData.articles.map((article, i) => {
         return <ArticlePreview article={article} key={i} />
       })}
+      <Pagination page={articlesData.page} count={articlesData.count} />
     </>
   )
 }

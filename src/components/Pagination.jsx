@@ -1,21 +1,19 @@
 import React, { useRef, useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { setArticlesPage } from "redux/slices/articlesSlice"
 import { calculatePagination } from "lib/utils/calculatePagination"
 import { ARTICLES_ON_ONE_PAGE, ITEMS_IN_PAGINATION } from "lib/utils/constants"
 
-function Pagination() {
-  const dispatch = useDispatch()
-  const { articlesData } = useSelector((state) => state)
-
-  const { page, count } = articlesData
+function Pagination({ page, count }) {
   const pages = Array.from(
     { length: count / ARTICLES_ON_ONE_PAGE },
     (v, i) => i + 1
   )
   const from = useRef(0)
   const to = useRef(ITEMS_IN_PAGINATION)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     calculatePagination({ page, pages, to, from })
