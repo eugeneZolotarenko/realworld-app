@@ -1,9 +1,8 @@
-import { API_URL } from "lib/utils/constants"
-
+const apiUrl = process.env.REACT_APP_API_URL
 const userAPI = {
   register: async (username, email, password) => {
     try {
-      const response = await fetch(`${API_URL}/users`, {
+      const response = await fetch(`${apiUrl}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -17,7 +16,7 @@ const userAPI = {
   },
   login: async (email, password) => {
     try {
-      const response = await fetch(`${API_URL}/users/login`, {
+      const response = await fetch(`${apiUrl}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
