@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import articlesAPI from "lib/api/articles"
 import {
@@ -8,11 +8,10 @@ import {
   setArticlesFeed,
 } from "redux/slices/articlesSlice"
 
-const mapDispatch = { setArticlesTag, setArticlesPage, setArticlesFeed }
-const mapState = (state) => state
-
-function Tags({ setArticlesTag, setArticlesPage, setArticlesFeed }) {
+function Tags() {
   const [tagsList, setTagsList] = useState()
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     async function getTags() {
@@ -31,9 +30,9 @@ function Tags({ setArticlesTag, setArticlesPage, setArticlesFeed }) {
         return (
           <button
             onClick={() => {
-              setArticlesPage(1)
-              setArticlesTag(tag)
-              setArticlesFeed(false)
+              dispatch(setArticlesPage(1))
+              dispatch(setArticlesTag(tag))
+              dispatch(setArticlesFeed(false))
             }}
             key={i}
             className='tag-pill tag-default'>
@@ -45,4 +44,4 @@ function Tags({ setArticlesTag, setArticlesPage, setArticlesFeed }) {
   )
 }
 
-export default connect(mapState, mapDispatch)(Tags)
+export default Tags

@@ -1,5 +1,5 @@
 import React from "react"
-import { connect } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import {
   setArticlesTag,
@@ -7,16 +7,10 @@ import {
   setArticlesFeed,
 } from "redux/slices/articlesSlice"
 
-const mapDispatch = { setArticlesTag, setArticlesPage, setArticlesFeed }
-const mapState = (state) => state
+function Tabs() {
+  const dispatch = useDispatch()
+  const { articlesData, user } = useSelector((state) => state)
 
-function Tabs({
-  setArticlesTag,
-  setArticlesPage,
-  setArticlesFeed,
-  articlesData,
-  user,
-}) {
   return (
     <div className='feed-toggle'>
       <ul className='nav nav-pills outline-active'>
@@ -25,9 +19,9 @@ function Tabs({
             style={{ display: user.token ? "block" : "none" }}
             className={articlesData.feed ? "nav-link active" : "nav-link"}
             onClick={() => {
-              setArticlesPage(1)
-              setArticlesTag("")
-              setArticlesFeed(true)
+              dispatch(setArticlesPage(1))
+              dispatch(setArticlesTag(""))
+              dispatch(setArticlesFeed(true))
             }}>
             Your Feed
           </button>
@@ -40,9 +34,9 @@ function Tabs({
                 : "nav-link active"
             }
             onClick={() => {
-              setArticlesPage(1)
-              setArticlesTag("")
-              setArticlesFeed(false)
+              dispatch(setArticlesPage(1))
+              dispatch(setArticlesTag(""))
+              dispatch(setArticlesFeed(false))
             }}>
             Global Feed
           </button>
@@ -59,4 +53,4 @@ function Tabs({
   )
 }
 
-export default connect(mapState, mapDispatch)(Tabs)
+export default Tabs

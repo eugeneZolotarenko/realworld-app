@@ -1,22 +1,22 @@
 import React, { useEffect } from "react"
-import { connect } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import articlesAPI from "lib/api/articles"
 import { setArticlesData } from "redux/slices/articlesSlice"
 import ArticlePreview from "./ArticlePreview"
 
-const mapDispatch = { setArticlesData }
-const mapState = (state) => state
+function ArticlesList() {
+  const dispatch = useDispatch()
+  const { articlesData, user } = useSelector((state) => state)
 
-function ArticlesList({ setArticlesData, articlesData, user }) {
   useEffect(() => {
     if (articlesData.tag) {
       async function getArticlesByTag() {
-        const ByTagArticles = await articlesAPI.filterByTag(
+        const byTagArticles = await articlesAPI.filterByTag(
           articlesData.page,
           articlesData.tag
         )
-        setArticlesData(ByTagArticles)
+        dispatch(setArticlesData(byTagArticles))
       }
       getArticlesByTag()
     } else if (articlesData.feed && user.token) {
@@ -25,18 +25,18 @@ function ArticlesList({ setArticlesData, articlesData, user }) {
           articlesData.page,
           user.token
         )
-        setArticlesData(feedArticles)
+        dispatch(setArticlesData(feedArticles))
       }
       getArticlesFeeds()
     } else {
       async function getAllArticles() {
         const allArticles = await articlesAPI.getAll(articlesData.page)
-        setArticlesData(allArticles)
+        dispatch(setArticlesData(allArticles))
       }
       getAllArticles()
     }
   }, [
-    setArticlesData,
+    dispatch,
     articlesData.page,
     articlesData.tag,
     articlesData.feed,
@@ -56,4 +56,4 @@ function ArticlesList({ setArticlesData, articlesData, user }) {
   )
 }
 
-export default connect(mapState, mapDispatch)(ArticlesList)
+export default ArticlesList

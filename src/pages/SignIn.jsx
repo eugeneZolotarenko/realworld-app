@@ -1,15 +1,15 @@
 import React, { useState } from "react"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import history from "lib/utils/history"
 import userAPI from "lib/api/user"
 import { setCurrentUser } from "redux/slices/userSlice"
 
-const mapDispatch = { setCurrentUser }
-
-function SignIn({ setCurrentUser }) {
+function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+
+  const dispatch = useDispatch()
 
   const handleLoginUser = async (e) => {
     e.preventDefault()
@@ -19,7 +19,7 @@ function SignIn({ setCurrentUser }) {
         console.log("errror")
       } else {
         history.push("/")
-        setCurrentUser(user)
+        dispatch(setCurrentUser(user))
       }
     } catch (error) {
       console.error(error)
@@ -78,4 +78,4 @@ function SignIn({ setCurrentUser }) {
   )
 }
 
-export default connect(null, mapDispatch)(SignIn)
+export default SignIn

@@ -11,8 +11,7 @@ const articlesSlice = createSlice({
   },
   reducers: {
     setArticlesData(state, action) {
-      state.articles = []
-      state.articles.push(...action.payload.articles)
+      state.articles = action.payload.articles
       state.count = action.payload.articlesCount
     },
     setArticlesPage(state, action) {
