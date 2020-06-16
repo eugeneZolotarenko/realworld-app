@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { Route, Switch } from "react-router-dom"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 
 import Home from "./pages/Home"
 import SignIn from "./pages/SignIn"
@@ -16,9 +16,9 @@ import Footer from "./components/Footer"
 
 import userAPI from "./lib/api/user"
 
-const mapState = (state) => state
+function App() {
+  const { user } = useSelector((state) => state)
 
-function App({ user }) {
   useEffect(() => {
     if (user.token) {
       async function Auth() {
@@ -50,4 +50,4 @@ function App({ user }) {
   )
 }
 
-export default connect(mapState)(App)
+export default App

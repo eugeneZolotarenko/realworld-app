@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
 
 import { registerUser } from "redux/slices/userSlice"
 
@@ -34,7 +35,7 @@ function SignUp() {
           <div className='col-md-6 offset-md-3 col-xs-12'>
             <h1 className='text-xs-center'>Sign up</h1>
             <p className='text-xs-center'>
-              <a href=''>Have an account?</a>
+              <Link to='/'>Have an account?</Link>
             </p>
 
             <ul className='error-messages'>

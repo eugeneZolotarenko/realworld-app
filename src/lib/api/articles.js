@@ -5,30 +5,29 @@ const limitOffset = (page) =>
   `limit=${ARTICLES_ON_ONE_PAGE}&offset=${
     page === 1 ? 0 : ARTICLES_ON_ONE_PAGE * (page - 1)
   }`
+const getHeaders = (token) =>
+  token ? { authorization: `Token ${encodeURIComponent(token)}` } : {}
 
 const articlesAPI = {
-  getAll: async (page) => {
+  getAll: async (page, token) => {
     try {
       const response = await fetch(`${apiUrl}/articles?${limitOffset(page)}`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: getHeaders(token),
       })
       return await response.json()
     } catch (e) {
       return e
     }
   },
-  filterByTag: async (page, tag) => {
+  filterByTag: async (page, tag, token) => {
     try {
+      console.log(token)
       const response = await fetch(
         `${apiUrl}/articles?tag=${tag}&${limitOffset(page)}`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: getHeaders(token),
         }
       )
       return await response.json()
@@ -56,8 +55,31 @@ const articlesAPI = {
     try {
       const response = await fetch(`${apiUrl}/tags`, {
         method: "GET",
+      })
+      return await response.json()
+    } catch (e) {
+      return e
+    }
+  },
+  loveIt: async (slug, token) => {
+    try {
+      const response = await fetch(`${apiUrl}/articles/${slug}/favorite`, {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          authorization: `Token ${encodeURIComponent(token)}`,
+        },
+      })
+      return await response.json()
+    } catch (e) {
+      return e
+    }
+  },
+  unLoveIt: async (slug, token) => {
+    try {
+      const response = await fetch(`${apiUrl}/articles/${slug}/favorite`, {
+        method: "DELETE",
+        headers: {
+          authorization: `Token ${encodeURIComponent(token)}`,
         },
       })
       return await response.json()

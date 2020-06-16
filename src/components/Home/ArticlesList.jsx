@@ -15,11 +15,17 @@ function ArticlesList() {
 
   useEffect(() => {
     if (articlesData.tag) {
-      dispatch(getArticlesByTag(articlesData.page, articlesData.tag))
+      user.token
+        ? dispatch(
+            getArticlesByTag(articlesData.page, articlesData.tag, user.token)
+          )
+        : dispatch(getArticlesByTag(articlesData.page, articlesData.tag))
     } else if (articlesData.feed && user.token) {
       dispatch(getArticlesFeeds(articlesData.page, user.token))
     } else {
-      dispatch(getAllArticles(articlesData.page))
+      user.token
+        ? dispatch(getAllArticles(articlesData.page, user.token))
+        : dispatch(getAllArticles(articlesData.page))
     }
   }, [
     dispatch,
@@ -45,7 +51,7 @@ function ArticlesList() {
   return (
     <>
       {articlesData.articles.map((article, i) => {
-        return <ArticlePreview article={article} key={i} />
+        return <ArticlePreview article={article} currentUser={user} key={i} />
       })}
       <Pagination page={articlesData.page} count={articlesData.count} />
     </>

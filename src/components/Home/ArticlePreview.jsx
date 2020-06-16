@@ -1,6 +1,23 @@
-import React from "react"
+import React, { useState } from "react"
 
-function ArticlePreview({ article }) {
+import articlesAPI from "lib/api/articles"
+import history from "lib/utils/history"
+
+function ArticlePreview({ article, currentUser }) {
+  const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount)
+  const [favorited, setFavorited] = useState(article.favorited)
+
+  const LoveUnLove = async () => {
+    if (!favorited) {
+      setFavorited(true)
+      setFavoritesCount(favoritesCount + 1)
+      await articlesAPI.loveIt(article.slug, currentUser.token)
+    } else {
+      setFavorited(false)
+      setFavoritesCount(favoritesCount - 1)
+      await articlesAPI.unLoveIt(article.slug, currentUser.token)
+    }
+  }
   return (
     <div className='article-preview'>
       <div className='article-meta'>
@@ -15,8 +32,16 @@ function ArticlePreview({ article }) {
             {new Date(article.createdAt).toDateString()}
           </span>
         </div>
-        <button className='btn btn-outline-primary btn-sm pull-xs-right'>
-          <i className='ion-heart'></i> {article.favoritesCount}
+        <button
+          className={
+            favorited
+              ? "btn btn-outline-primary btn-sm pull-xs-right active"
+              : "btn btn-outline-primary btn-sm pull-xs-right"
+          }
+          onClick={() => {
+            currentUser.token ? LoveUnLove() : history.push("./register")
+          }}>
+          <i className='ion-heart'></i> {favoritesCount}
         </button>
       </div>
       <a href='' className='preview-link'>

@@ -10,22 +10,22 @@ function Header() {
         </Link>
         <ul className='nav navbar-nav pull-xs-right'>
           <li className='nav-item'>
-            <Link className='nav-link active' to=''>
+            <Link className='nav-link active' to='/'>
               Home
             </Link>
           </li>
           <li className='nav-item'>
-            <Link className='nav-link' to=''>
+            <Link className='nav-link' to='/'>
               <i className='ion-compose'></i>&nbsp;New Post
             </Link>
           </li>
           <li className='nav-item'>
-            <Link className='nav-link' to=''>
+            <Link className='nav-link' to='/'>
               <i className='ion-gear-a'></i>&nbsp;Settings
             </Link>
           </li>
           <li className='nav-item'>
-            <Link className='nav-link' to=''>
+            <Link className='nav-link' to='/'>
               Sign up
             </Link>
           </li>

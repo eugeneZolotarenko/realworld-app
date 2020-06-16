@@ -38,20 +38,20 @@ const articlesSlice = createSlice({
   },
 })
 
-export const getAllArticles = (page) => async (dispatch) => {
+export const getAllArticles = (page, token) => async (dispatch) => {
   dispatch(setLoading(true))
   try {
-    const allArticles = await articlesAPI.getAll(page)
+    const allArticles = await articlesAPI.getAll(page, token)
     dispatch(setArticlesData(allArticles))
   } catch {
     dispatch(setError(true))
   }
 }
 
-export const getArticlesByTag = (page, tag) => async (dispatch) => {
+export const getArticlesByTag = (page, tag, token) => async (dispatch) => {
   dispatch(setLoading(true))
   try {
-    const byTagArticles = await articlesAPI.filterByTag(page, tag)
+    const byTagArticles = await articlesAPI.filterByTag(page, tag, token)
     dispatch(setArticlesData(byTagArticles))
   } catch {
     dispatch(setError(true))
