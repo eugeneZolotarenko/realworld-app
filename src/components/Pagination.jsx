@@ -7,7 +7,7 @@ import { ARTICLES_ON_ONE_PAGE, ITEMS_IN_PAGINATION } from "lib/utils/constants"
 
 function Pagination({ page, count }) {
   const pages = Array.from(
-    { length: count / ARTICLES_ON_ONE_PAGE },
+    { length: Math.ceil(count / ARTICLES_ON_ONE_PAGE) },
     (v, i) => i + 1
   )
   const from = useRef(0)
