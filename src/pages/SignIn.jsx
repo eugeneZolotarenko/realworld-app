@@ -1,29 +1,17 @@
 import React, { useState } from "react"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 
-import history from "../lib/utils/history"
-import userAPI from "../lib/api/user"
-import { setCurrentUser } from "../redux/slices/userSlice"
+import { loginUser } from "redux/slices/userSlice"
 
-const mapDispatch = { setCurrentUser }
-
-function SignIn({ setCurrentUser }) {
+function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+  const dispatch = useDispatch()
+
   const handleLoginUser = async (e) => {
     e.preventDefault()
-    try {
-      const { user, status } = await userAPI.login(email, password)
-      if (status !== 200) {
-        console.log("errror")
-      } else {
-        history.push("/")
-        setCurrentUser(user)
-      }
-    } catch (error) {
-      console.error(error)
-    }
+    dispatch(loginUser(email, password))
   }
 
   function handleEmail(e) {
@@ -78,4 +66,4 @@ function SignIn({ setCurrentUser }) {
   )
 }
 
-export default connect(null, mapDispatch)(SignIn)
+export default SignIn

@@ -1,24 +1,22 @@
-import { API_URL } from "../utils/constants"
-
+const apiUrl = process.env.REACT_APP_API_URL
 const userAPI = {
   register: async (username, email, password) => {
     try {
-      const response = await fetch(`${API_URL}/users`, {
+      const response = await fetch(`${apiUrl}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ user: { username, email, password } }),
       })
-      const data = await response.json()
-      return data
+      return await response.json()
     } catch (e) {
       return e
     }
   },
   login: async (email, password) => {
     try {
-      const response = await fetch(`${API_URL}/users/login`, {
+      const response = await fetch(`${apiUrl}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,10 +24,10 @@ const userAPI = {
         body: JSON.stringify({ user: { email, password } }),
       })
       const data = await response.json()
-      const { status } = response
-      const { user } = data
-      console.log(user)
-      return { status, user }
+      return {
+        status: response.status,
+        user: data.user,
+      }
     } catch (e) {
       return e
     }

@@ -1,22 +1,19 @@
 import React, { useRef, useEffect } from "react"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 
-import { setArticlesPage } from "../redux/slices/articlesSlice"
-import { calculatePagination } from "../lib/utils/calculatePagination"
-import { ARTICLES_ON_ONE_PAGE } from "../lib/utils/constants"
-import { ITEMS_IN_PAGINATION } from "../lib/utils/constants"
+import { setArticlesPage } from "redux/slices/articlesSlice"
+import { calculatePagination } from "lib/utils/calculatePagination"
+import { ARTICLES_ON_ONE_PAGE, ITEMS_IN_PAGINATION } from "lib/utils/constants"
 
-const mapDispatch = { setArticlesPage }
-const mapState = (state) => state
-
-function Pagination({ setArticlesPage, articlesData }) {
-  const { page, count } = articlesData
+function Pagination({ page, count }) {
   const pages = Array.from(
     { length: count / ARTICLES_ON_ONE_PAGE },
     (v, i) => i + 1
   )
   const from = useRef(0)
   const to = useRef(ITEMS_IN_PAGINATION)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     calculatePagination({ page, pages, to, from })
@@ -28,7 +25,7 @@ function Pagination({ setArticlesPage, articlesData }) {
         <li className='page-item'>
           <button
             onClick={() => {
-              setArticlesPage(1)
+              dispatch(setArticlesPage(1))
               if (pages.length > ITEMS_IN_PAGINATION) {
                 from.current = 0
                 to.current = ITEMS_IN_PAGINATION
@@ -40,7 +37,7 @@ function Pagination({ setArticlesPage, articlesData }) {
           </button>
           <button
             onClick={() => {
-              setArticlesPage(page - 1)
+              dispatch(setArticlesPage(page - 1))
               if (from.current !== 0 && pages.length > ITEMS_IN_PAGINATION) {
                 from.current = from.current - 1
                 to.current = to.current - 1
@@ -61,7 +58,7 @@ function Pagination({ setArticlesPage, articlesData }) {
                   eachPage === page ? "page-item active" : "page-item"
                 }>
                 <button
-                  onClick={() => setArticlesPage(eachPage)}
+                  onClick={() => dispatch(setArticlesPage(eachPage))}
                   className='page-link'>
                   {eachPage}
                 </button>
@@ -78,7 +75,7 @@ function Pagination({ setArticlesPage, articlesData }) {
                   eachPage === page ? "page-item active" : "page-item"
                 }>
                 <button
-                  onClick={() => setArticlesPage(eachPage)}
+                  onClick={() => dispatch(setArticlesPage(eachPage))}
                   className='page-link'>
                   {eachPage}
                 </button>
@@ -89,7 +86,7 @@ function Pagination({ setArticlesPage, articlesData }) {
         <li className='page-item'>
           <button
             onClick={() => {
-              setArticlesPage(page + 1)
+              dispatch(setArticlesPage(page + 1))
               if (pages.length > ITEMS_IN_PAGINATION) {
                 from.current = from.current + 1
                 to.current = to.current + 1
@@ -103,7 +100,7 @@ function Pagination({ setArticlesPage, articlesData }) {
         <li className='page-item'>
           <button
             onClick={() => {
-              setArticlesPage(pages.length)
+              dispatch(setArticlesPage(pages.length))
               if (pages.length > ITEMS_IN_PAGINATION) {
                 from.current = pages.length - ITEMS_IN_PAGINATION
                 to.current = pages.length
@@ -119,4 +116,4 @@ function Pagination({ setArticlesPage, articlesData }) {
   )
 }
 
-export default connect(mapState, mapDispatch)(Pagination)
+export default Pagination
