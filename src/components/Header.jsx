@@ -1,7 +1,10 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 function Header() {
+  const { user } = useSelector((state) => state)
+
   return (
     <nav className='navbar navbar-light'>
       <div className='container'>
@@ -14,21 +17,34 @@ function Header() {
               Home
             </Link>
           </li>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/'>
-              <i className='ion-compose'></i>&nbsp;New Post
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/'>
-              <i className='ion-gear-a'></i>&nbsp;Settings
-            </Link>
-          </li>
-          <li className='nav-item'>
-            <Link className='nav-link' to='/'>
-              Sign up
-            </Link>
-          </li>
+          {user.token && (
+            <li className='nav-item'>
+              <Link className='nav-link' to='/editor'>
+                <i className='ion-compose'></i>&nbsp;New Article
+              </Link>
+            </li>
+          )}
+          {user.token && (
+            <li className='nav-item'>
+              <Link className='nav-link' to='/settings'>
+                <i className='ion-gear-a'></i>&nbsp;Settings
+              </Link>
+            </li>
+          )}
+          {!user.token && (
+            <li className='nav-item'>
+              <Link className='nav-link' to='/login'>
+                Sign in
+              </Link>
+            </li>
+          )}
+          {!user.token && (
+            <li className='nav-item'>
+              <Link className='nav-link' to='/register'>
+                Sign up
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

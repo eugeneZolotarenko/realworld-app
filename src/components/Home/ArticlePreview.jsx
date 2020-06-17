@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
 
 import articlesAPI from "lib/api/articles"
 import history from "lib/utils/history"
@@ -21,13 +22,13 @@ function ArticlePreview({ article, currentUser }) {
   return (
     <div className='article-preview'>
       <div className='article-meta'>
-        <a href='profile.html'>
+        <Link to='/profile'>
           <img src={article.author.image} alt={article.author.username} />
-        </a>
+        </Link>
         <div className='info'>
-          <a href='' className='author'>
+          <Link to='/profile' className='author'>
             {article.author.username}
-          </a>
+          </Link>
           <span className='date'>
             {new Date(article.createdAt).toDateString()}
           </span>
@@ -44,11 +45,11 @@ function ArticlePreview({ article, currentUser }) {
           <i className='ion-heart'></i> {favoritesCount}
         </button>
       </div>
-      <a href='' className='preview-link'>
+      <Link to={`/article/${article.slug}`} className='preview-link'>
         <h1>{article.title}</h1>
         <p>{article.description}</p>
         <span>Read more...</span>
-      </a>
+      </Link>
     </div>
   )
 }

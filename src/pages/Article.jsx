@@ -1,6 +1,17 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 function Article() {
+  const { articlesData } = useSelector((state) => state)
+
+  useEffect(() => {
+    const slug = window.location.pathname.replace("/article/", "")
+    return () => {
+      console.log(slug)
+    }
+  }, [])
+
   return (
     <div className='article-page'>
       <div className='banner'>
@@ -8,13 +19,13 @@ function Article() {
           <h1>How to build webapps that scale</h1>
 
           <div className='article-meta'>
-            <a href=''>
+            <Link to=''>
               <img src='http://i.imgur.com/Qr71crq.jpg' />
-            </a>
+            </Link>
             <div className='info'>
-              <a href='' className='author'>
+              <Link to='' className='author'>
                 Eric Simons
-              </a>
+              </Link>
               <span className='date'>January 20th</span>
             </div>
             <button className='btn btn-sm btn-outline-secondary'>
@@ -46,13 +57,13 @@ function Article() {
 
         <div className='article-actions'>
           <div className='article-meta'>
-            <a href='profile.html'>
+            <Link to='profile.html'>
               <img src='http://i.imgur.com/Qr71crq.jpg' />
-            </a>
+            </Link>
             <div className='info'>
-              <a href='' className='author'>
+              <Link to='' className='author'>
                 Eric Simons
-              </a>
+              </Link>
               <span className='date'>January 20th</span>
             </div>
             <button className='btn btn-sm btn-outline-secondary'>
@@ -93,16 +104,16 @@ function Article() {
                 </p>
               </div>
               <div className='card-footer'>
-                <a href='' className='comment-author'>
+                <Link to='' className='comment-author'>
                   <img
                     src='http://i.imgur.com/Qr71crq.jpg'
                     className='comment-author-img'
                   />
-                </a>
+                </Link>
                 &nbsp;
-                <a href='' className='comment-author'>
+                <Link to='' className='comment-author'>
                   Jacob Schmidt
-                </a>
+                </Link>
                 <span className='date-posted'>Dec 29th</span>
               </div>
             </div>
@@ -115,16 +126,16 @@ function Article() {
                 </p>
               </div>
               <div className='card-footer'>
-                <a href='' className='comment-author'>
+                <Link to='' className='comment-author'>
                   <img
                     src='http://i.imgur.com/Qr71crq.jpg'
                     className='comment-author-img'
                   />
-                </a>
+                </Link>
                 &nbsp;
-                <a href='' className='comment-author'>
+                <Link to='' className='comment-author'>
                   Jacob Schmidt
-                </a>
+                </Link>
                 <span className='date-posted'>Dec 29th</span>
                 <span className='mod-options'>
                   <i className='ion-edit'></i>
