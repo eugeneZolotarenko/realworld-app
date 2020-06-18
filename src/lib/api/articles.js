@@ -9,6 +9,19 @@ const getHeaders = (token) =>
   token ? { authorization: `Token ${encodeURIComponent(token)}` } : {}
 
 const articlesAPI = {
+  getOne: async (slug, token) => {
+    try {
+      const response = await fetch(`${apiUrl}/articles/${slug}`, {
+        method: "GET",
+        headers: getHeaders(token),
+      })
+      const { article } = await response.json()
+      console.log(article)
+      return { article, status: response.status }
+    } catch (e) {
+      return e
+    }
+  },
   getAll: async (page, token) => {
     try {
       const response = await fetch(`${apiUrl}/articles?${limitOffset(page)}`, {

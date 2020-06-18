@@ -1,26 +1,56 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 
+import articlesAPI from "lib/api/articles"
+import history from "lib/utils/history"
+
 function Article() {
-  const { articlesData } = useSelector((state) => state)
+  const [article, setArticle] = useState()
+  const [favoritesCount, setFavoritesCount] = useState()
+  const [favorited, setFavorited] = useState()
+
+  const LoveUnLove = async () => {
+    if (!favorited) {
+      setFavorited(true)
+      setFavoritesCount(favoritesCount + 1)
+      await articlesAPI.loveIt(article.slug, user.token)
+    } else {
+      setFavorited(false)
+      setFavoritesCount(favoritesCount - 1)
+      await articlesAPI.unLoveIt(article.slug, user.token)
+    }
+  }
+  const { user } = useSelector((state) => state)
 
   useEffect(() => {
     const slug = window.location.pathname.replace("/article/", "")
-    return () => {
-      console.log(slug)
+    async function getSlug() {
+      const { article, status } = await articlesAPI.getOne(slug, user.token)
+      if (status === 200) {
+        user.token ? setArticle(article) : setArticle(article)
+        setFavoritesCount(article.favoritesCount)
+        setFavorited(article.favorited)
+      } else {
+        history.push("/")
+      }
     }
-  }, [])
+    getSlug()
+  }, [user.token])
+
+  if (!article) {
+    return <p>Loading...</p>
+  }
 
   return (
     <div className='article-page'>
       <div className='banner'>
         <div className='container'>
-          <h1>How to build webapps that scale</h1>
+          <h1>{article.title}</h1>
 
           <div className='article-meta'>
             <Link to=''>
-              <img src='http://i.imgur.com/Qr71crq.jpg' />
+              <img src={article.author.image} alt={article.author.username} />
             </Link>
             <div className='info'>
               <Link to='' className='author'>
@@ -30,12 +60,18 @@ function Article() {
             </div>
             <button className='btn btn-sm btn-outline-secondary'>
               <i className='ion-plus-round'></i>
-              &nbsp; Follow Eric Simons <span className='counter'>(10)</span>
+              &nbsp; Follow {article.author.username}
+              <span className='counter'>(10)</span>
             </button>
             &nbsp;&nbsp;
-            <button className='btn btn-sm btn-outline-primary'>
+            <button
+              className='btn btn-sm btn-outline-primary'
+              onClick={() => {
+                user.token ? LoveUnLove() : history.push("./register")
+              }}>
               <i className='ion-heart'></i>
-              &nbsp; Favorite Post <span className='counter'>(29)</span>
+              &nbsp; Favorite Post{" "}
+              <span className='counter'>({article.favoritesCount})</span>
             </button>
           </div>
         </div>
@@ -44,12 +80,7 @@ function Article() {
       <div className='container page'>
         <div className='row article-content'>
           <div className='col-md-12'>
-            <p>
-              Web development technologies have evolved at an incredible clip
-              over the past few years.
-            </p>
-            <h2 id='introducing-ionic'>Introducing RealWorld.</h2>
-            <p>It's a great solution for learning how other frameworks work.</p>
+            <p>{article.body}</p>
           </div>
         </div>
 
