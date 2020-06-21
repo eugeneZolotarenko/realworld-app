@@ -1,7 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-function Comment({ comment, user }) {
+import articlesAPI from "lib/api/articles"
+
+function Comment({ comment, comments, setComments, slug, user }) {
   return (
     <div key={comment.id} className='card'>
       <div className='card-block'>
@@ -22,11 +24,20 @@ function Comment({ comment, user }) {
         <span className='date-posted'>
           {new Date(comment.createdAt).toDateString()}
         </span>
-        <span className='mod-options'>
-          {user.token && user.username === comment.author.username && (
-            <i className='ion-trash-a'></i>
-          )}
-        </span>
+        {user.token && user.username === comment.author.username && (
+          <span className='mod-options'>
+            <i
+              className='ion-trash-a'
+              onClick={async () => {
+                await articlesAPI.deleteComment({
+                  id: comment.id,
+                  slug,
+                  token: user.token,
+                })
+                setComments(comments.filter((each) => each.id !== comment.id))
+              }}></i>
+          </span>
+        )}
       </div>
     </div>
   )

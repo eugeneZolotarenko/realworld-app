@@ -124,8 +124,23 @@ const articlesAPI = {
         },
         body: JSON.stringify({ comment: { body: comment } }),
       })
-      // const { newComment } = await response.json()
-      // return newComment
+      return await response.json()
+    } catch (e) {
+      return e
+    }
+  },
+  deleteComment: async ({ id, slug, token }) => {
+    try {
+      const response = await fetch(
+        `${apiUrl}/articles/${slug}/comments/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Token ${encodeURIComponent(token)}`,
+          },
+        }
+      )
       return await response.json()
     } catch (e) {
       return e

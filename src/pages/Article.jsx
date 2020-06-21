@@ -87,9 +87,24 @@ function Article() {
 
         <div className='row'>
           <div className='col-xs-12 col-md-8 offset-md-2'>
-            {user.token && <CreateComment slug={slug} user={user} />}
+            {user.token && (
+              <CreateComment
+                slug={slug}
+                comments={comments}
+                setComments={setComments}
+                user={user}
+              />
+            )}
             {comments.map((comment) => {
-              return <Comment comment={comment} user={user} />
+              return (
+                <Comment
+                  comment={comment}
+                  comments={comments}
+                  setComments={setComments}
+                  slug={slug}
+                  user={user}
+                />
+              )
             })}
           </div>
         </div>

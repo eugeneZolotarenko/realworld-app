@@ -2,8 +2,8 @@ import React, { useState } from "react"
 
 import articlesAPI from "lib/api/articles"
 
-function CreateComment({ user, slug }) {
-  const [newComment, setNewComment] = useState("")
+function CreateComment({ user, comments, setComments, slug }) {
+  const [commentText, setCommentText] = useState("")
   return (
     <form className='card comment-form'>
       <div className='card-block'>
@@ -11,7 +11,8 @@ function CreateComment({ user, slug }) {
           className='form-control'
           placeholder='Write a comment...'
           rows='3'
-          onChange={(e) => setNewComment(e.target.value)}></textarea>
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}></textarea>
       </div>
       <div className='card-footer'>
         <img
@@ -21,13 +22,15 @@ function CreateComment({ user, slug }) {
         />
         <button
           className='btn btn-sm btn-primary'
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault()
-            articlesAPI.addComment({
-              comment: newComment,
+            const { comment } = await articlesAPI.addComment({
+              comment: commentText,
               slug,
               token: user.token,
             })
+            setComments([comment, ...comments])
+            setCommentText("")
           }}>
           Post Comment
         </button>
