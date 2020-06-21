@@ -18,32 +18,32 @@ function Header() {
             </Link>
           </li>
           {user.token && (
-            <li className='nav-item'>
-              <Link className='nav-link' to='/editor'>
-                <i className='ion-compose'></i>&nbsp;New Article
-              </Link>
-            </li>
-          )}
-          {user.token && (
-            <li className='nav-item'>
-              <Link className='nav-link' to='/settings'>
-                <i className='ion-gear-a'></i>&nbsp;Settings
-              </Link>
-            </li>
-          )}
-          {!user.token && (
-            <li className='nav-item'>
-              <Link className='nav-link' to='/login'>
-                Sign in
-              </Link>
-            </li>
+            <>
+              <li className='nav-item'>
+                <Link className='nav-link' to='/editor'>
+                  <i className='ion-compose'></i>&nbsp;New Article
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to='/settings'>
+                  <i className='ion-gear-a'></i>&nbsp;Settings
+                </Link>
+              </li>
+            </>
           )}
           {!user.token && (
-            <li className='nav-item'>
-              <Link className='nav-link' to='/register'>
-                Sign up
-              </Link>
-            </li>
+            <>
+              <li className='nav-item'>
+                <Link className='nav-link' to='/login'>
+                  Sign in
+                </Link>
+              </li>
+              <li className='nav-item'>
+                <Link className='nav-link' to='/register'>
+                  Sign up
+                </Link>
+              </li>
+            </>
           )}
         </ul>
       </div>

@@ -2,13 +2,16 @@ import { createSlice } from "@reduxjs/toolkit"
 
 import history from "lib/utils/history"
 import userAPI from "lib/api/user"
+import { DEFAULT_USER_IMAGE } from "lib/utils/constants"
 
 const userSlice = createSlice({
   name: "user",
-  initialState: { token: "" },
+  initialState: {},
   reducers: {
     setCurrentUser(state, action) {
-      state.token = action.payload.token
+      for (const x in action.payload) {
+        state[x] = x === "image" ? DEFAULT_USER_IMAGE : action.payload[x]
+      }
     },
   },
 })

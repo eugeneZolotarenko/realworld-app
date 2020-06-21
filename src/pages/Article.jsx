@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 import articlesAPI from "lib/api/articles"
 import history from "lib/utils/history"
 
+import ArticleMeta from "../components/Article/ArticleMeta"
+import Comment from "../components/Article/Comment"
+import CreateComment from "../components/Article/CreateComment"
+
 function Article() {
+  const [slug] = useState(window.location.pathname.replace("/article/", ""))
   const [article, setArticle] = useState()
   const [favoritesCount, setFavoritesCount] = useState()
   const [favorited, setFavorited] = useState()
+  const [comments, setComments] = useState()
 
-  const LoveUnLove = async () => {
-    if (!favorited) {
-      setFavorited(true)
-      setFavoritesCount(favoritesCount + 1)
-      await articlesAPI.loveIt(article.slug, user.token)
-    } else {
-      setFavorited(false)
-      setFavoritesCount(favoritesCount - 1)
-      await articlesAPI.unLoveIt(article.slug, user.token)
-    }
-  }
   const { user } = useSelector((state) => state)
 
   useEffect(() => {
-    const slug = window.location.pathname.replace("/article/", "")
-    async function getSlug() {
+    async function getArticle() {
       const { article, status } = await articlesAPI.getOne(slug, user.token)
       if (status === 200) {
         user.token ? setArticle(article) : setArticle(article)
@@ -35,10 +28,15 @@ function Article() {
         history.push("/")
       }
     }
-    getSlug()
-  }, [user.token])
+    getArticle()
 
-  if (!article) {
+    async function getAllComments() {
+      setComments(await articlesAPI.getComments(slug, user.token))
+    }
+    getAllComments()
+  }, [user.token, slug])
+
+  if (!article || !comments) {
     return <p>Loading...</p>
   }
 
@@ -47,33 +45,14 @@ function Article() {
       <div className='banner'>
         <div className='container'>
           <h1>{article.title}</h1>
-
-          <div className='article-meta'>
-            <Link to=''>
-              <img src={article.author.image} alt={article.author.username} />
-            </Link>
-            <div className='info'>
-              <Link to='' className='author'>
-                Eric Simons
-              </Link>
-              <span className='date'>January 20th</span>
-            </div>
-            <button className='btn btn-sm btn-outline-secondary'>
-              <i className='ion-plus-round'></i>
-              &nbsp; Follow {article.author.username}
-              <span className='counter'>(10)</span>
-            </button>
-            &nbsp;&nbsp;
-            <button
-              className='btn btn-sm btn-outline-primary'
-              onClick={() => {
-                user.token ? LoveUnLove() : history.push("./register")
-              }}>
-              <i className='ion-heart'></i>
-              &nbsp; Favorite Post{" "}
-              <span className='counter'>({article.favoritesCount})</span>
-            </button>
-          </div>
+          <ArticleMeta
+            article={article}
+            favorited={favorited}
+            setFavorited={setFavorited}
+            favoritesCount={favoritesCount}
+            setFavoritesCount={setFavoritesCount}
+            user={user}
+          />
         </div>
       </div>
 
@@ -81,99 +60,37 @@ function Article() {
         <div className='row article-content'>
           <div className='col-md-12'>
             <p>{article.body}</p>
+            <ul class='tag-list'>
+              {article.tagList.map((tag) => {
+                return (
+                  <li class='tag-default tag-pill tag-outline ng-binding ng-scope'>
+                    {tag}
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         </div>
 
         <hr />
 
         <div className='article-actions'>
-          <div className='article-meta'>
-            <Link to='profile.html'>
-              <img src='http://i.imgur.com/Qr71crq.jpg' />
-            </Link>
-            <div className='info'>
-              <Link to='' className='author'>
-                Eric Simons
-              </Link>
-              <span className='date'>January 20th</span>
-            </div>
-            <button className='btn btn-sm btn-outline-secondary'>
-              <i className='ion-plus-round'></i>
-              &nbsp; Follow Eric Simons <span className='counter'>(10)</span>
-            </button>
-            &nbsp;
-            <button className='btn btn-sm btn-outline-primary'>
-              <i className='ion-heart'></i>
-              &nbsp; Favorite Post <span className='counter'>(29)</span>
-            </button>
-          </div>
+          <ArticleMeta
+            article={article}
+            favorited={favorited}
+            setFavorited={setFavorited}
+            favoritesCount={favoritesCount}
+            setFavoritesCount={setFavoritesCount}
+            user={user}
+          />
         </div>
 
         <div className='row'>
           <div className='col-xs-12 col-md-8 offset-md-2'>
-            <form className='card comment-form'>
-              <div className='card-block'>
-                <textarea
-                  className='form-control'
-                  placeholder='Write a comment...'
-                  rows='3'></textarea>
-              </div>
-              <div className='card-footer'>
-                <img
-                  src='http://i.imgur.com/Qr71crq.jpg'
-                  className='comment-author-img'
-                />
-                <button className='btn btn-sm btn-primary'>Post Comment</button>
-              </div>
-            </form>
-
-            <div className='card'>
-              <div className='card-block'>
-                <p className='card-text'>
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
-              </div>
-              <div className='card-footer'>
-                <Link to='' className='comment-author'>
-                  <img
-                    src='http://i.imgur.com/Qr71crq.jpg'
-                    className='comment-author-img'
-                  />
-                </Link>
-                &nbsp;
-                <Link to='' className='comment-author'>
-                  Jacob Schmidt
-                </Link>
-                <span className='date-posted'>Dec 29th</span>
-              </div>
-            </div>
-
-            <div className='card'>
-              <div className='card-block'>
-                <p className='card-text'>
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
-              </div>
-              <div className='card-footer'>
-                <Link to='' className='comment-author'>
-                  <img
-                    src='http://i.imgur.com/Qr71crq.jpg'
-                    className='comment-author-img'
-                  />
-                </Link>
-                &nbsp;
-                <Link to='' className='comment-author'>
-                  Jacob Schmidt
-                </Link>
-                <span className='date-posted'>Dec 29th</span>
-                <span className='mod-options'>
-                  <i className='ion-edit'></i>
-                  <i className='ion-trash-a'></i>
-                </span>
-              </div>
-            </div>
+            {user.token && <CreateComment slug={slug} user={user} />}
+            {comments.map((comment) => {
+              return <Comment comment={comment} user={user} />
+            })}
           </div>
         </div>
       </div>

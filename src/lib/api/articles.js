@@ -100,6 +100,37 @@ const articlesAPI = {
       return e
     }
   },
+  getComments: async (slug, token) => {
+    try {
+      const response = await fetch(`${apiUrl}/articles/${slug}/comments`, {
+        method: "GET",
+        headers: getHeaders(token),
+      })
+      const { comments } = await response.json()
+      console.log(comments)
+      return comments
+    } catch (e) {
+      return e
+    }
+  },
+  addComment: async ({ comment, slug, token }) => {
+    try {
+      console.log(JSON.stringify({ comment: { body: comment } }))
+      const response = await fetch(`${apiUrl}/articles/${slug}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Token ${encodeURIComponent(token)}`,
+        },
+        body: JSON.stringify({ comment: { body: comment } }),
+      })
+      // const { newComment } = await response.json()
+      // return newComment
+      return await response.json()
+    } catch (e) {
+      return e
+    }
+  },
 }
 
 export default articlesAPI
