@@ -45,6 +45,20 @@ const userAPI = {
       return e
     }
   },
+  getProfile: async (username, token) => {
+    try {
+      const response = await fetch(`${apiUrl}/profiles/${username}`, {
+        method: "GET",
+        headers: {
+          authorization: `Token ${encodeURIComponent(token)}`,
+        },
+      })
+      const { profile } = await response.json()
+      return { profile, status: response.status }
+    } catch (e) {
+      return e
+    }
+  },
 }
 
 export default userAPI

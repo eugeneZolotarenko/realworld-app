@@ -16,7 +16,6 @@ const articlesAPI = {
         headers: getHeaders(token),
       })
       const { article } = await response.json()
-      console.log(article)
       return { article, status: response.status }
     } catch (e) {
       return e

@@ -22,11 +22,11 @@ function ArticlePreview({ article, currentUser }) {
   return (
     <div className='article-preview'>
       <div className='article-meta'>
-        <Link to='/profile'>
+        <Link to={`/profile/${article.author.username}`}>
           <img src={article.author.image} alt={article.author.username} />
         </Link>
         <div className='info'>
-          <Link to='/profile' className='author'>
+          <Link to={`/profile/${article.author.username}`} className='author'>
             {article.author.username}
           </Link>
           <span className='date'>

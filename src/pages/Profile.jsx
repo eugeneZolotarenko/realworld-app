@@ -1,6 +1,29 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import { useSelector } from "react-redux"
+
+import userAPI from "lib/api/user"
+import history from "lib/utils/history"
 
 function Profile() {
+  const [username] = useState(window.location.pathname.replace("/profile/", ""))
+  const [profile, setProfile] = useState()
+
+  const { user } = useSelector((state) => state)
+
+  useEffect(() => {
+    async function getArticle() {
+      const { profile, status } = await userAPI.getProfile(username, user.token)
+      if (status === 200) {
+        user.token ? setProfile(profile) : setProfile(profile)
+      } else {
+        history.push("/")
+      }
+    }
+    getArticle()
+  }, [user.token, username])
+
+  console.log(profile)
+
   return (
     <div className='profile-page'>
       <div className='user-info'>

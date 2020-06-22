@@ -21,7 +21,7 @@ function Article() {
     async function getArticle() {
       const { article, status } = await articlesAPI.getOne(slug, user.token)
       if (status === 200) {
-        user.token ? setArticle(article) : setArticle(article)
+        setArticle(article)
         setFavoritesCount(article.favoritesCount)
         setFavorited(article.favorited)
       } else {
