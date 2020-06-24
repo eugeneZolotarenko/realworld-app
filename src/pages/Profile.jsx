@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
 import userAPI from "lib/api/user"
 import history from "lib/utils/history"
+
+import { setArticlesAuthor } from "redux/slices/articlesSlice"
+import ArticlesList from "components/Home/ArticlesList"
 
 function Profile() {
   const [username] = useState(window.location.pathname.replace("/profile/", ""))
   const [profile, setProfile] = useState()
 
   const { user } = useSelector((state) => state)
+  const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(setArticlesAuthor(username))
     async function getArticle() {
       const { profile, status } = await userAPI.getProfile(username, user.token)
       if (status === 200) {
@@ -20,9 +25,12 @@ function Profile() {
       }
     }
     getArticle()
-  }, [user.token, username])
+  }, [user.token, username, dispatch])
 
   console.log(profile)
+  if (!profile) {
+    return <p>Loading...</p>
+  }
 
   return (
     <div className='profile-page'>
@@ -30,15 +38,16 @@ function Profile() {
         <div className='container'>
           <div className='row'>
             <div className='col-xs-12 col-md-10 offset-md-1'>
-              <img src='http://i.imgur.com/Qr71crq.jpg' className='user-img' />
-              <h4>Eric Simons</h4>
-              <p>
-                Cofounder @GoThinkster, lived in Aol's HQ for a few months,
-                kinda looks like Peeta from the Hunger Games
-              </p>
+              <img
+                src={profile.image}
+                className='user-img'
+                alt={profile.username}
+              />
+              <h4>{profile.username}</h4>
+              <p>{profile.bio}</p>
               <button className='btn btn-sm btn-outline-secondary action-btn'>
                 <i className='ion-plus-round'></i>
-                &nbsp; Follow Eric Simons
+                &nbsp; Follow {profile.username}
               </button>
             </div>
           </div>
@@ -63,7 +72,9 @@ function Profile() {
               </ul>
             </div>
 
-            <div className='article-preview'>
+            <ArticlesList />
+
+            {/* <div className='article-preview'>
               <div className='article-meta'>
                 <a href=''>
                   <img src='http://i.imgur.com/Qr71crq.jpg' />
@@ -112,7 +123,7 @@ function Profile() {
                   <li className='tag-default tag-pill tag-outline'>Song</li>
                 </ul>
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

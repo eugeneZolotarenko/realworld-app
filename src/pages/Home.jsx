@@ -1,10 +1,17 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useDispatch } from "react-redux"
 
 import ArticlesList from "components/Home/ArticlesList"
 import Tags from "components/Home/Tags"
 import Tabs from "components/Home/Tabs"
 
+import { setArticlesAuthor } from "redux/slices/articlesSlice"
+
 function Home() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(setArticlesAuthor(""))
+  }, [])
   return (
     <div className='home-page'>
       <div className='banner'>

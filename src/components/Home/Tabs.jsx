@@ -1,11 +1,7 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import {
-  setArticlesTag,
-  setArticlesPage,
-  setArticlesFeed,
-} from "redux/slices/articlesSlice"
+import { setArticlesTag, setArticlesFeed } from "redux/slices/articlesSlice"
 
 function Tabs() {
   const dispatch = useDispatch()
@@ -19,8 +15,6 @@ function Tabs() {
             style={{ display: user.token ? "block" : "none" }}
             className={articlesData.feed ? "nav-link active" : "nav-link"}
             onClick={() => {
-              dispatch(setArticlesPage(1))
-              dispatch(setArticlesTag(""))
               dispatch(setArticlesFeed(true))
             }}>
             Your Feed
@@ -34,7 +28,6 @@ function Tabs() {
                 : "nav-link active"
             }
             onClick={() => {
-              dispatch(setArticlesPage(1))
               dispatch(setArticlesTag(""))
               dispatch(setArticlesFeed(false))
             }}>

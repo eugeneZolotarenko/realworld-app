@@ -34,9 +34,23 @@ const articlesAPI = {
   },
   filterByTag: async (page, tag, token) => {
     try {
-      console.log(token)
       const response = await fetch(
         `${apiUrl}/articles?tag=${tag}&${limitOffset(page)}`,
+        {
+          method: "GET",
+          headers: getHeaders(token),
+        }
+      )
+      return await response.json()
+    } catch (e) {
+      return e
+    }
+  },
+  filterByAuthor: async (page, author, token) => {
+    try {
+      console.log(token)
+      const response = await fetch(
+        `${apiUrl}/articles?author=${author}&${limitOffset(page)}`,
         {
           method: "GET",
           headers: getHeaders(token),

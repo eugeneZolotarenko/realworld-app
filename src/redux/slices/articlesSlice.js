@@ -9,6 +9,7 @@ const articlesSlice = createSlice({
     count: 0,
     page: 1,
     tag: "",
+    author: "",
     feed: false,
     isLoading: false,
     isError: false,
@@ -24,9 +25,21 @@ const articlesSlice = createSlice({
       state.page = action.payload
     },
     setArticlesTag(state, action) {
+      state.feed = false
+      state.author = ""
+      state.page = 1
       state.tag = action.payload
     },
+    setArticlesAuthor(state, action) {
+      state.feed = false
+      state.tag = ""
+      state.page = 1
+      state.author = action.payload
+    },
     setArticlesFeed(state, action) {
+      state.tag = ""
+      state.author = ""
+      state.page = 1
       state.feed = action.payload
     },
     setLoading(state, action) {
@@ -58,6 +71,22 @@ export const getArticlesByTag = (page, tag, token) => async (dispatch) => {
   }
 }
 
+export const getArticlesByAuthor = (page, author, token) => async (
+  dispatch
+) => {
+  dispatch(setLoading(true))
+  try {
+    const byAuthorArticles = await articlesAPI.filterByAuthor(
+      page,
+      author,
+      token
+    )
+    dispatch(setArticlesData(byAuthorArticles))
+  } catch {
+    dispatch(setError(true))
+  }
+}
+
 export const getArticlesFeeds = (page, token) => async (dispatch) => {
   dispatch(setLoading(true))
   try {
@@ -72,6 +101,7 @@ export const {
   setArticlesData,
   setArticlesPage,
   setArticlesTag,
+  setArticlesAuthor,
   setArticlesFeed,
   setLoading,
   setError,

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   getAllArticles,
   getArticlesByTag,
+  getArticlesByAuthor,
   getArticlesFeeds,
 } from "redux/slices/articlesSlice"
 import ArticlePreview from "./ArticlePreview"
@@ -15,22 +16,23 @@ function ArticlesList() {
 
   useEffect(() => {
     if (articlesData.tag) {
-      user.token
-        ? dispatch(
-            getArticlesByTag(articlesData.page, articlesData.tag, user.token)
-          )
-        : dispatch(getArticlesByTag(articlesData.page, articlesData.tag))
+      dispatch(
+        getArticlesByTag(articlesData.page, articlesData.tag, user.token)
+      )
+    } else if (articlesData.author) {
+      dispatch(
+        getArticlesByAuthor(articlesData.page, articlesData.author, user.token)
+      )
     } else if (articlesData.feed && user.token) {
       dispatch(getArticlesFeeds(articlesData.page, user.token))
     } else {
-      user.token
-        ? dispatch(getAllArticles(articlesData.page, user.token))
-        : dispatch(getAllArticles(articlesData.page))
+      dispatch(getAllArticles(articlesData.page, user.token))
     }
   }, [
     dispatch,
     articlesData.page,
     articlesData.tag,
+    articlesData.author,
     articlesData.feed,
     user.token,
   ])

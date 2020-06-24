@@ -30,9 +30,7 @@ function Tags() {
         return (
           <button
             onClick={() => {
-              dispatch(setArticlesPage(1))
               dispatch(setArticlesTag(tag))
-              dispatch(setArticlesFeed(false))
             }}
             key={i}
             className='tag-pill tag-default'>
