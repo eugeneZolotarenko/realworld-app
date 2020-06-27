@@ -24,7 +24,7 @@ function Home() {
       <div className='container page'>
         <div className='row'>
           <div className='col-md-9'>
-            <Tabs />
+            <Tabs location='home' />
             <ArticlesList />
           </div>
 

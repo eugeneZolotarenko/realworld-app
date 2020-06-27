@@ -10,6 +10,7 @@ const articlesSlice = createSlice({
     page: 1,
     tag: "",
     author: "",
+    userFavorited: "",
     feed: false,
     isLoading: false,
     isError: false,
@@ -27,18 +28,28 @@ const articlesSlice = createSlice({
     setArticlesTag(state, action) {
       state.feed = false
       state.author = ""
+      state.userFavorited = ""
       state.page = 1
       state.tag = action.payload
     },
     setArticlesAuthor(state, action) {
       state.feed = false
       state.tag = ""
+      state.userFavorited = ""
       state.page = 1
       state.author = action.payload
+    },
+    setArticlesUserFavorited(state, action) {
+      state.feed = false
+      state.tag = ""
+      state.author = ""
+      state.page = 1
+      state.userFavorited = action.payload
     },
     setArticlesFeed(state, action) {
       state.tag = ""
       state.author = ""
+      state.userFavorited = ""
       state.page = 1
       state.feed = action.payload
     },
@@ -87,6 +98,22 @@ export const getArticlesByAuthor = (page, author, token) => async (
   }
 }
 
+export const getArticlesByUserFavorited = (page, user, token) => async (
+  dispatch
+) => {
+  dispatch(setLoading(true))
+  try {
+    const userFavoritedArticles = await articlesAPI.filterByUserFavorited(
+      page,
+      user,
+      token
+    )
+    dispatch(setArticlesData(userFavoritedArticles))
+  } catch {
+    dispatch(setError(true))
+  }
+}
+
 export const getArticlesFeeds = (page, token) => async (dispatch) => {
   dispatch(setLoading(true))
   try {
@@ -102,6 +129,7 @@ export const {
   setArticlesPage,
   setArticlesTag,
   setArticlesAuthor,
+  setArticlesUserFavorited,
   setArticlesFeed,
   setLoading,
   setError,

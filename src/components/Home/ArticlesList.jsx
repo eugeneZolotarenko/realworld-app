@@ -5,6 +5,7 @@ import {
   getAllArticles,
   getArticlesByTag,
   getArticlesByAuthor,
+  getArticlesByUserFavorited,
   getArticlesFeeds,
 } from "redux/slices/articlesSlice"
 import ArticlePreview from "./ArticlePreview"
@@ -23,6 +24,14 @@ function ArticlesList() {
       dispatch(
         getArticlesByAuthor(articlesData.page, articlesData.author, user.token)
       )
+    } else if (articlesData.userFavorited) {
+      dispatch(
+        getArticlesByUserFavorited(
+          articlesData.page,
+          articlesData.userFavorited,
+          user.token
+        )
+      )
     } else if (articlesData.feed && user.token) {
       dispatch(getArticlesFeeds(articlesData.page, user.token))
     } else {
@@ -33,6 +42,7 @@ function ArticlesList() {
     articlesData.page,
     articlesData.tag,
     articlesData.author,
+    articlesData.userFavorited,
     articlesData.feed,
     user.token,
   ])
