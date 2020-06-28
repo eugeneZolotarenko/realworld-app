@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 import articlesAPI from "lib/api/articles"
+import { ARTICLES_ON_ONE_PAGE } from "lib/utils/constants"
 
 const articlesSlice = createSlice({
   name: "articles",
   initialState: {
     articles: [],
     count: 0,
+    pages: 0,
     page: 1,
     tag: "",
     author: "",
@@ -17,10 +19,18 @@ const articlesSlice = createSlice({
   },
   reducers: {
     setArticlesData(state, action) {
-      state.isLoading = false
       state.isError = false
       state.articles = action.payload.articles
       state.count = action.payload.articlesCount
+      state.pages = Array.from(
+        {
+          length: Math.ceil(
+            action.payload.articlesCount / ARTICLES_ON_ONE_PAGE
+          ),
+        },
+        (v, i) => i + 1
+      )
+      state.isLoading = false
     },
     setArticlesPage(state, action) {
       state.page = action.payload

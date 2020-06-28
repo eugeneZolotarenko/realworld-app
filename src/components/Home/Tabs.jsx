@@ -30,7 +30,6 @@ function Tabs({ location, userName }) {
                 articlesData.userFavorited ? "nav-link active" : "nav-link"
               }
               onClick={() => {
-                console.log(userName)
                 dispatch(setArticlesUserFavorited(userName))
               }}>
               Favorited Articles

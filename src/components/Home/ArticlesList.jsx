@@ -55,7 +55,11 @@ function ArticlesList() {
     return (
       <>
         <p>Loading...</p>
-        <Pagination page={articlesData.page} count={articlesData.count} />
+        <Pagination
+          page={articlesData.page}
+          count={articlesData.count}
+          isLoading={articlesData.isLoading}
+        />
       </>
     )
   }
@@ -65,7 +69,11 @@ function ArticlesList() {
       {articlesData.articles.map((article, i) => {
         return <ArticlePreview article={article} currentUser={user} key={i} />
       })}
-      <Pagination page={articlesData.page} count={articlesData.count} />
+      <Pagination
+        page={articlesData.page}
+        pages={articlesData.pages}
+        isLoading={articlesData.isLoading}
+      />
     </>
   )
 }

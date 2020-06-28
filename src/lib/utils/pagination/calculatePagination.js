@@ -1,8 +1,5 @@
-import { ITEMS_IN_PAGINATION } from "./constants"
-
-function calculatePercentageOfPages(percent) {
-  return Math.ceil(ITEMS_IN_PAGINATION * (percent / 100))
-}
+import { ITEMS_IN_PAGINATION } from "../constants"
+import { calculatePercentageOfPages } from "lib/utils/pagination/calculatePercentageOfPages"
 
 export function calculatePagination({ page, pages, to, from }) {
   from.current = Math.floor(page - ITEMS_IN_PAGINATION / 2)

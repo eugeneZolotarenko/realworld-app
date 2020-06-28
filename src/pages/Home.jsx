@@ -11,7 +11,7 @@ function Home() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(setArticlesAuthor(""))
-  }, [])
+  }, [dispatch])
   return (
     <div className='home-page'>
       <div className='banner'>
