@@ -133,7 +133,6 @@ const articlesAPI = {
         headers: getHeaders(token),
       })
       const { comments } = await response.json()
-      console.log(comments)
       return comments
     } catch (e) {
       return e
@@ -141,7 +140,6 @@ const articlesAPI = {
   },
   addComment: async ({ comment, slug, token }) => {
     try {
-      console.log(JSON.stringify({ comment: { body: comment } }))
       const response = await fetch(`${apiUrl}/articles/${slug}/comments`, {
         method: "POST",
         headers: {

@@ -11,6 +11,7 @@ import Tabs from "components/Home/Tabs"
 function Profile() {
   const [username] = useState(window.location.pathname.replace("/profile/", ""))
   const [profile, setProfile] = useState()
+  const [followedUser, setFollowedUser] = useState()
 
   const { user } = useSelector((state) => state)
   const dispatch = useDispatch()
@@ -20,7 +21,8 @@ function Profile() {
     async function getArticle() {
       const { profile, status } = await userAPI.getProfile(username, user.token)
       if (status === 200) {
-        user.token ? setProfile(profile) : setProfile(profile)
+        setProfile(profile)
+        setFollowedUser(profile.following)
       } else {
         history.push("/")
       }
@@ -28,7 +30,6 @@ function Profile() {
     getArticle()
   }, [user.token, username, dispatch])
 
-  console.log(profile)
   if (!profile) {
     return <p>Loading...</p>
   }
@@ -46,10 +47,24 @@ function Profile() {
               />
               <h4>{profile.username}</h4>
               <p>{profile.bio}</p>
-              <button className='btn btn-sm btn-outline-secondary action-btn'>
-                <i className='ion-plus-round'></i>
-                &nbsp; Follow {profile.username}
-              </button>
+              {user.token && (
+                <button
+                  className={
+                    followedUser
+                      ? "btn btn-sm btn-outline-secondary action-btn active"
+                      : "btn btn-sm btn-outline-secondary action-btn"
+                  }
+                  onClick={async () => {
+                    setFollowedUser(!followedUser)
+                    followedUser
+                      ? await userAPI.unFollowUser(profile.username, user.token)
+                      : await userAPI.followUser(profile.username, user.token)
+                  }}>
+                  <i className='ion-plus-round'></i>
+                  &nbsp; {followedUser ? "Unfollow" : "Follow"}{" "}
+                  {profile.username}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -59,21 +74,6 @@ function Profile() {
         <div className='row'>
           <div className='col-xs-12 col-md-10 offset-md-1'>
             <Tabs location='profile' userName={profile.username} />
-            {/* <div className='articles-toggle'>
-              <ul className='nav nav-pills outline-active'>
-                <li className='nav-item'>
-                  <a className='nav-link active' href=''>
-                    My Articles
-                  </a>
-                </li>
-                <li className='nav-item'>
-                  <a className='nav-link' href=''>
-                    Favorited Articles
-                  </a>
-                </li>
-              </ul>
-            </div> */}
-
             <ArticlesList />
           </div>
         </div>

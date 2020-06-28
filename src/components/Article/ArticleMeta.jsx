@@ -13,12 +13,11 @@ function ArticleMeta({
   user,
 }) {
   const LoveUnLove = async () => {
+    setFavorited(!favorited)
     if (!favorited) {
-      setFavorited(true)
       setFavoritesCount(favoritesCount + 1)
       await articlesAPI.loveIt(article.slug, user.token)
     } else {
-      setFavorited(false)
       setFavoritesCount(favoritesCount - 1)
       await articlesAPI.unLoveIt(article.slug, user.token)
     }

@@ -60,10 +60,10 @@ function Article() {
         <div className='row article-content'>
           <div className='col-md-12'>
             <p>{article.body}</p>
-            <ul class='tag-list'>
+            <ul className='tag-list'>
               {article.tagList.map((tag) => {
                 return (
-                  <li class='tag-default tag-pill tag-outline ng-binding ng-scope'>
+                  <li className='tag-default tag-pill tag-outline ng-binding ng-scope'>
                     {tag}
                   </li>
                 )

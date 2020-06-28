@@ -1,4 +1,7 @@
 const apiUrl = process.env.REACT_APP_API_URL
+const getHeaders = (token) =>
+  token ? { authorization: `Token ${encodeURIComponent(token)}` } : {}
+
 const userAPI = {
   register: async (username, email, password) => {
     try {
@@ -49,12 +52,40 @@ const userAPI = {
     try {
       const response = await fetch(`${apiUrl}/profiles/${username}`, {
         method: "GET",
-        headers: {
-          authorization: `Token ${encodeURIComponent(token)}`,
-        },
+        headers: getHeaders(token),
       })
       const { profile } = await response.json()
       return { profile, status: response.status }
+    } catch (e) {
+      return e
+    }
+  },
+  followUser: async (username, token) => {
+    try {
+      const response = await fetch(`${apiUrl}/profiles/${username}/follow`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${encodeURIComponent(token)}`,
+        },
+      })
+      const data = await response.json()
+      return data
+    } catch (e) {
+      return e
+    }
+  },
+  unFollowUser: async (username, token) => {
+    try {
+      const response = await fetch(`${apiUrl}/profiles/${username}/follow`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${encodeURIComponent(token)}`,
+        },
+      })
+      const data = await response.json()
+      return data
     } catch (e) {
       return e
     }

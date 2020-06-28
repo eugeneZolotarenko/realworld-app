@@ -64,6 +64,10 @@ function ArticlesList() {
     )
   }
 
+  if (articlesData.articles.length === 0) {
+    return <p>No Articles yet</p>
+  }
+
   return (
     <>
       {articlesData.articles.map((article, i) => {
