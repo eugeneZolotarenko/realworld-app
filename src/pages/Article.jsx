@@ -9,7 +9,9 @@ import Comment from "../components/Article/Comment"
 import CreateComment from "../components/Article/CreateComment"
 
 function Article() {
-  const [slug] = useState(window.location.pathname.replace("/article/", ""))
+  const [slug] = useState(
+    window.location.pathname.replace("article", "").replace(/\//g, "")
+  )
   const [article, setArticle] = useState()
   const [favoritesCount, setFavoritesCount] = useState()
   const [favorited, setFavorited] = useState()

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import { Link } from "react-router-dom"
 
 import userAPI from "lib/api/user"
 import history from "lib/utils/history"
@@ -8,13 +9,24 @@ import { setArticlesAuthor } from "redux/slices/articlesSlice"
 import ArticlesList from "components/Home/ArticlesList"
 import Tabs from "components/Home/Tabs"
 
+const changePathnameToWord = (pathname) =>
+  pathname.replace("profile", "").replace(/\//g, "")
+
 function Profile() {
-  const [username] = useState(window.location.pathname.replace("/profile/", ""))
+  const { user } = useSelector((state) => state)
   const [profile, setProfile] = useState()
   const [followedUser, setFollowedUser] = useState()
+  const [username, setUsername] = useState(
+    changePathnameToWord(window.location.pathname)
+  )
 
-  const { user } = useSelector((state) => state)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    return history.listen((location) => {
+      setUsername(changePathnameToWord(location.pathname))
+    })
+  }, [])
 
   useEffect(() => {
     dispatch(setArticlesAuthor(username))
@@ -47,7 +59,14 @@ function Profile() {
               />
               <h4>{profile.username}</h4>
               <p>{profile.bio}</p>
-              {user.token && (
+              {user.token && user.username === profile.username && (
+                <Link
+                  class='btn btn-sm btn-outline-secondary action-btn'
+                  to='/settings'>
+                  <i class='ion-gear-a'></i> Edit Profile Settings
+                </Link>
+              )}
+              {user.token && user.username !== profile.username && (
                 <button
                   className={
                     followedUser

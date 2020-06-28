@@ -25,11 +25,11 @@ function ArticleMeta({
 
   return (
     <div className='article-meta'>
-      <Link to=''>
+      <Link to={`/profile/${article.author.username}`}>
         <img src={article.author.image} alt={article.author.username} />
       </Link>
       <div className='info'>
-        <Link to='' className='author'>
+        <Link to={`/profile/${article.author.username}`} className='author'>
           {article.author.username}
         </Link>
         <span className='date'>
