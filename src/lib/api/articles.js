@@ -9,6 +9,20 @@ const getHeaders = (token) =>
   token ? { authorization: `Token ${encodeURIComponent(token)}` } : {}
 
 const articlesAPI = {
+  createArticle: async ({ title, description, body, tagList, token }) => {
+    try {
+      const response = await fetch(`${apiUrl}/articles`, {
+        method: "POST",
+        headers: {
+          headers: getHeaders(token),
+        },
+        body: JSON.stringify({ user: { title, description, body, tagList } }),
+      })
+      return await response.json()
+    } catch (e) {
+      return e
+    }
+  },
   getOne: async (slug, token) => {
     try {
       const response = await fetch(`${apiUrl}/articles/${slug}`, {

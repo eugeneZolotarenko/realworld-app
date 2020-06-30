@@ -1,6 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 
 function Editor() {
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [body, setBody] = useState("")
+  const [tags, setTags] = useState([])
+
   return (
     <div className='editor-page'>
       <div className='container page'>
@@ -13,6 +18,9 @@ function Editor() {
                     type='text'
                     className='form-control form-control-lg'
                     placeholder='Article Title'
+                    onChange={(e) => {
+                      setTitle(e.target.value)
+                    }}
                   />
                 </fieldset>
                 <fieldset className='form-group'>
@@ -20,19 +28,28 @@ function Editor() {
                     type='text'
                     className='form-control'
                     placeholder="What's this article about?"
+                    onChange={(e) => {
+                      setDescription(e.target.value)
+                    }}
                   />
                 </fieldset>
                 <fieldset className='form-group'>
                   <textarea
                     className='form-control'
                     rows='8'
-                    placeholder='Write your article (in markdown)'></textarea>
+                    placeholder='Write your article (in markdown)'
+                    onChange={(e) => {
+                      setBody(e.target.value)
+                    }}></textarea>
                 </fieldset>
                 <fieldset className='form-group'>
                   <input
                     type='text'
                     className='form-control'
                     placeholder='Enter tags'
+                    onChange={(e) => {
+                      setBody(e.target.value)
+                    }}
                   />
                   <div className='tag-list'></div>
                 </fieldset>

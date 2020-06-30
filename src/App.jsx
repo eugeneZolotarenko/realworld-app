@@ -9,7 +9,6 @@ import Settings from "./pages/Settings"
 import Editor from "./pages/Editor"
 import Article from "./pages/Article"
 import Profile from "./pages/Profile"
-import ProfileFavorites from "./pages/ProfileFavorites"
 
 import Header from "./components/Header"
 import Footer from "./components/Footer"
@@ -43,7 +42,6 @@ function App() {
         <Route path='/editor' component={Editor} />
         <Route path='/article' component={Article} />
         <Route path='/profile' component={Profile} />
-        <Route path='/profile/favorites' component={ProfileFavorites} />
       </Switch>
       <Footer />
     </div>
