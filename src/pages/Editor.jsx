@@ -4,7 +4,9 @@ function Editor() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [body, setBody] = useState("")
+
   const [tags, setTags] = useState([])
+  const [lastTag, setLastTag] = useState("")
 
   return (
     <div className='editor-page'>
@@ -47,11 +49,39 @@ function Editor() {
                     type='text'
                     className='form-control'
                     placeholder='Enter tags'
+                    value={lastTag}
+                    onKeyDown={(e) => {
+                      if (lastTag && (e.keyCode === 13 || e.keyCode === 188)) {
+                        e.preventDefault()
+                        setTags([...tags, e.target.value.split(",")])
+                        setLastTag("")
+                        console.log(lastTag)
+                      }
+                    }}
+                    onBlur={(e) => {
+                      if (lastTag) {
+                        setTags([...tags, e.target.value.split(",")])
+                        setLastTag("")
+                      }
+                    }}
                     onChange={(e) => {
-                      setBody(e.target.value)
+                      setLastTag(e.target.value.split(","))
                     }}
                   />
-                  <div className='tag-list'></div>
+                  <div class='tag-list'>
+                    {tags.map((tag, i) => {
+                      return (
+                        <span key={i} class='tag-default tag-pill'>
+                          <i
+                            class='ion-close-round'
+                            onClick={() => {
+                              setTags([...tags].filter((t, j) => j !== i))
+                            }}></i>
+                          {tag}
+                        </span>
+                      )
+                    })}
+                  </div>
                 </fieldset>
                 <button
                   className='btn btn-lg pull-xs-right btn-primary'
