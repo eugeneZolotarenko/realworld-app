@@ -1,19 +1,34 @@
 import React, { useState } from "react"
+import { useSelector } from "react-redux"
+
+import articlesAPI from "lib/api/articles"
 
 function Editor() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [body, setBody] = useState("")
+  const [tagList, setTagList] = useState([])
 
-  const [tags, setTags] = useState([])
   const [lastTag, setLastTag] = useState("")
+
+  const { user } = useSelector((state) => state)
 
   return (
     <div className='editor-page'>
       <div className='container page'>
         <div className='row'>
           <div className='col-md-10 offset-md-1 col-xs-12'>
-            <form>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault()
+                await articlesAPI.createArticle({
+                  title,
+                  description,
+                  body,
+                  tagList,
+                  token: user.token,
+                })
+              }}>
               <fieldset>
                 <fieldset className='form-group'>
                   <input
@@ -53,14 +68,13 @@ function Editor() {
                     onKeyDown={(e) => {
                       if (lastTag && (e.keyCode === 13 || e.keyCode === 188)) {
                         e.preventDefault()
-                        setTags([...tags, e.target.value.split(",")])
+                        setTagList([...tagList, ...e.target.value.split(",")])
                         setLastTag("")
-                        console.log(lastTag)
                       }
                     }}
                     onBlur={(e) => {
                       if (lastTag) {
-                        setTags([...tags, e.target.value.split(",")])
+                        setTagList([...tagList, ...e.target.value.split(",")])
                         setLastTag("")
                       }
                     }}
@@ -69,13 +83,13 @@ function Editor() {
                     }}
                   />
                   <div class='tag-list'>
-                    {tags.map((tag, i) => {
+                    {tagList.map((tag, i) => {
                       return (
                         <span key={i} class='tag-default tag-pill'>
                           <i
                             class='ion-close-round'
                             onClick={() => {
-                              setTags([...tags].filter((t, j) => j !== i))
+                              setTagList([...tagList].filter((t, j) => j !== i))
                             }}></i>
                           {tag}
                         </span>
@@ -85,7 +99,7 @@ function Editor() {
                 </fieldset>
                 <button
                   className='btn btn-lg pull-xs-right btn-primary'
-                  type='button'>
+                  type='submit'>
                   Publish Article
                 </button>
               </fieldset>

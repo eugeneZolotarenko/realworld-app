@@ -36,24 +36,44 @@ function ArticleMeta({
           {new Date(article.createdAt).toDateString()}
         </span>
       </div>
-      <button className='btn btn-sm btn-outline-secondary'>
-        <i className='ion-plus-round'></i>
-        &nbsp; Follow {article.author.username}
-      </button>
-      &nbsp;&nbsp;
-      <button
-        className={
-          favorited
-            ? "btn btn-sm btn-outline-primary active"
-            : "btn btn-sm btn-outline-primary"
-        }
-        onClick={() => {
-          user.token ? LoveUnLove() : history.push("./register")
-        }}>
-        <i className='ion-heart'></i>
-        &nbsp; {favorited ? "Unfavorite" : "Favorite"} Post{" "}
-        <span className='counter'>({favoritesCount})</span>
-      </button>
+      {user.username !== article.author.username && (
+        <>
+          <button className='btn btn-sm btn-outline-secondary'>
+            <i className='ion-plus-round'></i>
+            &nbsp; Follow {article.author.username}
+          </button>
+          &nbsp;&nbsp;
+          <button
+            className={
+              favorited
+                ? "btn btn-sm btn-outline-primary active"
+                : "btn btn-sm btn-outline-primary"
+            }
+            onClick={() => {
+              user.token ? LoveUnLove() : history.push("./register")
+            }}>
+            <i className='ion-heart'></i>
+            &nbsp; {favorited ? "Unfavorite" : "Favorite"} Post{" "}
+            <span className='counter'>({favoritesCount})</span>
+          </button>
+        </>
+      )}
+      {user.username === article.author.username && (
+        <>
+          <Link
+            className='btn btn-outline-secondary btn-sm'
+            to={`/editor/${article.slug}`}>
+            <i className='ion-edit'></i> Edit Article
+          </Link>
+          <button
+            className='btn btn-outline-danger btn-sm'
+            onClick={async () => {
+              console.log(article)
+            }}>
+            <i className='ion-trash-a'></i> Delete Article
+          </button>
+        </>
+      )}
     </div>
   )
 }

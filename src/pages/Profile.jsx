@@ -79,7 +79,10 @@ function Profile() {
                       ? await userAPI.unFollowUser(profile.username, user.token)
                       : await userAPI.followUser(profile.username, user.token)
                   }}>
-                  <i className='ion-plus-round'></i>
+                  <i
+                    className={
+                      followedUser ? "ion-minus-round" : "ion-plus-round"
+                    }></i>
                   &nbsp; {followedUser ? "Unfollow" : "Follow"}{" "}
                   {profile.username}
                 </button>

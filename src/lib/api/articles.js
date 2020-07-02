@@ -14,9 +14,12 @@ const articlesAPI = {
       const response = await fetch(`${apiUrl}/articles`, {
         method: "POST",
         headers: {
-          headers: getHeaders(token),
+          "Content-Type": "application/json",
+          authorization: `Token ${encodeURIComponent(token)}`,
         },
-        body: JSON.stringify({ user: { title, description, body, tagList } }),
+        body: JSON.stringify({
+          article: { title, description, body, tagList },
+        }),
       })
       return await response.json()
     } catch (e) {
