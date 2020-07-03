@@ -26,6 +26,23 @@ const articlesAPI = {
       return e
     }
   },
+  editArticle: async ({ title, description, body, tagList, token, slug }) => {
+    try {
+      const response = await fetch(`${apiUrl}/articles/${slug}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Token ${encodeURIComponent(token)}`,
+        },
+        body: JSON.stringify({
+          article: { title, description, body, tagList },
+        }),
+      })
+      return await response.json()
+    } catch (e) {
+      return e
+    }
+  },
   getOne: async (slug, token) => {
     try {
       const response = await fetch(`${apiUrl}/articles/${slug}`, {

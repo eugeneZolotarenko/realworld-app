@@ -1,7 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 
 import articlesAPI from "lib/api/articles"
+import history from "lib/utils/history"
+
+const changePathnameToWord = (pathname) =>
+  pathname.replace("editor", "").replace(/\//g, "")
 
 function Editor() {
   const [title, setTitle] = useState("")
@@ -10,8 +14,34 @@ function Editor() {
   const [tagList, setTagList] = useState([])
 
   const [lastTag, setLastTag] = useState("")
+  const [slug, setSlug] = useState(
+    changePathnameToWord(window.location.pathname)
+  )
 
   const { user } = useSelector((state) => state)
+
+  useEffect(() => {
+    return history.listen((location) => {
+      setSlug(changePathnameToWord(location.pathname))
+    })
+  }, [])
+
+  useEffect(() => {
+    if (slug) {
+      async function getArticle() {
+        const { article, status } = await articlesAPI.getOne(slug, user.token)
+        if (status === 200) {
+          setBody(article.body)
+          setTagList(article.tagList)
+          setDescription(article.description)
+          setTitle(article.title)
+        } else {
+          history.push("/")
+        }
+      }
+      getArticle()
+    }
+  }, [user.token, slug])
 
   return (
     <div className='editor-page'>
@@ -21,13 +51,26 @@ function Editor() {
             <form
               onSubmit={async (e) => {
                 e.preventDefault()
-                await articlesAPI.createArticle({
-                  title,
-                  description,
-                  body,
-                  tagList,
-                  token: user.token,
-                })
+                if (!slug) {
+                  const { article } = await articlesAPI.createArticle({
+                    title,
+                    description,
+                    body,
+                    tagList,
+                    token: user.token,
+                  })
+                  history.push(`/article/${article.slug}`)
+                } else {
+                  const { article } = await articlesAPI.editArticle({
+                    title,
+                    description,
+                    body,
+                    tagList,
+                    token: user.token,
+                    slug,
+                  })
+                  history.push(`/article/${article.slug}`)
+                }
               }}>
               <fieldset>
                 <fieldset className='form-group'>
@@ -35,6 +78,7 @@ function Editor() {
                     type='text'
                     className='form-control form-control-lg'
                     placeholder='Article Title'
+                    value={title}
                     onChange={(e) => {
                       setTitle(e.target.value)
                     }}
@@ -45,6 +89,7 @@ function Editor() {
                     type='text'
                     className='form-control'
                     placeholder="What's this article about?"
+                    value={description}
                     onChange={(e) => {
                       setDescription(e.target.value)
                     }}
@@ -55,6 +100,7 @@ function Editor() {
                     className='form-control'
                     rows='8'
                     placeholder='Write your article (in markdown)'
+                    value={body}
                     onChange={(e) => {
                       setBody(e.target.value)
                     }}></textarea>
@@ -100,7 +146,7 @@ function Editor() {
                 <button
                   className='btn btn-lg pull-xs-right btn-primary'
                   type='submit'>
-                  Publish Article
+                  {slug ? "Update Article" : "Publish Article"}
                 </button>
               </fieldset>
             </form>
