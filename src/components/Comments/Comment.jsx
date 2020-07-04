@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-import articlesAPI from "lib/api/articles"
+import commentsAPI from "lib/api/comments"
 
 function Comment({ comment, comments, setComments, slug, user }) {
   return (
@@ -29,7 +29,7 @@ function Comment({ comment, comments, setComments, slug, user }) {
             <i
               className='ion-trash-a'
               onClick={async () => {
-                await articlesAPI.deleteComment({
+                await commentsAPI.deleteComment({
                   id: comment.id,
                   slug,
                   token: user.token,

@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
-import { registerUser } from "redux/slices/userSlice"
+import { registerUser, setError } from "redux/slices/userSlice"
 
 function SignUp() {
   const [userName, setUserName] = useState("")
@@ -10,23 +10,7 @@ function SignUp() {
   const [password, setPassword] = useState("")
 
   const dispatch = useDispatch()
-
-  async function handleRegisterUser(e) {
-    e.preventDefault()
-    dispatch(registerUser({ userName, email, password }))
-  }
-
-  function handleUserName(e) {
-    setUserName(e.target.value)
-  }
-
-  function handleEmail(e) {
-    setEmail(e.target.value)
-  }
-
-  function handlePassword(e) {
-    setPassword(e.target.value)
-  }
+  const { user } = useSelector((state) => state)
 
   return (
     <div className='auth-page'>
@@ -35,20 +19,33 @@ function SignUp() {
           <div className='col-md-6 offset-md-3 col-xs-12'>
             <h1 className='text-xs-center'>Sign up</h1>
             <p className='text-xs-center'>
-              <Link to='/'>Have an account?</Link>
+              <Link to='/login'>Have an account?</Link>
             </p>
 
-            <ul className='error-messages'>
-              <li>That email is already taken</li>
-            </ul>
+            {!userName && !email && !password && (
+              <p className='error-messages'>
+                Email, Password and User Name are required
+              </p>
+            )}
+            {user.isError && (
+              <p className='error-messages'>Email or password are invalid</p>
+            )}
 
-            <form onSubmit={handleRegisterUser}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                dispatch(registerUser({ userName, email, password }))
+              }}>
               <fieldset className='form-group'>
                 <input
                   className='form-control form-control-lg'
                   type='text'
                   placeholder='Your Name'
-                  onChange={handleUserName}
+                  value={userName}
+                  onChange={(e) => {
+                    setUserName(e.target.value)
+                    dispatch(setError(false))
+                  }}
                 />
               </fieldset>
               <fieldset className='form-group'>
@@ -56,7 +53,11 @@ function SignUp() {
                   className='form-control form-control-lg'
                   type='text'
                   placeholder='Email'
-                  onChange={handleEmail}
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    dispatch(setError(false))
+                  }}
                 />
               </fieldset>
               <fieldset className='form-group'>
@@ -64,12 +65,17 @@ function SignUp() {
                   className='form-control form-control-lg'
                   type='password'
                   placeholder='Password'
-                  onChange={handlePassword}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                    dispatch(setError(false))
+                  }}
                 />
               </fieldset>
               <button
                 type='submit'
-                className='btn btn-lg btn-primary pull-xs-right'>
+                className='btn btn-lg btn-primary pull-xs-right'
+                disabled={user.isLoading ? true : false}>
                 Sign up
               </button>
             </form>

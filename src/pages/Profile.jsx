@@ -6,8 +6,8 @@ import userAPI from "lib/api/user"
 import history from "lib/utils/history"
 
 import { setArticlesAuthor } from "redux/slices/articlesSlice"
-import ArticlesList from "components/Home/ArticlesList"
-import Tabs from "components/Home/Tabs"
+import ArticlesList from "components/Articles/ArticlesList"
+import Tabs from "components/Tabs"
 
 const changePathnameToWord = (pathname) =>
   pathname.replace("profile", "").replace(/\//g, "")

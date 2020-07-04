@@ -2,18 +2,18 @@ import React, { useEffect } from "react"
 import { Route, Switch } from "react-router-dom"
 import { useSelector } from "react-redux"
 
-import Home from "./pages/Home"
-import SignIn from "./pages/SignIn"
-import SignUp from "./pages/SignUp"
-import Settings from "./pages/Settings"
-import Editor from "./pages/Editor"
-import Article from "./pages/Article"
-import Profile from "./pages/Profile"
+import Home from "pages/Home"
+import SignIn from "pages/SignIn"
+import SignUp from "pages/SignUp"
+import Settings from "pages/Settings"
+import Editor from "pages/Editor"
+import Article from "pages/Article"
+import Profile from "pages/Profile"
 
-import Header from "./components/Header"
-import Footer from "./components/Footer"
+import Header from "components/Header"
+import Footer from "components/Footer"
 
-import userAPI from "./lib/api/user"
+import userAPI from "lib/api/user"
 
 function App() {
   const { user } = useSelector((state) => state)

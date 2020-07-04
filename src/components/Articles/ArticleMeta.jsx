@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 import articlesAPI from "lib/api/articles"
+import userAPI from "lib/api/user"
 import history from "lib/utils/history"
 
 function ArticleMeta({
@@ -10,6 +11,8 @@ function ArticleMeta({
   setFavorited,
   favoritesCount,
   setFavoritesCount,
+  followedAuthor,
+  setFollowedAuthor,
   user,
 }) {
   const LoveUnLove = async () => {
@@ -38,9 +41,27 @@ function ArticleMeta({
       </div>
       {user.username !== article.author.username && (
         <>
-          <button className='btn btn-sm btn-outline-secondary'>
-            <i className='ion-plus-round'></i>
-            &nbsp; Follow {article.author.username}
+          <button
+            className={
+              followedAuthor
+                ? "btn btn-sm btn-outline-secondary action-btn active"
+                : "btn btn-sm btn-outline-secondary action-btn"
+            }
+            onClick={async () => {
+              setFollowedAuthor(!followedAuthor)
+              followedAuthor
+                ? await userAPI.unFollowUser(
+                    article.author.username,
+                    user.token
+                  )
+                : await userAPI.followUser(article.author.username, user.token)
+            }}>
+            <i
+              className={
+                followedAuthor ? "ion-minus-round" : "ion-plus-round"
+              }></i>
+            &nbsp; {followedAuthor ? "Unfollow" : "Follow"}{" "}
+            {article.author.username}
           </button>
           &nbsp;&nbsp;
           <button
@@ -50,7 +71,7 @@ function ArticleMeta({
                 : "btn btn-sm btn-outline-primary"
             }
             onClick={() => {
-              user.token ? LoveUnLove() : history.push("./register")
+              user.token ? LoveUnLove() : history.push("/register")
             }}>
             <i className='ion-heart'></i>
             &nbsp; {favorited ? "Unfavorite" : "Favorite"} Post{" "}
@@ -58,17 +79,19 @@ function ArticleMeta({
           </button>
         </>
       )}
-      {user.username === article.author.username && (
+      {user.token && user.username === article.author.username && (
         <>
           <Link
             className='btn btn-outline-secondary btn-sm'
             to={`/editor/${article.slug}`}>
             <i className='ion-edit'></i> Edit Article
           </Link>
+          &nbsp;&nbsp;
           <button
             className='btn btn-outline-danger btn-sm'
             onClick={async () => {
-              console.log(article)
+              articlesAPI.deleteArticle(article.slug, user.token)
+              history.push("/")
             }}>
             <i className='ion-trash-a'></i> Delete Article
           </button>

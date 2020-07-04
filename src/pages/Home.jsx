@@ -1,9 +1,9 @@
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 
-import ArticlesList from "components/Home/ArticlesList"
-import Tags from "components/Home/Tags"
-import Tabs from "components/Home/Tabs"
+import ArticlesList from "components/Articles/ArticlesList"
+import Tags from "components/Tags"
+import Tabs from "components/Tabs"
 
 import { setArticlesAuthor } from "redux/slices/articlesSlice"
 

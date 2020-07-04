@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
 import articlesAPI from "lib/api/articles"
+import commentsAPI from "lib/api/comments"
 import history from "lib/utils/history"
 
-import ArticleMeta from "../components/Article/ArticleMeta"
-import Comment from "../components/Article/Comment"
-import CreateComment from "../components/Article/CreateComment"
+import ArticleMeta from "components/Articles/ArticleMeta"
+import Comment from "components/Comments/Comment"
+import CreateComment from "components/Comments/CreateComment"
 
 function Article() {
   const [slug] = useState(
@@ -15,6 +16,7 @@ function Article() {
   const [article, setArticle] = useState()
   const [favoritesCount, setFavoritesCount] = useState()
   const [favorited, setFavorited] = useState()
+  const [followedAuthor, setFollowedAuthor] = useState()
   const [comments, setComments] = useState()
 
   const { user } = useSelector((state) => state)
@@ -26,6 +28,7 @@ function Article() {
         setArticle(article)
         setFavoritesCount(article.favoritesCount)
         setFavorited(article.favorited)
+        setFollowedAuthor(article.author.following)
       } else {
         history.push("/")
       }
@@ -33,7 +36,7 @@ function Article() {
     getArticle()
 
     async function getAllComments() {
-      setComments(await articlesAPI.getComments(slug, user.token))
+      setComments(await commentsAPI.getComments(slug, user.token))
     }
     getAllComments()
   }, [user.token, slug])
@@ -53,6 +56,8 @@ function Article() {
             setFavorited={setFavorited}
             favoritesCount={favoritesCount}
             setFavoritesCount={setFavoritesCount}
+            followedAuthor={followedAuthor}
+            setFollowedAuthor={setFollowedAuthor}
             user={user}
           />
         </div>
@@ -83,6 +88,8 @@ function Article() {
             setFavorited={setFavorited}
             favoritesCount={favoritesCount}
             setFavoritesCount={setFavoritesCount}
+            followedAuthor={followedAuthor}
+            setFollowedAuthor={setFollowedAuthor}
             user={user}
           />
         </div>

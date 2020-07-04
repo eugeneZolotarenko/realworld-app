@@ -18,11 +18,22 @@ function Editor() {
     changePathnameToWord(window.location.pathname)
   )
 
+  const [isError, setError] = useState(false)
+  const [isLoading, setLoading] = useState(false)
+
   const { user } = useSelector((state) => state)
 
   useEffect(() => {
     return history.listen((location) => {
-      setSlug(changePathnameToWord(location.pathname))
+      if (changePathnameToWord(location.pathname)) {
+        setSlug(changePathnameToWord(location.pathname))
+      } else {
+        setBody("")
+        setTagList([])
+        setDescription("")
+        setTitle("")
+        setSlug("")
+      }
     })
   }, [])
 
@@ -43,6 +54,35 @@ function Editor() {
     }
   }, [user.token, slug])
 
+  const handleSubmit = async () => {
+    setLoading(true)
+    if (title && description && body) {
+      if (!slug) {
+        const { article } = await articlesAPI.createArticle({
+          title,
+          description,
+          body,
+          tagList,
+          token: user.token,
+        })
+        history.push(`/article/${article.slug}`)
+      } else {
+        const { article } = await articlesAPI.editArticle({
+          title,
+          description,
+          body,
+          tagList,
+          token: user.token,
+          slug,
+        })
+        history.push(`/article/${article.slug}`)
+      }
+    } else {
+      setError(true)
+    }
+    setLoading(false)
+  }
+
   return (
     <div className='editor-page'>
       <div className='container page'>
@@ -51,26 +91,7 @@ function Editor() {
             <form
               onSubmit={async (e) => {
                 e.preventDefault()
-                if (!slug) {
-                  const { article } = await articlesAPI.createArticle({
-                    title,
-                    description,
-                    body,
-                    tagList,
-                    token: user.token,
-                  })
-                  history.push(`/article/${article.slug}`)
-                } else {
-                  const { article } = await articlesAPI.editArticle({
-                    title,
-                    description,
-                    body,
-                    tagList,
-                    token: user.token,
-                    slug,
-                  })
-                  history.push(`/article/${article.slug}`)
-                }
+                handleSubmit()
               }}>
               <fieldset>
                 <fieldset className='form-group'>
@@ -81,6 +102,7 @@ function Editor() {
                     value={title}
                     onChange={(e) => {
                       setTitle(e.target.value)
+                      setError(false)
                     }}
                   />
                 </fieldset>
@@ -92,6 +114,7 @@ function Editor() {
                     value={description}
                     onChange={(e) => {
                       setDescription(e.target.value)
+                      setError(false)
                     }}
                   />
                 </fieldset>
@@ -103,6 +126,7 @@ function Editor() {
                     value={body}
                     onChange={(e) => {
                       setBody(e.target.value)
+                      setError(false)
                     }}></textarea>
                 </fieldset>
                 <fieldset className='form-group'>
@@ -145,11 +169,17 @@ function Editor() {
                 </fieldset>
                 <button
                   className='btn btn-lg pull-xs-right btn-primary'
-                  type='submit'>
+                  type='submit'
+                  disabled={isLoading ? true : false}>
                   {slug ? "Update Article" : "Publish Article"}
                 </button>
               </fieldset>
             </form>
+            {isError && (
+              <p className='error-messages'>
+                Title, Description and Body of article cannot be empty
+              </p>
+            )}
           </div>
         </div>
       </div>
