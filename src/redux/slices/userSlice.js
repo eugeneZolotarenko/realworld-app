@@ -23,6 +23,18 @@ const userSlice = createSlice({
       }
       history.push("/")
     },
+    setImage(state, action) {
+      state.image = action.payload
+    },
+    setEmail(state, action) {
+      state.email = action.payload
+    },
+    setUsername(state, action) {
+      state.username = action.payload
+    },
+    setBio(state, action) {
+      state.bio = action.payload
+    },
     setLoading(state, action) {
       state.isLoading = action.payload
     },
@@ -68,6 +80,10 @@ export const registerUser = ({ userName, email, password }) => async (
 
 export const {
   setCurrentUser,
+  setImage,
+  setEmail,
+  setUsername,
+  setBio,
   logoutUser,
   setLoading,
   setError,

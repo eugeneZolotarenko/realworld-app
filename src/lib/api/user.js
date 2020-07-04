@@ -35,6 +35,23 @@ const userAPI = {
       return e
     }
   },
+  updateUser: async ({ email, username, password, image, bio, token }) => {
+    try {
+      const response = await fetch(`${apiUrl}/user`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${encodeURIComponent(token)}`,
+        },
+        body: JSON.stringify({
+          user: { email, username, password, image, bio },
+        }),
+      })
+      return await response.json()
+    } catch (e) {
+      return e
+    }
+  },
   currentUser: async (token) => {
     try {
       const response = await fetch(`/user`, {
