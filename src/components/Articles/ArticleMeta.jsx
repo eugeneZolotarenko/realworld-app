@@ -48,13 +48,20 @@ function ArticleMeta({
                 : "btn btn-sm btn-outline-secondary action-btn"
             }
             onClick={async () => {
-              setFollowedAuthor(!followedAuthor)
-              followedAuthor
-                ? await userAPI.unFollowUser(
-                    article.author.username,
-                    user.token
-                  )
-                : await userAPI.followUser(article.author.username, user.token)
+              if (user.token) {
+                setFollowedAuthor(!followedAuthor)
+                followedAuthor
+                  ? await userAPI.unFollowUser(
+                      article.author.username,
+                      user.token
+                    )
+                  : await userAPI.followUser(
+                      article.author.username,
+                      user.token
+                    )
+              } else {
+                history.push("/register")
+              }
             }}>
             <i
               className={

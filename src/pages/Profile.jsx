@@ -17,7 +17,7 @@ function Profile() {
   const [profile, setProfile] = useState()
   const [followedUser, setFollowedUser] = useState()
   const [username, setUsername] = useState(
-    changePathnameToWord(window.location.pathname)
+    changePathnameToWord(history.location.pathname)
   )
 
   const dispatch = useDispatch()

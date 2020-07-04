@@ -15,7 +15,7 @@ function Editor() {
 
   const [lastTag, setLastTag] = useState("")
   const [slug, setSlug] = useState(
-    changePathnameToWord(window.location.pathname)
+    changePathnameToWord(history.location.pathname)
   )
 
   const [isError, setError] = useState(false)

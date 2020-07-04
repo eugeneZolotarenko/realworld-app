@@ -20,10 +20,15 @@ function Pagination({ page, pages, isLoading }) {
     }
   }, [page, pages])
 
+  const stylePagination = {
+    display: isLoading ? "none" : "flex",
+    justifyContent: "center",
+  }
+
   return (
     !isLoading &&
     pages.length > 1 && (
-      <nav style={{ display: isLoading ? "none" : "block" }}>
+      <nav style={stylePagination}>
         <ul className='pagination'>
           <li className='page-item'>
             <button

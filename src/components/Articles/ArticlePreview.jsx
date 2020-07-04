@@ -40,7 +40,7 @@ function ArticlePreview({ article, currentUser }) {
               : "btn btn-outline-primary btn-sm pull-xs-right"
           }
           onClick={() => {
-            currentUser.token ? LoveUnLove() : history.push("./register")
+            currentUser.token ? LoveUnLove() : history.push("/register")
           }}>
           <i className='ion-heart'></i> {favoritesCount}
         </button>

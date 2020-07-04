@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import history from "lib/utils/history"
 
 import {
   getAllArticles,
@@ -15,16 +16,21 @@ function ArticlesList() {
   const dispatch = useDispatch()
   const { articlesData, user } = useSelector((state) => state)
 
+  const { location } = history
+
   useEffect(() => {
     if (articlesData.tag) {
       dispatch(
         getArticlesByTag(articlesData.page, articlesData.tag, user.token)
       )
-    } else if (articlesData.author) {
+    } else if (articlesData.author && location.pathname.includes("profile")) {
       dispatch(
         getArticlesByAuthor(articlesData.page, articlesData.author, user.token)
       )
-    } else if (articlesData.userFavorited) {
+    } else if (
+      articlesData.userFavorited &&
+      location.pathname.includes("profile")
+    ) {
       dispatch(
         getArticlesByUserFavorited(
           articlesData.page,
@@ -45,6 +51,7 @@ function ArticlesList() {
     articlesData.userFavorited,
     articlesData.feed,
     user.token,
+    location,
   ])
 
   if (articlesData.isError) {

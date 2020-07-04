@@ -11,7 +11,7 @@ import CreateComment from "components/Comments/CreateComment"
 
 function Article() {
   const [slug] = useState(
-    window.location.pathname.replace("article", "").replace(/\//g, "")
+    history.location.pathname.replace("article", "").replace(/\//g, "")
   )
   const [article, setArticle] = useState()
   const [favoritesCount, setFavoritesCount] = useState()
