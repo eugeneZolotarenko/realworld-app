@@ -1,6 +1,10 @@
 import React from "react"
+import { useDispatch } from "react-redux"
+
+import { logoutUser } from "redux/slices/userSlice"
 
 function Settings() {
+  const dispatch = useDispatch()
   return (
     <div className='settings-page'>
       <div className='container page'>
@@ -49,6 +53,14 @@ function Settings() {
                 </button>
               </fieldset>
             </form>
+            <hr />
+            <button
+              class='btn btn-outline-danger'
+              onClick={() => {
+                dispatch(logoutUser())
+              }}>
+              Or click here to logout.
+            </button>
           </div>
         </div>
       </div>

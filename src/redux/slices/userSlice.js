@@ -17,6 +17,12 @@ const userSlice = createSlice({
       }
       state.isError = false
     },
+    logoutUser(state) {
+      for (const x in state) {
+        state[x] = ""
+      }
+      history.push("/")
+    },
     setLoading(state, action) {
       state.isLoading = action.payload
     },
@@ -60,6 +66,11 @@ export const registerUser = ({ userName, email, password }) => async (
   }
 }
 
-export const { setCurrentUser, setLoading, setError } = userSlice.actions
+export const {
+  setCurrentUser,
+  logoutUser,
+  setLoading,
+  setError,
+} = userSlice.actions
 
 export default userSlice.reducer
