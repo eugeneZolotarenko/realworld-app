@@ -20,6 +20,38 @@ function Pagination({ page, pages, isLoading }) {
     }
   }, [page, pages])
 
+  const toFirstItem = () => {
+    dispatch(setArticlesPage(1))
+    if (pages.length > ITEMS_IN_PAGINATION) {
+      from.current = 0
+      to.current = ITEMS_IN_PAGINATION
+    }
+  }
+
+  const toLastItem = () => {
+    dispatch(setArticlesPage(pages.length))
+    if (pages.length > ITEMS_IN_PAGINATION) {
+      from.current = pages.length - ITEMS_IN_PAGINATION
+      to.current = pages.length
+    }
+  }
+
+  const oneItemLess = () => {
+    dispatch(setArticlesPage(page - 1))
+    if (from.current !== 0 && pages.length > ITEMS_IN_PAGINATION) {
+      from.current = from.current - 1
+      to.current = to.current - 1
+    }
+  }
+
+  const oneItemMore = () => {
+    dispatch(setArticlesPage(page + 1))
+    if (pages.length > ITEMS_IN_PAGINATION) {
+      from.current = from.current + 1
+      to.current = to.current + 1
+    }
+  }
+
   const stylePagination = {
     display: isLoading ? "none" : "flex",
     justifyContent: "center",
@@ -32,25 +64,13 @@ function Pagination({ page, pages, isLoading }) {
         <ul className='pagination'>
           <li className='page-item'>
             <button
-              onClick={() => {
-                dispatch(setArticlesPage(1))
-                if (pages.length > ITEMS_IN_PAGINATION) {
-                  from.current = 0
-                  to.current = ITEMS_IN_PAGINATION
-                }
-              }}
+              onClick={toFirstItem}
               style={{ display: from.current > 0 ? "block" : "none" }}
               className='page-link'>
               &lt;&lt; 1
             </button>
             <button
-              onClick={() => {
-                dispatch(setArticlesPage(page - 1))
-                if (from.current !== 0 && pages.length > ITEMS_IN_PAGINATION) {
-                  from.current = from.current - 1
-                  to.current = to.current - 1
-                }
-              }}
+              onClick={oneItemLess}
               style={{ display: page !== 1 ? "block" : "none" }}
               className='page-link'>
               &lt;
@@ -61,6 +81,7 @@ function Pagination({ page, pages, isLoading }) {
             pages.map((eachPage) => {
               return (
                 <PaginationNumber
+                  key={eachPage}
                   eachPage={eachPage}
                   page={page}
                   setArticlesPage={setArticlesPage}
@@ -72,6 +93,7 @@ function Pagination({ page, pages, isLoading }) {
             [...pages].slice(from.current, to.current).map((eachPage) => {
               return (
                 <PaginationNumber
+                  key={eachPage}
                   eachPage={eachPage}
                   page={page}
                   setArticlesPage={setArticlesPage}
@@ -81,13 +103,7 @@ function Pagination({ page, pages, isLoading }) {
 
           <li className='page-item'>
             <button
-              onClick={() => {
-                dispatch(setArticlesPage(page + 1))
-                if (pages.length > ITEMS_IN_PAGINATION) {
-                  from.current = from.current + 1
-                  to.current = to.current + 1
-                }
-              }}
+              onClick={oneItemMore}
               style={{ display: page !== pages.length ? "block" : "none" }}
               className='page-link'>
               &gt;
@@ -95,13 +111,7 @@ function Pagination({ page, pages, isLoading }) {
           </li>
           <li className='page-item'>
             <button
-              onClick={() => {
-                dispatch(setArticlesPage(pages.length))
-                if (pages.length > ITEMS_IN_PAGINATION) {
-                  from.current = pages.length - ITEMS_IN_PAGINATION
-                  to.current = pages.length
-                }
-              }}
+              onClick={toLastItem}
               style={{
                 display:
                   page < pages.length - calculatePercentageOfPages(40)

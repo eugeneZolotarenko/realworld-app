@@ -47,7 +47,7 @@ function Tabs({ location, userName }) {
           <li className='nav-item'>
             <button
               style={{ display: user.token ? "block" : "none" }}
-              className={articlesData.feed ? "nav-link active" : "nav-link"}
+              className={articlesData.isFeed ? "nav-link active" : "nav-link"}
               onClick={() => {
                 dispatch(setArticlesFeed(true))
               }}>
@@ -57,7 +57,7 @@ function Tabs({ location, userName }) {
           <li className='nav-item'>
             <button
               className={
-                articlesData.tag || articlesData.feed
+                articlesData.tag || articlesData.isFeed
                   ? "nav-link"
                   : "nav-link active"
               }

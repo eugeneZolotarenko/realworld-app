@@ -1,12 +1,10 @@
-import { ARTICLES_ON_ONE_PAGE } from "lib/utils/constants"
+import { apiUrl, ARTICLES_ON_ONE_PAGE } from "lib/utils/constants"
+import { getHeaders } from "lib/utils/general"
 
-const apiUrl = process.env.REACT_APP_API_URL
 const limitOffset = (page) =>
   `limit=${ARTICLES_ON_ONE_PAGE}&offset=${
     page === 1 ? 0 : ARTICLES_ON_ONE_PAGE * (page - 1)
   }`
-const getHeaders = (token) =>
-  token ? { authorization: `Token ${encodeURIComponent(token)}` } : {}
 
 const articlesAPI = {
   createArticle: async ({ title, description, body, tagList, token }) => {

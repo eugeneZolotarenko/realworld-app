@@ -83,6 +83,13 @@ function Editor() {
     setLoading(false)
   }
 
+  const addTags = (e) => {
+    if (lastTag) {
+      setTagList([...tagList, ...e.target.value.split(",")])
+      setLastTag("")
+    }
+  }
+
   return (
     <div className='editor-page'>
       <div className='container page'>
@@ -136,28 +143,20 @@ function Editor() {
                     placeholder='Enter tags'
                     value={lastTag}
                     onKeyDown={(e) => {
-                      if (lastTag && (e.keyCode === 13 || e.keyCode === 188)) {
+                      if (e.keyCode === 13 || e.keyCode === 188) {
                         e.preventDefault()
-                        setTagList([...tagList, ...e.target.value.split(",")])
-                        setLastTag("")
+                        addTags(e)
                       }
                     }}
-                    onBlur={(e) => {
-                      if (lastTag) {
-                        setTagList([...tagList, ...e.target.value.split(",")])
-                        setLastTag("")
-                      }
-                    }}
-                    onChange={(e) => {
-                      setLastTag(e.target.value.split(","))
-                    }}
+                    onBlur={(e) => addTags(e)}
+                    onChange={(e) => setLastTag(e.target.value.split(","))}
                   />
-                  <div class='tag-list'>
+                  <div className='tag-list'>
                     {tagList.map((tag, i) => {
                       return (
-                        <span key={i} class='tag-default tag-pill'>
+                        <span key={i} className='tag-default tag-pill'>
                           <i
-                            class='ion-close-round'
+                            className='ion-close-round'
                             onClick={() => {
                               setTagList([...tagList].filter((t, j) => j !== i))
                             }}></i>

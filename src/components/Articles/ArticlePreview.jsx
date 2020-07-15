@@ -8,7 +8,7 @@ function ArticlePreview({ article, currentUser }) {
   const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount)
   const [favorited, setFavorited] = useState(article.favorited)
 
-  const LoveUnLove = async () => {
+  const toggleLike = async () => {
     if (!favorited) {
       setFavorited(true)
       setFavoritesCount(favoritesCount + 1)
@@ -40,7 +40,7 @@ function ArticlePreview({ article, currentUser }) {
               : "btn btn-outline-primary btn-sm pull-xs-right"
           }
           onClick={() => {
-            currentUser.token ? LoveUnLove() : history.push("/register")
+            currentUser.token ? toggleLike() : history.push("/register")
           }}>
           <i className='ion-heart'></i> {favoritesCount}
         </button>

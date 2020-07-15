@@ -1,6 +1,5 @@
-const apiUrl = process.env.REACT_APP_API_URL
-const getHeaders = (token) =>
-  token ? { authorization: `Token ${encodeURIComponent(token)}` } : {}
+import { getHeaders } from "lib/utils/general"
+import { apiUrl } from "lib/utils/constants"
 
 const userAPI = {
   register: async (username, email, password) => {

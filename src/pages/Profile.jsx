@@ -30,7 +30,7 @@ function Profile() {
 
   useEffect(() => {
     dispatch(setArticlesAuthor(username))
-    async function getArticle() {
+    async function getUserProfile() {
       const { profile, status } = await userAPI.getProfile(username, user.token)
       if (status === 200) {
         setProfile(profile)
@@ -39,7 +39,7 @@ function Profile() {
         history.push("/")
       }
     }
-    getArticle()
+    getUserProfile()
   }, [user.token, username, dispatch])
 
   if (!profile) {
@@ -61,9 +61,9 @@ function Profile() {
               <p>{profile.bio}</p>
               {user.token && user.username === profile.username && (
                 <Link
-                  class='btn btn-sm btn-outline-secondary action-btn'
+                  className='btn btn-sm btn-outline-secondary action-btn'
                   to='/settings'>
-                  <i class='ion-gear-a'></i> Edit Profile Settings
+                  <i className='ion-gear-a'></i> Edit Profile Settings
                 </Link>
               )}
               {user.token && user.username !== profile.username && (

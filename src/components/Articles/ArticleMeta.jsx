@@ -15,7 +15,7 @@ function ArticleMeta({
   setFollowedAuthor,
   user,
 }) {
-  const LoveUnLove = async () => {
+  const toggleLike = async () => {
     setFavorited(!favorited)
     if (!favorited) {
       setFavoritesCount(favoritesCount + 1)
@@ -23,6 +23,17 @@ function ArticleMeta({
     } else {
       setFavoritesCount(favoritesCount - 1)
       await articlesAPI.unLoveIt(article.slug, user.token)
+    }
+  }
+
+  const toggleFollowing = async () => {
+    if (user.token) {
+      setFollowedAuthor(!followedAuthor)
+      followedAuthor
+        ? await userAPI.unFollowUser(article.author.username, user.token)
+        : await userAPI.followUser(article.author.username, user.token)
+    } else {
+      history.push("/register")
     }
   }
 
@@ -47,22 +58,7 @@ function ArticleMeta({
                 ? "btn btn-sm btn-outline-secondary action-btn active"
                 : "btn btn-sm btn-outline-secondary action-btn"
             }
-            onClick={async () => {
-              if (user.token) {
-                setFollowedAuthor(!followedAuthor)
-                followedAuthor
-                  ? await userAPI.unFollowUser(
-                      article.author.username,
-                      user.token
-                    )
-                  : await userAPI.followUser(
-                      article.author.username,
-                      user.token
-                    )
-              } else {
-                history.push("/register")
-              }
-            }}>
+            onClick={toggleFollowing}>
             <i
               className={
                 followedAuthor ? "ion-minus-round" : "ion-plus-round"
@@ -78,7 +74,7 @@ function ArticleMeta({
                 : "btn btn-sm btn-outline-primary"
             }
             onClick={() => {
-              user.token ? LoveUnLove() : history.push("/register")
+              user.token ? toggleLike() : history.push("/register")
             }}>
             <i className='ion-heart'></i>
             &nbsp; {favorited ? "Unfavorite" : "Favorite"} Post{" "}

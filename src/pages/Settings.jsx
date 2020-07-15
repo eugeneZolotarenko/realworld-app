@@ -13,12 +13,21 @@ import userAPI from "lib/api/user"
 function Settings() {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state)
+
   const { email, username, image, bio, token } = user
-  // const [email, setEmail] = useState(user.email)
-  // const [username, setUsername] = useState(user.username)
   const [password, setPassword] = useState("")
-  // const [image, setImage] = useState(user.image)
-  // const [bio, setBio] = useState(user.bio)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await userAPI.updateUser({
+      email,
+      username,
+      password,
+      image,
+      bio,
+      token,
+    })
+  }
 
   return (
     <div className='settings-page'>
@@ -26,27 +35,14 @@ function Settings() {
         <div className='row'>
           <div className='col-md-6 offset-md-3 col-xs-12'>
             <h1 className='text-xs-center'>Your Settings</h1>
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault()
-                await userAPI.updateUser({
-                  email,
-                  username,
-                  password,
-                  image,
-                  bio,
-                  token,
-                })
-              }}>
+            <form onSubmit={handleSubmit}>
               <fieldset>
                 <fieldset className='form-group'>
                   <input
                     className='form-control'
                     type='text'
                     value={image}
-                    onChange={(e) => {
-                      dispatch(setImage(e.target.value))
-                    }}
+                    onChange={(e) => dispatch(setImage(e.target.value))}
                     placeholder='URL of profile picture'
                   />
                 </fieldset>
@@ -55,9 +51,7 @@ function Settings() {
                     className='form-control form-control-lg'
                     type='text'
                     value={username}
-                    onChange={(e) => {
-                      dispatch(setUsername(e.target.value))
-                    }}
+                    onChange={(e) => dispatch(setUsername(e.target.value))}
                     placeholder='Your Name'
                   />
                 </fieldset>
@@ -66,9 +60,7 @@ function Settings() {
                     className='form-control form-control-lg'
                     rows='8'
                     value={bio}
-                    onChange={(e) => {
-                      dispatch(setBio(e.target.value))
-                    }}
+                    onChange={(e) => dispatch(setBio(e.target.value))}
                     placeholder='Short bio about you'></textarea>
                 </fieldset>
                 <fieldset className='form-group'>
@@ -76,9 +68,7 @@ function Settings() {
                     className='form-control form-control-lg'
                     type='text'
                     value={email}
-                    onChange={(e) => {
-                      dispatch(setEmail(e.target.value))
-                    }}
+                    onChange={(e) => dispatch(setEmail(e.target.value))}
                     placeholder='Email'
                   />
                 </fieldset>
@@ -87,9 +77,7 @@ function Settings() {
                     className='form-control form-control-lg'
                     type='password'
                     value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value)
-                    }}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder='Password'
                   />
                 </fieldset>
@@ -102,10 +90,8 @@ function Settings() {
             </form>
             <hr />
             <button
-              class='btn btn-outline-danger'
-              onClick={() => {
-                dispatch(logoutUser())
-              }}>
+              className='btn btn-outline-danger'
+              onClick={() => dispatch(logoutUser())}>
               Or click here to logout.
             </button>
           </div>

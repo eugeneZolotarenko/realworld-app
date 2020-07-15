@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+
 import history from "lib/utils/history"
 
 import {
@@ -38,7 +39,7 @@ function ArticlesList() {
           user.token
         )
       )
-    } else if (articlesData.feed && user.token) {
+    } else if (articlesData.isFeed && user.token) {
       dispatch(getArticlesFeeds(articlesData.page, user.token))
     } else {
       dispatch(getAllArticles(articlesData.page, user.token))
@@ -49,7 +50,7 @@ function ArticlesList() {
     articlesData.tag,
     articlesData.author,
     articlesData.userFavorited,
-    articlesData.feed,
+    articlesData.isFeed,
     user.token,
     location,
   ])

@@ -13,7 +13,7 @@ const articlesSlice = createSlice({
     tag: "",
     author: "",
     userFavorited: "",
-    feed: false,
+    isFeed: false,
     isLoading: false,
     isError: false,
   },
@@ -36,21 +36,21 @@ const articlesSlice = createSlice({
       state.page = action.payload
     },
     setArticlesTag(state, action) {
-      state.feed = false
+      state.isFeed = false
       state.author = ""
       state.userFavorited = ""
       state.page = 1
       state.tag = action.payload
     },
     setArticlesAuthor(state, action) {
-      state.feed = false
+      state.isFeed = false
       state.tag = ""
       state.userFavorited = ""
       state.page = 1
       state.author = action.payload
     },
     setArticlesUserFavorited(state, action) {
-      state.feed = false
+      state.isFeed = false
       state.tag = ""
       state.author = ""
       state.page = 1
@@ -61,7 +61,7 @@ const articlesSlice = createSlice({
       state.author = ""
       state.userFavorited = ""
       state.page = 1
-      state.feed = action.payload
+      state.isFeed = action.payload
     },
     setLoading(state, action) {
       state.isLoading = action.payload
