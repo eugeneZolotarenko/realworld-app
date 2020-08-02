@@ -9,12 +9,16 @@ import { setArticlesAuthor } from "redux/slices/articlesSlice"
 import ArticlesList from "components/Articles/ArticlesList"
 import Tabs from "components/Tabs"
 
-const changePathnameToWord = (pathname) =>
+const changePathnameToWord = (pathname: string) =>
   pathname.replace("profile", "").replace(/\//g, "")
 
+interface Profile {
+  [x: string]: string
+}
+
 function Profile() {
-  const { user } = useSelector((state) => state)
-  const [profile, setProfile] = useState()
+  const { user }: any = useSelector((state) => state)
+  const [profile, setProfile] = useState<Profile>()
   const [followedUser, setFollowedUser] = useState()
   const [username, setUsername] = useState(
     changePathnameToWord(history.location.pathname)
