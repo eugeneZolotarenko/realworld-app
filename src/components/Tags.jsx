@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 
 import articlesAPI from "lib/api/articles"
-import {
-  setArticlesTag,
-  setArticlesPage,
-  setArticlesFeed,
-} from "redux/slices/articlesSlice"
+import { setArticlesTag } from "redux/slices/articlesSlice"
 
 function Tags() {
   const [tagsList, setTagsList] = useState()
@@ -30,9 +26,7 @@ function Tags() {
         return (
           <button
             onClick={() => {
-              dispatch(setArticlesPage(1))
               dispatch(setArticlesTag(tag))
-              dispatch(setArticlesFeed(false))
             }}
             key={i}
             className='tag-pill tag-default'>

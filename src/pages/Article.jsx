@@ -1,137 +1,120 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+
+import articlesAPI from "lib/api/articles"
+import commentsAPI from "lib/api/comments"
+import history from "lib/utils/history"
+
+import ArticleMeta from "components/Articles/ArticleMeta"
+import Comment from "components/Comments/Comment"
+import CreateComment from "components/Comments/CreateComment"
 
 function Article() {
+  const [slug] = useState(
+    history.location.pathname.replace("article", "").replace(/\//g, "")
+  )
+  const [article, setArticle] = useState()
+  const [favoritesCount, setFavoritesCount] = useState()
+  const [favorited, setFavorited] = useState()
+  const [followedAuthor, setFollowedAuthor] = useState()
+  const [comments, setComments] = useState()
+
+  const { user } = useSelector((state) => state)
+
+  useEffect(() => {
+    async function getArticle() {
+      const { article, status } = await articlesAPI.getOne(slug, user.token)
+      if (status === 200) {
+        setArticle(article)
+        setFavoritesCount(article.favoritesCount)
+        setFavorited(article.favorited)
+        setFollowedAuthor(article.author.following)
+      } else {
+        history.push("/")
+      }
+    }
+    getArticle()
+
+    async function getAllComments() {
+      setComments(await commentsAPI.getComments(slug, user.token))
+    }
+    getAllComments()
+  }, [user.token, slug])
+
+  if (!article || !comments) {
+    return <p>Loading...</p>
+  }
+
   return (
     <div className='article-page'>
       <div className='banner'>
         <div className='container'>
-          <h1>How to build webapps that scale</h1>
-
-          <div className='article-meta'>
-            <a href=''>
-              <img src='http://i.imgur.com/Qr71crq.jpg' />
-            </a>
-            <div className='info'>
-              <a href='' className='author'>
-                Eric Simons
-              </a>
-              <span className='date'>January 20th</span>
-            </div>
-            <button className='btn btn-sm btn-outline-secondary'>
-              <i className='ion-plus-round'></i>
-              &nbsp; Follow Eric Simons <span className='counter'>(10)</span>
-            </button>
-            &nbsp;&nbsp;
-            <button className='btn btn-sm btn-outline-primary'>
-              <i className='ion-heart'></i>
-              &nbsp; Favorite Post <span className='counter'>(29)</span>
-            </button>
-          </div>
+          <h1>{article.title}</h1>
+          <ArticleMeta
+            article={article}
+            favorited={favorited}
+            setFavorited={setFavorited}
+            favoritesCount={favoritesCount}
+            setFavoritesCount={setFavoritesCount}
+            followedAuthor={followedAuthor}
+            setFollowedAuthor={setFollowedAuthor}
+            user={user}
+          />
         </div>
       </div>
 
       <div className='container page'>
         <div className='row article-content'>
           <div className='col-md-12'>
-            <p>
-              Web development technologies have evolved at an incredible clip
-              over the past few years.
-            </p>
-            <h2 id='introducing-ionic'>Introducing RealWorld.</h2>
-            <p>It's a great solution for learning how other frameworks work.</p>
+            <p>{article.body}</p>
+            <ul className='tag-list'>
+              {article.tagList.map((tag) => {
+                return (
+                  <li className='tag-default tag-pill tag-outline ng-binding ng-scope'>
+                    {tag}
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         </div>
 
         <hr />
 
         <div className='article-actions'>
-          <div className='article-meta'>
-            <a href='profile.html'>
-              <img src='http://i.imgur.com/Qr71crq.jpg' />
-            </a>
-            <div className='info'>
-              <a href='' className='author'>
-                Eric Simons
-              </a>
-              <span className='date'>January 20th</span>
-            </div>
-            <button className='btn btn-sm btn-outline-secondary'>
-              <i className='ion-plus-round'></i>
-              &nbsp; Follow Eric Simons <span className='counter'>(10)</span>
-            </button>
-            &nbsp;
-            <button className='btn btn-sm btn-outline-primary'>
-              <i className='ion-heart'></i>
-              &nbsp; Favorite Post <span className='counter'>(29)</span>
-            </button>
-          </div>
+          <ArticleMeta
+            article={article}
+            favorited={favorited}
+            setFavorited={setFavorited}
+            favoritesCount={favoritesCount}
+            setFavoritesCount={setFavoritesCount}
+            followedAuthor={followedAuthor}
+            setFollowedAuthor={setFollowedAuthor}
+            user={user}
+          />
         </div>
 
         <div className='row'>
           <div className='col-xs-12 col-md-8 offset-md-2'>
-            <form className='card comment-form'>
-              <div className='card-block'>
-                <textarea
-                  className='form-control'
-                  placeholder='Write a comment...'
-                  rows='3'></textarea>
-              </div>
-              <div className='card-footer'>
-                <img
-                  src='http://i.imgur.com/Qr71crq.jpg'
-                  className='comment-author-img'
+            {user.token && (
+              <CreateComment
+                slug={slug}
+                comments={comments}
+                setComments={setComments}
+                user={user}
+              />
+            )}
+            {comments.map((comment) => {
+              return (
+                <Comment
+                  comment={comment}
+                  comments={comments}
+                  setComments={setComments}
+                  slug={slug}
+                  user={user}
                 />
-                <button className='btn btn-sm btn-primary'>Post Comment</button>
-              </div>
-            </form>
-
-            <div className='card'>
-              <div className='card-block'>
-                <p className='card-text'>
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
-              </div>
-              <div className='card-footer'>
-                <a href='' className='comment-author'>
-                  <img
-                    src='http://i.imgur.com/Qr71crq.jpg'
-                    className='comment-author-img'
-                  />
-                </a>
-                &nbsp;
-                <a href='' className='comment-author'>
-                  Jacob Schmidt
-                </a>
-                <span className='date-posted'>Dec 29th</span>
-              </div>
-            </div>
-
-            <div className='card'>
-              <div className='card-block'>
-                <p className='card-text'>
-                  With supporting text below as a natural lead-in to additional
-                  content.
-                </p>
-              </div>
-              <div className='card-footer'>
-                <a href='' className='comment-author'>
-                  <img
-                    src='http://i.imgur.com/Qr71crq.jpg'
-                    className='comment-author-img'
-                  />
-                </a>
-                &nbsp;
-                <a href='' className='comment-author'>
-                  Jacob Schmidt
-                </a>
-                <span className='date-posted'>Dec 29th</span>
-                <span className='mod-options'>
-                  <i className='ion-edit'></i>
-                  <i className='ion-trash-a'></i>
-                </span>
-              </div>
-            </div>
+              )
+            })}
           </div>
         </div>
       </div>

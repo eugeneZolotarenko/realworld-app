@@ -1,24 +1,23 @@
 import React, { useEffect } from "react"
 import { Route, Switch } from "react-router-dom"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 
-import Home from "./pages/Home"
-import SignIn from "./pages/SignIn"
-import SignUp from "./pages/SignUp"
-import Settings from "./pages/Settings"
-import Editor from "./pages/Editor"
-import Article from "./pages/Article"
-import Profile from "./pages/Profile"
-import ProfileFavorites from "./pages/ProfileFavorites"
+import Home from "pages/Home"
+import SignIn from "pages/SignIn"
+import SignUp from "pages/SignUp"
+import Settings from "pages/Settings"
+import Editor from "pages/Editor"
+import Article from "pages/Article"
+import Profile from "pages/Profile"
 
-import Header from "./components/Header"
-import Footer from "./components/Footer"
+import Header from "components/Header"
+import Footer from "components/Footer"
 
-import userAPI from "./lib/api/user"
+import userAPI from "lib/api/user"
 
-const mapState = (state) => state
+function App() {
+  const { user } = useSelector((state) => state)
 
-function App({ user }) {
   useEffect(() => {
     if (user.token) {
       async function Auth() {
@@ -43,11 +42,10 @@ function App({ user }) {
         <Route path='/editor' component={Editor} />
         <Route path='/article' component={Article} />
         <Route path='/profile' component={Profile} />
-        <Route path='/profile/favorites' component={ProfileFavorites} />
       </Switch>
       <Footer />
     </div>
   )
 }
 
-export default connect(mapState)(App)
+export default App

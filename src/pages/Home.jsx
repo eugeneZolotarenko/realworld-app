@@ -1,8 +1,8 @@
 import React from "react"
 
-import ArticlesList from "components/Home/ArticlesList"
-import Tags from "components/Home/Tags"
-import Tabs from "components/Home/Tabs"
+import ArticlesList from "components/Articles/ArticlesList"
+import Tags from "components/Tags"
+import Tabs from "components/Tabs"
 
 function Home() {
   return (
@@ -17,7 +17,7 @@ function Home() {
       <div className='container page'>
         <div className='row'>
           <div className='col-md-9'>
-            <Tabs />
+            <Tabs location='home' />
             <ArticlesList />
           </div>
 

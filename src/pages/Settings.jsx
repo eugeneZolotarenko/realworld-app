@@ -1,54 +1,99 @@
-import React from "react"
+import React, { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+
+import {
+  logoutUser,
+  setImage,
+  setEmail,
+  setUsername,
+  setBio,
+} from "redux/slices/userSlice"
+import userAPI from "lib/api/user"
 
 function Settings() {
-  return (
-    <div class='settings-page'>
-      <div class='container page'>
-        <div class='row'>
-          <div class='col-md-6 offset-md-3 col-xs-12'>
-            <h1 class='text-xs-center'>Your Settings</h1>
+  const dispatch = useDispatch()
+  const { user } = useSelector((state) => state)
 
-            <form>
+  const { email, username, image, bio, token } = user
+  const [password, setPassword] = useState("")
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await userAPI.updateUser({
+      email,
+      username,
+      password,
+      image,
+      bio,
+      token,
+    })
+  }
+
+  return (
+    <div className='settings-page'>
+      <div className='container page'>
+        <div className='row'>
+          <div className='col-md-6 offset-md-3 col-xs-12'>
+            <h1 className='text-xs-center'>Your Settings</h1>
+            <form onSubmit={handleSubmit}>
               <fieldset>
-                <fieldset class='form-group'>
+                <fieldset className='form-group'>
                   <input
-                    class='form-control'
+                    className='form-control'
                     type='text'
+                    value={image}
+                    onChange={(e) => dispatch(setImage(e.target.value))}
                     placeholder='URL of profile picture'
                   />
                 </fieldset>
-                <fieldset class='form-group'>
+                <fieldset className='form-group'>
                   <input
-                    class='form-control form-control-lg'
+                    className='form-control form-control-lg'
                     type='text'
+                    value={username}
+                    onChange={(e) => dispatch(setUsername(e.target.value))}
                     placeholder='Your Name'
                   />
                 </fieldset>
-                <fieldset class='form-group'>
+                <fieldset className='form-group'>
                   <textarea
-                    class='form-control form-control-lg'
+                    className='form-control form-control-lg'
                     rows='8'
+                    value={bio}
+                    onChange={(e) => dispatch(setBio(e.target.value))}
                     placeholder='Short bio about you'></textarea>
                 </fieldset>
-                <fieldset class='form-group'>
+                <fieldset className='form-group'>
                   <input
-                    class='form-control form-control-lg'
+                    className='form-control form-control-lg'
                     type='text'
+                    value={email}
+                    onChange={(e) => dispatch(setEmail(e.target.value))}
                     placeholder='Email'
                   />
                 </fieldset>
-                <fieldset class='form-group'>
+                <fieldset className='form-group'>
                   <input
-                    class='form-control form-control-lg'
+                    className='form-control form-control-lg'
                     type='password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder='Password'
                   />
                 </fieldset>
-                <button class='btn btn-lg btn-primary pull-xs-right'>
+                <button
+                  className='btn btn-lg btn-primary pull-xs-right'
+                  type='submit'>
                   Update Settings
                 </button>
               </fieldset>
             </form>
+            <hr />
+            <button
+              className='btn btn-outline-danger'
+              onClick={() => dispatch(logoutUser())}>
+              Or click here to logout.
+            </button>
           </div>
         </div>
       </div>
