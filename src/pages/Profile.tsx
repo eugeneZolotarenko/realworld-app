@@ -19,7 +19,7 @@ interface Profile {
 function Profile() {
   const { user }: any = useSelector((state) => state)
   const [profile, setProfile] = useState<Profile>()
-  const [followedUser, setFollowedUser] = useState()
+  const [followedUser, setFollowedUser] = useState<boolean>()
   const [username, setUsername] = useState(
     changePathnameToWord(history.location.pathname)
   )
