@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import articlesAPI from "lib/api/articles"
 import history from "lib/utils/history"
 
-const changePathnameToWord = (pathname) =>
+const changePathnameToWord = (pathname: string) =>
   pathname.replace("editor", "").replace(/\//g, "")
 
 function Editor() {
@@ -21,7 +21,7 @@ function Editor() {
   const [isError, setError] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
-  const { user } = useSelector((state) => state)
+  const { user }: any = useSelector((state) => state)
 
   useEffect(() => {
     return history.listen((location) => {
@@ -83,7 +83,11 @@ function Editor() {
     setLoading(false)
   }
 
-  const addTags = (e) => {
+  const addTags = (
+    e:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.FocusEvent<HTMLInputElement>
+  ) => {
     if (lastTag) {
       setTagList([...tagList, ...e.target.value.split(",")])
       setLastTag("")
@@ -128,7 +132,7 @@ function Editor() {
                 <fieldset className='form-group'>
                   <textarea
                     className='form-control'
-                    rows='8'
+                    rows={8}
                     placeholder='Write your article (in markdown)'
                     value={body}
                     onChange={(e) => {

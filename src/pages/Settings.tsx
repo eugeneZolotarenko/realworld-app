@@ -12,12 +12,12 @@ import userAPI from "lib/api/user"
 
 function Settings() {
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => state)
+  const { user }: any = useSelector((state) => state)
 
   const { email, username, image, bio, token } = user
   const [password, setPassword] = useState("")
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     await userAPI.updateUser({
       email,
@@ -58,7 +58,7 @@ function Settings() {
                 <fieldset className='form-group'>
                   <textarea
                     className='form-control form-control-lg'
-                    rows='8'
+                    rows={8}
                     value={bio}
                     onChange={(e) => dispatch(setBio(e.target.value))}
                     placeholder='Short bio about you'></textarea>

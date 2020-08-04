@@ -9,17 +9,23 @@ import ArticleMeta from "components/Articles/ArticleMeta"
 import Comment from "components/Comments/Comment"
 import CreateComment from "components/Comments/CreateComment"
 
+interface ArticleTypes {
+  title: string
+  tagList: string[]
+  body: string
+}
+
 function Article() {
   const [slug] = useState(
     history.location.pathname.replace("article", "").replace(/\//g, "")
   )
-  const [article, setArticle] = useState()
+  const [article, setArticle] = useState<ArticleTypes>()
   const [favoritesCount, setFavoritesCount] = useState()
   const [favorited, setFavorited] = useState()
   const [followedAuthor, setFollowedAuthor] = useState()
-  const [comments, setComments] = useState()
+  const [comments, setComments] = useState<object[]>()
 
-  const { user } = useSelector((state) => state)
+  const { user }: any = useSelector((state) => state)
 
   useEffect(() => {
     async function getArticle() {
@@ -104,7 +110,7 @@ function Article() {
                 user={user}
               />
             )}
-            {comments.map((comment) => {
+            {comments.map((comment: object) => {
               return (
                 <Comment
                   comment={comment}
