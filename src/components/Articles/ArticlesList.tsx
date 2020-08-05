@@ -11,7 +11,7 @@ import {
   getArticlesFeeds,
 } from "redux/slices/articlesSlice"
 import ArticlePreview from "./ArticlePreview"
-import Pagination from "components/Pagination"
+import Pagination from "components/Pagination/Pagination"
 
 function ArticlesList() {
   const dispatch = useDispatch()

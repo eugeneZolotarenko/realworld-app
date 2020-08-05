@@ -8,7 +8,13 @@ import { calculatePagination } from "lib/utils/pagination/calculatePagination"
 import { calculatePercentageOfPages } from "lib/utils/pagination/calculatePercentageOfPages"
 import { ITEMS_IN_PAGINATION } from "lib/utils/constants"
 
-function Pagination({ page, pages, isLoading }) {
+type PropsTypes = {
+  page: number
+  pages: number[]
+  isLoading: boolean
+}
+
+function Pagination({ page, pages, isLoading }: PropsTypes) {
   const from = useRef(0)
   const to = useRef(ITEMS_IN_PAGINATION)
 

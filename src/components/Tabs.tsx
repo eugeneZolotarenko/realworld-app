@@ -7,19 +7,19 @@ import {
   setArticlesAuthor,
 } from "redux/slices/articlesSlice"
 
-type Props = {
+type PropsTypes = {
   location: string
   userName: string
 }
 
-type GlobalProps = {
+type ReduxTypes = {
   articlesData?: any
   user?: any
 }
 
-function Tabs({ location, userName }: Props) {
+function Tabs({ location, userName }: PropsTypes) {
   const dispatch = useDispatch()
-  const { articlesData, user }: GlobalProps = useSelector(
+  const { articlesData, user }: ReduxTypes = useSelector(
     (state: object) => state
   )
 

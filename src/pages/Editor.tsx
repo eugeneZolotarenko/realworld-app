@@ -11,9 +11,9 @@ function Editor() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [body, setBody] = useState("")
-  const [tagList, setTagList] = useState([])
+  const [tagList, setTagList] = useState<string[]>([])
 
-  const [lastTag, setLastTag] = useState("")
+  const [lastTag, setLastTag] = useState<string>("")
   const [slug, setSlug] = useState(
     changePathnameToWord(history.location.pathname)
   )
@@ -89,7 +89,10 @@ function Editor() {
       | React.FocusEvent<HTMLInputElement>
   ) => {
     if (lastTag) {
-      setTagList([...tagList, ...e.target.value.split(",")])
+      setTagList([
+        ...tagList,
+        ...(e.target as HTMLInputElement).value.split(","),
+      ])
       setLastTag("")
     }
   }
@@ -153,7 +156,11 @@ function Editor() {
                       }
                     }}
                     onBlur={(e) => addTags(e)}
-                    onChange={(e) => setLastTag(e.target.value.split(","))}
+                    onChange={(e) =>
+                      setLastTag(
+                        (e.target as HTMLInputElement).value.split(",").join()
+                      )
+                    }
                   />
                   <div className='tag-list'>
                     {tagList.map((tag, i) => {

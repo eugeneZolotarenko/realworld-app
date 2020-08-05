@@ -23,7 +23,7 @@ function Article() {
   const [favoritesCount, setFavoritesCount] = useState()
   const [favorited, setFavorited] = useState()
   const [followedAuthor, setFollowedAuthor] = useState()
-  const [comments, setComments] = useState<object[]>()
+  const [comments, setComments] = useState<{ id: number }[]>()
 
   const { user }: any = useSelector((state) => state)
 
@@ -110,7 +110,7 @@ function Article() {
                 user={user}
               />
             )}
-            {comments.map((comment: object) => {
+            {comments.map((comment: any) => {
               return (
                 <Comment
                   comment={comment}

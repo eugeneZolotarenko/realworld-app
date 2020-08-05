@@ -5,7 +5,7 @@ import articlesAPI from "lib/api/articles"
 import { setArticlesTag } from "redux/slices/articlesSlice"
 
 function Tags() {
-  const [tagsList, setTagsList] = useState()
+  const [tagsList, setTagsList] = useState<string[]>()
 
   const dispatch = useDispatch()
 

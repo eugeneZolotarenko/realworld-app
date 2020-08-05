@@ -1,7 +1,13 @@
 import React from "react"
 import { useDispatch } from "react-redux"
 
-function PaginationNumber({ eachPage, page, setArticlesPage }) {
+type PropsTypes = {
+  eachPage: number
+  page: number
+  setArticlesPage: Function
+}
+
+function PaginationNumber({ eachPage, page, setArticlesPage }: PropsTypes) {
   const dispatch = useDispatch()
   return (
     <li

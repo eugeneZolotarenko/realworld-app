@@ -3,14 +3,37 @@ import { Link } from "react-router-dom"
 
 import commentsAPI from "lib/api/comments"
 
-function Comment({ comment, comments, setComments, slug, user }) {
+type PropsTypes = {
+  user: {
+    token: string
+    image: string
+    username: string
+  }
+  comment: {
+    id: number
+    body: string
+    author: {
+      image: string
+      username: string
+    }
+    createdAt: string
+  }
+  comments: { id: number }[]
+  setComments: Function
+  slug: string
+}
+
+function Comment({ comment, comments, setComments, slug, user }: PropsTypes) {
+  console.log(comment.author)
   return (
     <div key={comment.id} className='card'>
       <div className='card-block'>
         <p className='card-text'>{comment.body}</p>
       </div>
       <div className='card-footer'>
-        <Link to='' className='comment-author'>
+        <Link
+          to={`/profile/${comment.author.username}`}
+          className='comment-author'>
           <img
             src={comment.author.image}
             className='comment-author-img'
@@ -18,7 +41,9 @@ function Comment({ comment, comments, setComments, slug, user }) {
           />
         </Link>
         &nbsp;
-        <Link to='' className='comment-author'>
+        <Link
+          to={`/profile/${comment.author.username}`}
+          className='comment-author'>
           {comment.author.username}
         </Link>
         <span className='date-posted'>

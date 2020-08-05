@@ -6,7 +6,7 @@ import { setArticlesAuthor } from "redux/slices/articlesSlice"
 
 function Header() {
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => state)
+  const { user }: any = useSelector((state) => state)
 
   return (
     <nav className='navbar navbar-light'>
