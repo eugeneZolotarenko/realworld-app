@@ -16,7 +16,7 @@ import Footer from "components/Footer"
 import userAPI from "lib/api/user"
 
 function App() {
-  const { user } = useSelector((state) => state)
+  const { user }: any = useSelector((state) => state)
 
   useEffect(() => {
     if (user.token) {

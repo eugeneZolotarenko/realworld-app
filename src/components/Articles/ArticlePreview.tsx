@@ -4,7 +4,25 @@ import { Link } from "react-router-dom"
 import articlesAPI from "lib/api/articles"
 import history from "lib/utils/history"
 
-function ArticlePreview({ article, currentUser }) {
+type PropsTypes = {
+  article: {
+    title: string
+    description: string
+    favoritesCount: number
+    favorited: boolean
+    slug: string
+    author: {
+      username: string
+      image: string
+    }
+    createdAt: string
+  }
+  currentUser: {
+    token: string
+  }
+}
+
+function ArticlePreview({ article, currentUser }: PropsTypes) {
   const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount)
   const [favorited, setFavorited] = useState(article.favorited)
 

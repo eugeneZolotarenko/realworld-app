@@ -8,7 +8,7 @@ const articlesSlice = createSlice({
   initialState: {
     articles: [],
     count: 0,
-    pages: 0,
+    pages: [0],
     page: 1,
     tag: "",
     author: "",
@@ -72,7 +72,9 @@ const articlesSlice = createSlice({
   },
 })
 
-export const getAllArticles = (page, token) => async (dispatch) => {
+export const getAllArticles = (page: number, token: string) => async (
+  dispatch: (arg0: { payload: any; type: string }) => void
+) => {
   dispatch(setLoading(true))
   try {
     const allArticles = await articlesAPI.getAll(page, token)
@@ -82,7 +84,11 @@ export const getAllArticles = (page, token) => async (dispatch) => {
   }
 }
 
-export const getArticlesByTag = (page, tag, token) => async (dispatch) => {
+export const getArticlesByTag = (
+  page: number,
+  tag: any,
+  token: string
+) => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
   dispatch(setLoading(true))
   try {
     const byTagArticles = await articlesAPI.filterByTag(page, tag, token)
@@ -92,9 +98,11 @@ export const getArticlesByTag = (page, tag, token) => async (dispatch) => {
   }
 }
 
-export const getArticlesByAuthor = (page, author, token) => async (
-  dispatch
-) => {
+export const getArticlesByAuthor = (
+  page: number,
+  author: any,
+  token: string
+) => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
   dispatch(setLoading(true))
   try {
     const byAuthorArticles = await articlesAPI.filterByAuthor(
@@ -108,9 +116,11 @@ export const getArticlesByAuthor = (page, author, token) => async (
   }
 }
 
-export const getArticlesByUserFavorited = (page, user, token) => async (
-  dispatch
-) => {
+export const getArticlesByUserFavorited = (
+  page: number,
+  user: object,
+  token: string
+) => async (dispatch: (arg0: { payload: any; type: string }) => void) => {
   dispatch(setLoading(true))
   try {
     const userFavoritedArticles = await articlesAPI.filterByUserFavorited(
@@ -124,7 +134,9 @@ export const getArticlesByUserFavorited = (page, user, token) => async (
   }
 }
 
-export const getArticlesFeeds = (page, token) => async (dispatch) => {
+export const getArticlesFeeds = (page: number, token: string) => async (
+  dispatch: (arg0: { payload: any; type: string }) => void
+) => {
   dispatch(setLoading(true))
   try {
     const feedArticles = await articlesAPI.getFeeds(page, token)

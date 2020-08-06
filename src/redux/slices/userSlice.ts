@@ -4,23 +4,37 @@ import history from "lib/utils/history"
 import userAPI from "lib/api/user"
 import { DEFAULT_USER_IMAGE } from "lib/utils/constants"
 
+type RegisterTypes = {
+  userName: string
+  email: string
+  password: string
+}
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
     isLoading: false,
     isError: false,
+    image: "",
+    email: "",
+    username: "",
+    bio: "",
   },
   reducers: {
     setCurrentUser(state, action) {
-      for (const x in action.payload) {
-        state[x] = x === "image" ? DEFAULT_USER_IMAGE : action.payload[x]
-      }
+      state.image = action.payload.image
+      state.email = action.payload.email = ""
+        ? DEFAULT_USER_IMAGE
+        : action.payload.email
+      state.username = action.payload.username
+      state.bio = action.payload.bio
       state.isError = false
     },
     logoutUser(state) {
-      for (const x in state) {
-        state[x] = ""
-      }
+      state.image = ""
+      state.email = ""
+      state.username = ""
+      state.bio = ""
       history.push("/")
     },
     setImage(state, action) {
@@ -44,7 +58,9 @@ const userSlice = createSlice({
   },
 })
 
-export const loginUser = (email, password) => async (dispatch) => {
+export const loginUser = (email: string, password: string) => async (
+  dispatch: (arg0: { payload: any; type: string }) => void
+) => {
   dispatch(setLoading(true))
   try {
     const { user, status } = await userAPI.login(email, password)
@@ -60,8 +76,12 @@ export const loginUser = (email, password) => async (dispatch) => {
   }
 }
 
-export const registerUser = ({ userName, email, password }) => async (
-  dispatch
+export const registerUser = ({
+  userName,
+  email,
+  password,
+}: RegisterTypes) => async (
+  dispatch: (arg0: { payload: any; type: string }) => void
 ) => {
   dispatch(setLoading(true))
   try {

@@ -64,73 +64,74 @@ function Pagination({ page, pages, isLoading }: PropsTypes) {
   }
 
   return (
-    !isLoading &&
-    pages.length > 1 && (
-      <nav style={stylePagination}>
-        <ul className='pagination'>
-          <li className='page-item'>
-            <button
-              onClick={toFirstItem}
-              style={{ display: from.current > 0 ? "block" : "none" }}
-              className='page-link'>
-              &lt;&lt; 1
-            </button>
-            <button
-              onClick={oneItemLess}
-              style={{ display: page !== 1 ? "block" : "none" }}
-              className='page-link'>
-              &lt;
-            </button>
-          </li>
+    <>
+      {!isLoading && pages.length > 1 && (
+        <nav style={stylePagination}>
+          <ul className='pagination'>
+            <li className='page-item'>
+              <button
+                onClick={toFirstItem}
+                style={{ display: from.current > 0 ? "block" : "none" }}
+                className='page-link'>
+                &lt;&lt; 1
+              </button>
+              <button
+                onClick={oneItemLess}
+                style={{ display: page !== 1 ? "block" : "none" }}
+                className='page-link'>
+                &lt;
+              </button>
+            </li>
 
-          {pages.length <= ITEMS_IN_PAGINATION &&
-            pages.map((eachPage) => {
-              return (
-                <PaginationNumber
-                  key={eachPage}
-                  eachPage={eachPage}
-                  page={page}
-                  setArticlesPage={setArticlesPage}
-                />
-              )
-            })}
+            {pages.length <= ITEMS_IN_PAGINATION &&
+              pages.map((eachPage) => {
+                return (
+                  <PaginationNumber
+                    key={eachPage}
+                    eachPage={eachPage}
+                    page={page}
+                    setArticlesPage={setArticlesPage}
+                  />
+                )
+              })}
 
-          {pages.length > ITEMS_IN_PAGINATION &&
-            [...pages].slice(from.current, to.current).map((eachPage) => {
-              return (
-                <PaginationNumber
-                  key={eachPage}
-                  eachPage={eachPage}
-                  page={page}
-                  setArticlesPage={setArticlesPage}
-                />
-              )
-            })}
+            {pages.length > ITEMS_IN_PAGINATION &&
+              [...pages].slice(from.current, to.current).map((eachPage) => {
+                return (
+                  <PaginationNumber
+                    key={eachPage}
+                    eachPage={eachPage}
+                    page={page}
+                    setArticlesPage={setArticlesPage}
+                  />
+                )
+              })}
 
-          <li className='page-item'>
-            <button
-              onClick={oneItemMore}
-              style={{ display: page !== pages.length ? "block" : "none" }}
-              className='page-link'>
-              &gt;
-            </button>
-          </li>
-          <li className='page-item'>
-            <button
-              onClick={toLastItem}
-              style={{
-                display:
-                  page < pages.length - calculatePercentageOfPages(40)
-                    ? "block"
-                    : "none",
-              }}
-              className='page-link'>
-              {pages.length} &gt;&gt;
-            </button>
-          </li>
-        </ul>
-      </nav>
-    )
+            <li className='page-item'>
+              <button
+                onClick={oneItemMore}
+                style={{ display: page !== pages.length ? "block" : "none" }}
+                className='page-link'>
+                &gt;
+              </button>
+            </li>
+            <li className='page-item'>
+              <button
+                onClick={toLastItem}
+                style={{
+                  display:
+                    page < pages.length - calculatePercentageOfPages(40)
+                      ? "block"
+                      : "none",
+                }}
+                className='page-link'>
+                {pages.length} &gt;&gt;
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
+    </>
   )
 }
 

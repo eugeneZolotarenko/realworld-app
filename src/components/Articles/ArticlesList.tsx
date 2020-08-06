@@ -13,9 +13,14 @@ import {
 import ArticlePreview from "./ArticlePreview"
 import Pagination from "components/Pagination/Pagination"
 
+type ReduxTypes = {
+  articlesData?: any
+  user?: any
+}
+
 function ArticlesList() {
   const dispatch = useDispatch()
-  const { articlesData, user } = useSelector((state) => state)
+  const { articlesData, user }: ReduxTypes = useSelector((state) => state)
 
   const { location } = history
 
@@ -63,9 +68,10 @@ function ArticlesList() {
     return (
       <>
         <p>Loading...</p>
+        {/* Pagintion logic does not work without pagination there, think about it ;( */}
         <Pagination
           page={articlesData.page}
-          count={articlesData.count}
+          pages={articlesData.pages}
           isLoading={articlesData.isLoading}
         />
       </>
@@ -78,7 +84,7 @@ function ArticlesList() {
 
   return (
     <>
-      {articlesData.articles.map((article, i) => {
+      {articlesData.articles.map((article: any, i: number) => {
         return <ArticlePreview article={article} currentUser={user} key={i} />
       })}
       <Pagination

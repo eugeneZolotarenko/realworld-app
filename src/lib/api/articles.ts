@@ -1,13 +1,28 @@
 import { apiUrl, ARTICLES_ON_ONE_PAGE } from "lib/utils/constants"
 import { getHeaders } from "lib/utils/general"
 
-const limitOffset = (page) =>
+const limitOffset = (page: number) =>
   `limit=${ARTICLES_ON_ONE_PAGE}&offset=${
     page === 1 ? 0 : ARTICLES_ON_ONE_PAGE * (page - 1)
   }`
 
+type ArticleTypes = {
+  title: string
+  description: string
+  body: string
+  tagList: string[]
+  token: string
+  slug: string
+}
+
 const articlesAPI = {
-  createArticle: async ({ title, description, body, tagList, token }) => {
+  createArticle: async ({
+    title,
+    description,
+    body,
+    tagList,
+    token,
+  }: ArticleTypes) => {
     try {
       const response = await fetch(`${apiUrl}/articles`, {
         method: "POST",
@@ -24,7 +39,15 @@ const articlesAPI = {
       return e
     }
   },
-  editArticle: async ({ title, description, body, tagList, token, slug }) => {
+
+  editArticle: async ({
+    title,
+    description,
+    body,
+    tagList,
+    token,
+    slug,
+  }: ArticleTypes) => {
     try {
       const response = await fetch(`${apiUrl}/articles/${slug}`, {
         method: "PUT",
@@ -41,7 +64,8 @@ const articlesAPI = {
       return e
     }
   },
-  deleteArticle: async (slug, token) => {
+
+  deleteArticle: async (slug: string, token: string) => {
     try {
       const response = await fetch(`${apiUrl}/articles/${slug}/`, {
         method: "DELETE",
@@ -55,7 +79,8 @@ const articlesAPI = {
       return e
     }
   },
-  getOne: async (slug, token) => {
+
+  getOne: async (slug: string, token: string) => {
     try {
       const response = await fetch(`${apiUrl}/articles/${slug}`, {
         method: "GET",
@@ -67,7 +92,8 @@ const articlesAPI = {
       return e
     }
   },
-  getAll: async (page, token) => {
+
+  getAll: async (page: number, token: string) => {
     try {
       const response = await fetch(`${apiUrl}/articles?${limitOffset(page)}`, {
         method: "GET",
@@ -78,7 +104,8 @@ const articlesAPI = {
       return e
     }
   },
-  filterByTag: async (page, tag, token) => {
+
+  filterByTag: async (page: number, tag: string, token: string) => {
     try {
       const response = await fetch(
         `${apiUrl}/articles?tag=${tag}&${limitOffset(page)}`,
@@ -92,7 +119,8 @@ const articlesAPI = {
       return e
     }
   },
-  filterByAuthor: async (page, author, token) => {
+
+  filterByAuthor: async (page: number, author: string, token: string) => {
     try {
       const response = await fetch(
         `${apiUrl}/articles?author=${author}&${limitOffset(page)}`,
@@ -106,7 +134,8 @@ const articlesAPI = {
       return e
     }
   },
-  filterByUserFavorited: async (page, user, token) => {
+
+  filterByUserFavorited: async (page: number, user: object, token: string) => {
     try {
       const response = await fetch(
         `${apiUrl}/articles?favorited=${user}&${limitOffset(page)}`,
@@ -120,7 +149,8 @@ const articlesAPI = {
       return e
     }
   },
-  getFeeds: async (page, token) => {
+
+  getFeeds: async (page: number, token: string) => {
     try {
       const response = await fetch(
         `${apiUrl}/articles/feed?${limitOffset(page)}`,
@@ -136,6 +166,7 @@ const articlesAPI = {
       return e
     }
   },
+
   getTags: async () => {
     try {
       const response = await fetch(`${apiUrl}/tags`, {
@@ -146,7 +177,8 @@ const articlesAPI = {
       return e
     }
   },
-  loveIt: async (slug, token) => {
+
+  loveIt: async (slug: string, token: string) => {
     try {
       const response = await fetch(`${apiUrl}/articles/${slug}/favorite`, {
         method: "POST",
@@ -159,7 +191,8 @@ const articlesAPI = {
       return e
     }
   },
-  unLoveIt: async (slug, token) => {
+
+  unLoveIt: async (slug: string, token: string) => {
     try {
       const response = await fetch(`${apiUrl}/articles/${slug}/favorite`, {
         method: "DELETE",

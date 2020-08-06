@@ -5,6 +5,31 @@ import articlesAPI from "lib/api/articles"
 import userAPI from "lib/api/user"
 import history from "lib/utils/history"
 
+type PropsTypes = {
+  article: {
+    title: string
+    description: string
+    favoritesCount: number
+    favorited: boolean
+    slug: string
+    author: {
+      username: string
+      image: string
+    }
+    createdAt: string
+  }
+  favorited: boolean
+  setFavorited: Function
+  favoritesCount: number
+  setFavoritesCount: Function
+  followedAuthor: boolean
+  setFollowedAuthor: Function
+  user: {
+    token: string
+    username: string
+  }
+}
+
 function ArticleMeta({
   article,
   favorited,
@@ -14,7 +39,7 @@ function ArticleMeta({
   followedAuthor,
   setFollowedAuthor,
   user,
-}) {
+}: PropsTypes) {
   const toggleLike = async () => {
     setFavorited(!favorited)
     if (!favorited) {

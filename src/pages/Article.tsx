@@ -11,8 +11,17 @@ import CreateComment from "components/Comments/CreateComment"
 
 interface ArticleTypes {
   title: string
+  description: string
+  favoritesCount: number
+  favorited: boolean
+  slug: string
   tagList: string[]
   body: string
+  author: {
+    username: string
+    image: string
+  }
+  createdAt: string
 }
 
 function Article() {
@@ -20,9 +29,9 @@ function Article() {
     history.location.pathname.replace("article", "").replace(/\//g, "")
   )
   const [article, setArticle] = useState<ArticleTypes>()
-  const [favoritesCount, setFavoritesCount] = useState()
-  const [favorited, setFavorited] = useState()
-  const [followedAuthor, setFollowedAuthor] = useState()
+  const [favoritesCount, setFavoritesCount] = useState(0)
+  const [favorited, setFavorited] = useState(false)
+  const [followedAuthor, setFollowedAuthor] = useState(false)
   const [comments, setComments] = useState<{ id: number }[]>()
 
   const { user }: any = useSelector((state) => state)
