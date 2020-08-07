@@ -21,7 +21,7 @@ function CreateComment({ user, comments, setComments, slug }: PropsTypes) {
     e.preventDefault()
     if (commentText) {
       const { comment } = await commentsAPI.addComment({
-        comment: commentText,
+        commentText,
         slug,
         token: user.token,
       })

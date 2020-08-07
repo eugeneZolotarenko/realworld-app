@@ -1,8 +1,17 @@
 import { getHeaders } from "lib/utils/general"
 import { apiUrl } from "lib/utils/constants"
 
+type UpdateUserTypes = {
+  email: string
+  username: string
+  password: string
+  image: string
+  bio: string
+  token: string
+}
+
 const userAPI = {
-  register: async (username, email, password) => {
+  register: async (username: string, email: string, password: string) => {
     try {
       const response = await fetch(`${apiUrl}/users`, {
         method: "POST",
@@ -16,7 +25,7 @@ const userAPI = {
       return e
     }
   },
-  login: async (email, password) => {
+  login: async (email: string, password: string) => {
     try {
       const response = await fetch(`${apiUrl}/users/login`, {
         method: "POST",
@@ -34,7 +43,14 @@ const userAPI = {
       return e
     }
   },
-  updateUser: async ({ email, username, password, image, bio, token }) => {
+  updateUser: async ({
+    email,
+    username,
+    password,
+    image,
+    bio,
+    token,
+  }: UpdateUserTypes) => {
     try {
       const response = await fetch(`${apiUrl}/user`, {
         method: "PUT",
@@ -51,7 +67,7 @@ const userAPI = {
       return e
     }
   },
-  currentUser: async (token) => {
+  currentUser: async (token: string) => {
     try {
       const response = await fetch(`/user`, {
         method: "GET",
@@ -64,7 +80,7 @@ const userAPI = {
       return e
     }
   },
-  getProfile: async (username, token) => {
+  getProfile: async (username: string, token: string) => {
     try {
       const response = await fetch(`${apiUrl}/profiles/${username}`, {
         method: "GET",
@@ -76,7 +92,7 @@ const userAPI = {
       return e
     }
   },
-  followUser: async (username, token) => {
+  followUser: async (username: string, token: string) => {
     try {
       const response = await fetch(`${apiUrl}/profiles/${username}/follow`, {
         method: "POST",
@@ -91,7 +107,7 @@ const userAPI = {
       return e
     }
   },
-  unFollowUser: async (username, token) => {
+  unFollowUser: async (username: string, token: string) => {
     try {
       const response = await fetch(`${apiUrl}/profiles/${username}/follow`, {
         method: "DELETE",

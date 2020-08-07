@@ -6,13 +6,21 @@ const limitOffset = (page: number) =>
     page === 1 ? 0 : ARTICLES_ON_ONE_PAGE * (page - 1)
   }`
 
-type ArticleTypes = {
+type EditArticleTypes = {
   title: string
   description: string
   body: string
   tagList: string[]
   token: string
   slug: string
+}
+
+type CreateArticleTypes = {
+  title: string
+  description: string
+  body: string
+  tagList: string[]
+  token: string
 }
 
 const articlesAPI = {
@@ -22,7 +30,7 @@ const articlesAPI = {
     body,
     tagList,
     token,
-  }: ArticleTypes) => {
+  }: CreateArticleTypes) => {
     try {
       const response = await fetch(`${apiUrl}/articles`, {
         method: "POST",
@@ -47,7 +55,7 @@ const articlesAPI = {
     tagList,
     token,
     slug,
-  }: ArticleTypes) => {
+  }: EditArticleTypes) => {
     try {
       const response = await fetch(`${apiUrl}/articles/${slug}`, {
         method: "PUT",

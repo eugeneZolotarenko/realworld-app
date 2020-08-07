@@ -1,4 +1,15 @@
-export const loadState = (name) => {
+type stateTypes = {
+  user: {
+    isLoading: boolean
+    isError: boolean
+    image: string
+    email: string
+    username: string
+    bio: string
+  }
+}
+
+export const loadState = (name: string) => {
   try {
     const serializedState = localStorage.getItem(name)
     if (serializedState === null) {
@@ -10,7 +21,7 @@ export const loadState = (name) => {
   }
 }
 
-export const saveState = (state, name) => {
+export const saveState = (state: stateTypes, name: string) => {
   try {
     const serializedState = JSON.stringify(state)
     localStorage.setItem(name, serializedState)

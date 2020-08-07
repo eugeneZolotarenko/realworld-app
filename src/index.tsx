@@ -10,14 +10,14 @@ import history from "lib/utils/history"
 import store from "redux/store"
 import { saveState } from "lib/utils/localStorage"
 
-store.subscribe(() => {
+store.subscribe(() =>
   saveState(
     {
       user: store.getState().user,
     },
     "state"
   )
-})
+)
 
 ReactDOM.render(
   <React.StrictMode>
