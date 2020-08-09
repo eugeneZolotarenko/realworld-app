@@ -6,6 +6,8 @@ import userAPI from "lib/api/user"
 import history from "lib/utils/history"
 
 import { setArticlesAuthor } from "redux/slices/articlesSlice"
+import { RootState } from "redux/rootReducer"
+
 import ArticlesList from "components/Articles/ArticlesList"
 import Tabs from "components/Tabs"
 
@@ -17,7 +19,8 @@ interface Profile {
 }
 
 function Profile() {
-  const { user }: any = useSelector((state) => state)
+  const { user } = useSelector((state: RootState) => state)
+
   const [profile, setProfile] = useState<Profile>()
   const [followedUser, setFollowedUser] = useState<boolean>()
   const [username, setUsername] = useState(

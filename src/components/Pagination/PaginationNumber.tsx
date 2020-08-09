@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux"
 type PropsTypes = {
   eachPage: number
   page: number
-  setArticlesPage: Function
+  setArticlesPage: (eachPage: number) => void
 }
 
 function PaginationNumber({ eachPage, page, setArticlesPage }: PropsTypes) {

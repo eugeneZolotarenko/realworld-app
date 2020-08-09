@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit"
 import history from "lib/utils/history"
 import userAPI from "lib/api/user"
 import { DEFAULT_USER_IMAGE } from "lib/utils/constants"
+import { FullUserTypes } from "lib/types"
+
+import { AppThunk } from "redux/store"
 
 type RegisterTypes = {
   userName: string
@@ -10,16 +13,19 @@ type RegisterTypes = {
   password: string
 }
 
+const initialState: FullUserTypes = {
+  isLoading: false,
+  isError: false,
+  image: "",
+  email: "",
+  username: "",
+  bio: "",
+  token: "",
+}
+
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    isLoading: false,
-    isError: false,
-    image: "",
-    email: "",
-    username: "",
-    bio: "",
-  },
+  initialState,
   reducers: {
     setCurrentUser(state, action) {
       state.image = action.payload.image
@@ -28,6 +34,7 @@ const userSlice = createSlice({
         : action.payload.email
       state.username = action.payload.username
       state.bio = action.payload.bio
+      state.token = action.payload.token
       state.isError = false
     },
     logoutUser(state) {
@@ -35,6 +42,7 @@ const userSlice = createSlice({
       state.email = ""
       state.username = ""
       state.bio = ""
+      state.token = ""
       history.push("/")
     },
     setImage(state, action) {
@@ -58,8 +66,8 @@ const userSlice = createSlice({
   },
 })
 
-export const loginUser = (email: string, password: string) => async (
-  dispatch: (arg0: { payload: any; type: string }) => void
+export const loginUser = (email: string, password: string): AppThunk => async (
+  dispatch
 ) => {
   dispatch(setLoading(true))
   try {
@@ -80,9 +88,7 @@ export const registerUser = ({
   userName,
   email,
   password,
-}: RegisterTypes) => async (
-  dispatch: (arg0: { payload: any; type: string }) => void
-) => {
+}: RegisterTypes): AppThunk => async (dispatch) => {
   dispatch(setLoading(true))
   try {
     const { user, status } = await userAPI.register(userName, email, password)

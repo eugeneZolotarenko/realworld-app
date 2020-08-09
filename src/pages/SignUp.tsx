@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
 import { registerUser, setError } from "redux/slices/userSlice"
+import { RootState } from "redux/rootReducer"
 
 function SignUp() {
   const [userName, setUserName] = useState("")
@@ -10,7 +11,7 @@ function SignUp() {
   const [password, setPassword] = useState("")
 
   const dispatch = useDispatch()
-  const { user }: any = useSelector((state) => state)
+  const { user } = useSelector((state: RootState) => state)
 
   return (
     <div className='auth-page'>

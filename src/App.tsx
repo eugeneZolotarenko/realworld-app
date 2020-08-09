@@ -15,8 +15,10 @@ import Footer from "components/Footer"
 
 import userAPI from "lib/api/user"
 
+import { RootState } from "redux/rootReducer"
+
 function App() {
-  const { user }: any = useSelector((state) => state)
+  const { user } = useSelector((state: RootState) => state)
 
   useEffect(() => {
     if (user.token) {

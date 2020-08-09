@@ -1,15 +1,12 @@
 import React, { useState } from "react"
 
 import commentsAPI from "lib/api/comments"
+import { CommentTypes, BasicUserTypes } from "lib/types"
 
 type PropsTypes = {
-  user: {
-    token: string
-    image: string
-    username: string
-  }
-  comments: object[]
-  setComments: Function
+  user: BasicUserTypes
+  comments: CommentTypes[]
+  setComments: (comments: CommentTypes[]) => void
   slug: string
 }
 
@@ -17,7 +14,7 @@ function CreateComment({ user, comments, setComments, slug }: PropsTypes) {
   const [commentText, setCommentText] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
 
-  const createComment = async (e: { preventDefault: () => void }) => {
+  const createComment = async (e: React.MouseEvent) => {
     e.preventDefault()
     if (commentText) {
       const { comment } = await commentsAPI.addComment({

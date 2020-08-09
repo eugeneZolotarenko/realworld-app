@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { setArticlesAuthor } from "redux/slices/articlesSlice"
 
+import { RootState } from "redux/rootReducer"
+
 function Header() {
   const dispatch = useDispatch()
-  const { user }: any = useSelector((state) => state)
+  const { user } = useSelector((state: RootState) => state)
 
   return (
     <nav className='navbar navbar-light'>

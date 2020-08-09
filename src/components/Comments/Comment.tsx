@@ -2,29 +2,17 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 import commentsAPI from "lib/api/comments"
+import { CommentTypes, BasicUserTypes } from "lib/types"
 
 type PropsTypes = {
-  user: {
-    token: string
-    image: string
-    username: string
-  }
-  comment: {
-    id: number
-    body: string
-    author: {
-      image: string
-      username: string
-    }
-    createdAt: string
-  }
-  comments: { id: number }[]
-  setComments: Function
+  user: BasicUserTypes
+  comment: CommentTypes
+  comments: CommentTypes[]
+  setComments: (comments: CommentTypes[]) => void
   slug: string
 }
 
 function Comment({ comment, comments, setComments, slug, user }: PropsTypes) {
-  console.log(comment.author)
   return (
     <div key={comment.id} className='card'>
       <div className='card-block'>

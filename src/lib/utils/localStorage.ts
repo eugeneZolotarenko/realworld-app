@@ -1,13 +1,4 @@
-type stateTypes = {
-  user: {
-    isLoading: boolean
-    isError: boolean
-    image: string
-    email: string
-    username: string
-    bio: string
-  }
-}
+import { FullUserTypes } from "lib/types"
 
 export const loadState = (name: string) => {
   try {
@@ -21,7 +12,7 @@ export const loadState = (name: string) => {
   }
 }
 
-export const saveState = (state: stateTypes, name: string) => {
+export const saveState = (state: { user: FullUserTypes }, name: string) => {
   try {
     const serializedState = JSON.stringify(state)
     localStorage.setItem(name, serializedState)

@@ -3,23 +3,11 @@ import { Link } from "react-router-dom"
 
 import articlesAPI from "lib/api/articles"
 import history from "lib/utils/history"
+import { ArticleTypes, BasicUserTypes } from "lib/types"
 
 type PropsTypes = {
-  article: {
-    title: string
-    description: string
-    favoritesCount: number
-    favorited: boolean
-    slug: string
-    author: {
-      username: string
-      image: string
-    }
-    createdAt: string
-  }
-  currentUser: {
-    token: string
-  }
+  article: ArticleTypes
+  currentUser: BasicUserTypes
 }
 
 function ArticlePreview({ article, currentUser }: PropsTypes) {

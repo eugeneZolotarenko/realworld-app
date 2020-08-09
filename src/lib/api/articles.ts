@@ -143,10 +143,14 @@ const articlesAPI = {
     }
   },
 
-  filterByUserFavorited: async (page: number, user: object, token: string) => {
+  filterByUserFavorited: async (
+    page: number,
+    userName: string,
+    token: string
+  ) => {
     try {
       const response = await fetch(
-        `${apiUrl}/articles?favorited=${user}&${limitOffset(page)}`,
+        `${apiUrl}/articles?favorited=${userName}&${limitOffset(page)}`,
         {
           method: "GET",
           headers: getHeaders(token),

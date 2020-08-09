@@ -4,25 +4,13 @@ import { useSelector } from "react-redux"
 import articlesAPI from "lib/api/articles"
 import commentsAPI from "lib/api/comments"
 import history from "lib/utils/history"
+import { ArticleTypes, CommentTypes } from "lib/types"
+
+import { RootState } from "redux/rootReducer"
 
 import ArticleMeta from "components/Articles/ArticleMeta"
 import Comment from "components/Comments/Comment"
 import CreateComment from "components/Comments/CreateComment"
-
-interface ArticleTypes {
-  title: string
-  description: string
-  favoritesCount: number
-  favorited: boolean
-  slug: string
-  tagList: string[]
-  body: string
-  author: {
-    username: string
-    image: string
-  }
-  createdAt: string
-}
 
 function Article() {
   const [slug] = useState(
@@ -32,9 +20,9 @@ function Article() {
   const [favoritesCount, setFavoritesCount] = useState(0)
   const [favorited, setFavorited] = useState(false)
   const [followedAuthor, setFollowedAuthor] = useState(false)
-  const [comments, setComments] = useState<{ id: number }[]>()
+  const [comments, setComments] = useState<CommentTypes[]>()
 
-  const { user }: any = useSelector((state) => state)
+  const { user } = useSelector((state: RootState) => state)
 
   useEffect(() => {
     async function getArticle() {

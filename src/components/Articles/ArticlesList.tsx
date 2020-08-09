@@ -10,17 +10,14 @@ import {
   getArticlesByUserFavorited,
   getArticlesFeeds,
 } from "redux/slices/articlesSlice"
+import { RootState } from "redux/rootReducer"
+
 import ArticlePreview from "./ArticlePreview"
 import Pagination from "components/Pagination/Pagination"
 
-type ReduxTypes = {
-  articlesData?: any
-  user?: any
-}
-
 function ArticlesList() {
   const dispatch = useDispatch()
-  const { articlesData, user }: ReduxTypes = useSelector((state) => state)
+  const { articlesData, user } = useSelector((state: RootState) => state)
 
   const { location } = history
 
@@ -84,7 +81,7 @@ function ArticlesList() {
 
   return (
     <>
-      {articlesData.articles.map((article: any, i: number) => {
+      {articlesData.articles.map((article: any, i) => {
         return <ArticlePreview article={article} currentUser={user} key={i} />
       })}
       <Pagination

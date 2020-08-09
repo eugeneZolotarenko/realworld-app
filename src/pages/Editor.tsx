@@ -4,6 +4,8 @@ import { useSelector } from "react-redux"
 import articlesAPI from "lib/api/articles"
 import history from "lib/utils/history"
 
+import { RootState } from "redux/rootReducer"
+
 const changePathnameToWord = (pathname: string) =>
   pathname.replace("editor", "").replace(/\//g, "")
 
@@ -21,7 +23,7 @@ function Editor() {
   const [isError, setError] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
-  const { user }: any = useSelector((state) => state)
+  const { user } = useSelector((state: RootState) => state)
 
   useEffect(() => {
     return history.listen((location) => {

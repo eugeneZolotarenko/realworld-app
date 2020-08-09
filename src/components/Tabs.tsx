@@ -6,22 +6,16 @@ import {
   setArticlesUserFavorited,
   setArticlesAuthor,
 } from "redux/slices/articlesSlice"
+import { RootState } from "redux/rootReducer"
 
 type PropsTypes = {
   location: string
   userName: string
 }
 
-type ReduxTypes = {
-  articlesData?: any
-  user?: any
-}
-
 function Tabs({ location, userName }: PropsTypes) {
   const dispatch = useDispatch()
-  const { articlesData, user }: ReduxTypes = useSelector(
-    (state: object) => state
-  )
+  const { articlesData, user } = useSelector((state: RootState) => state)
 
   if (location === "profile" && userName) {
     return (

@@ -8,16 +8,18 @@ import {
   setUsername,
   setBio,
 } from "redux/slices/userSlice"
+import { RootState } from "redux/rootReducer"
+
 import userAPI from "lib/api/user"
 
 function Settings() {
   const dispatch = useDispatch()
-  const { user }: any = useSelector((state) => state)
+  const { user } = useSelector((state: RootState) => state)
 
   const { email, username, image, bio, token } = user
   const [password, setPassword] = useState("")
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     await userAPI.updateUser({
       email,

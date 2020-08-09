@@ -1,13 +1,9 @@
 import { getHeaders } from "lib/utils/general"
 import { apiUrl } from "lib/utils/constants"
+import { BasicUserTypes } from "lib/types"
 
-type UpdateUserTypes = {
-  email: string
-  username: string
+interface UpdateUserTypes extends BasicUserTypes {
   password: string
-  image: string
-  bio: string
-  token: string
 }
 
 const userAPI = {

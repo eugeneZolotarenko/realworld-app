@@ -4,30 +4,17 @@ import { Link } from "react-router-dom"
 import articlesAPI from "lib/api/articles"
 import userAPI from "lib/api/user"
 import history from "lib/utils/history"
+import { ArticleTypes, BasicUserTypes } from "lib/types"
 
 type PropsTypes = {
-  article: {
-    title: string
-    description: string
-    favoritesCount: number
-    favorited: boolean
-    slug: string
-    author: {
-      username: string
-      image: string
-    }
-    createdAt: string
-  }
+  article: ArticleTypes
   favorited: boolean
-  setFavorited: Function
+  setFavorited: (favorited: boolean) => void
   favoritesCount: number
-  setFavoritesCount: Function
+  setFavoritesCount: (favoritesCount: number) => void
   followedAuthor: boolean
-  setFollowedAuthor: Function
-  user: {
-    token: string
-    username: string
-  }
+  setFollowedAuthor: (followedAuthor: boolean) => void
+  user: BasicUserTypes
 }
 
 function ArticleMeta({
