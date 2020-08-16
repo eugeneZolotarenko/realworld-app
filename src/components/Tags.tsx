@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux"
 import articlesAPI from "lib/api/articles"
 import { setArticlesTag } from "redux/slices/articlesSlice"
 
+import { Loader } from "components/Loader"
+
 function Tags() {
   const [tagsList, setTagsList] = useState<string[]>()
 
@@ -18,7 +20,7 @@ function Tags() {
   }, [])
 
   if (!tagsList || !tagsList.length) {
-    return <p>loading...</p>
+    return <Loader />
   }
   return (
     <div className='tag-list'>

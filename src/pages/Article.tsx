@@ -11,6 +11,7 @@ import { RootState } from "redux/rootReducer"
 import ArticleMeta from "components/Articles/ArticleMeta"
 import Comment from "components/Comments/Comment"
 import CreateComment from "components/Comments/CreateComment"
+import { FullHeightLoader } from "components/Loader"
 
 function Article() {
   const [slug] = useState(
@@ -45,7 +46,7 @@ function Article() {
   }, [user.token, slug])
 
   if (!article || !comments) {
-    return <p>Loading...</p>
+    return <FullHeightLoader />
   }
 
   return (
