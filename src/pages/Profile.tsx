@@ -10,6 +10,7 @@ import { RootState } from "redux/rootReducer"
 
 import ArticlesList from "components/Articles/ArticlesList"
 import Tabs from "components/Tabs"
+import { FullHeightLoader } from "components/Loader"
 
 const changePathnameToWord = (pathname: string) =>
   pathname.replace("profile", "").replace(/\//g, "")
@@ -50,7 +51,7 @@ function Profile() {
   }, [user.token, username, dispatch])
 
   if (!profile) {
-    return <p>Loading...</p>
+    return <FullHeightLoader />
   }
 
   return (

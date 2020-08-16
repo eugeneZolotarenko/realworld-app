@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 
 import history from "lib/utils/history"
 
+import { Loader } from "components/Loader"
+
 import {
   getAllArticles,
   getArticlesByTag,
@@ -64,7 +66,7 @@ function ArticlesList() {
   if (articlesData.isLoading) {
     return (
       <>
-        <p>Loading...</p>
+        <Loader />
         {/* Pagintion logic does not work without pagination there, think about it ;( */}
         <Pagination
           page={articlesData.page}
