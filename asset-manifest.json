@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/realworld-app/static/js/main.1276e158.chunk.js",
-    "main.js.map": "/realworld-app/static/js/main.1276e158.chunk.js.map",
+    "main.js": "/realworld-app/static/js/main.4a67c7c3.chunk.js",
+    "main.js.map": "/realworld-app/static/js/main.4a67c7c3.chunk.js.map",
     "runtime-main.js": "/realworld-app/static/js/runtime-main.a85487f5.js",
     "runtime-main.js.map": "/realworld-app/static/js/runtime-main.a85487f5.js.map",
     "static/js/2.24e30955.chunk.js": "/realworld-app/static/js/2.24e30955.chunk.js",
     "static/js/2.24e30955.chunk.js.map": "/realworld-app/static/js/2.24e30955.chunk.js.map",
     "index.html": "/realworld-app/index.html",
-    "precache-manifest.be8d6b2678e440e9919a5182487b3195.js": "/realworld-app/precache-manifest.be8d6b2678e440e9919a5182487b3195.js",
+    "precache-manifest.062a75418f1d0207b1f6526152e8f566.js": "/realworld-app/precache-manifest.062a75418f1d0207b1f6526152e8f566.js",
     "service-worker.js": "/realworld-app/service-worker.js",
     "static/js/2.24e30955.chunk.js.LICENSE.txt": "/realworld-app/static/js/2.24e30955.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a85487f5.js",
     "static/js/2.24e30955.chunk.js",
-    "static/js/main.1276e158.chunk.js"
+    "static/js/main.4a67c7c3.chunk.js"
   ]
 }
