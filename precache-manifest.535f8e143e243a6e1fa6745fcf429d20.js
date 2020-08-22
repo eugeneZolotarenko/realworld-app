@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "005bb2c7d5d8baf15ccd2c8c34dda90c",
+    "revision": "50ccec50f832ed6f2378b516562902bd",
     "url": "/realworld-app/index.html"
   },
   {
