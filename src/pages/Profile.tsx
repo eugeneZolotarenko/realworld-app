@@ -70,7 +70,7 @@ function Profile() {
               {user.token && user.username === profile.username && (
                 <Link
                   className='btn btn-sm btn-outline-secondary action-btn'
-                  to='/settings'>
+                  to='/settings/'>
                   <i className='ion-gear-a'></i> Edit Profile Settings
                 </Link>
               )}

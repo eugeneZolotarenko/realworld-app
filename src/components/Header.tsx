@@ -25,12 +25,12 @@ function Header() {
           {user.token && (
             <>
               <li className='nav-item'>
-                <Link className='nav-link' to='/editor'>
+                <Link className='nav-link' to='/editor/'>
                   <i className='ion-compose'></i>&nbsp;New Article
                 </Link>
               </li>
               <li className='nav-item'>
-                <Link className='nav-link' to='/settings'>
+                <Link className='nav-link' to='/settings/'>
                   <i className='ion-gear-a'></i>&nbsp;Settings
                 </Link>
               </li>
@@ -49,12 +49,12 @@ function Header() {
           {!user.token && (
             <>
               <li className='nav-item'>
-                <Link className='nav-link' to='/login'>
+                <Link className='nav-link' to='/login/'>
                   Sign in
                 </Link>
               </li>
               <li className='nav-item'>
-                <Link className='nav-link' to='/register'>
+                <Link className='nav-link' to='/register/'>
                   Sign up
                 </Link>
               </li>
