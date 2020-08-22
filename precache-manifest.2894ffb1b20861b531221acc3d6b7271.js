@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "50ccec50f832ed6f2378b516562902bd",
+    "revision": "56ffbdaa7bfe37b37d6d06c1a7520dae",
     "url": "/realworld-app/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/realworld-app/static/js/2.24e30955.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "fdda2e0f8963040b55f3",
-    "url": "/realworld-app/static/js/main.4a67c7c3.chunk.js"
+    "revision": "9a8a1bd5853157e1fd16",
+    "url": "/realworld-app/static/js/main.0083baec.chunk.js"
   },
   {
     "revision": "0f56cbd9eacde5e8a523",
